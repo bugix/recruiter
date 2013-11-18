@@ -1,0 +1,57 @@
+// Apply the java plugin to add support for Java
+apply plugin: "war"
+apply plugin: "eclipse"
+
+version = '0.0.1'
+
+ext.springVersion = '3.2.5.RELEASE'
+ext.springSecurityVersion = '3.2.0.RC2'
+
+// In this section you declare where to find the dependencies of your project
+repositories {
+	mavenCentral()
+	maven { url "http://repo.spring.io/milestone" }
+}
+
+configurations {
+	all*.exclude group: "commons-logging", module: "commons-logging"
+}
+
+// In this section you declare the dependencies for your production and test code
+dependencies {
+	compile "org.springframework:spring-webmvc:${springVersion}"
+	compile "org.springframework:spring-web:${springVersion}"
+	compile "org.springframework:spring-tx:${springVersion}"
+	compile "org.springframework:spring-context-support:${springVersion}"
+	compile "org.springframework:spring-orm:${springVersion}"
+	
+	compile "org.springframework.security:spring-security-core:${springSecurityVersion}"
+	compile "org.springframework.security:spring-security-config:${springSecurityVersion}"
+	compile "org.springframework.security:spring-security-web:${springSecurityVersion}"
+
+	compile "org.springframework.data:spring-data-jpa:1.4.2.RELEASE"
+	compile "org.hibernate:hibernate-entitymanager:4.2.7.SP1"
+	compile "org.hibernate:hibernate-validator:5.0.1.Final"
+
+	compile "org.slf4j:jcl-over-slf4j:1.7.5"
+	
+	compile "org.thymeleaf:thymeleaf-spring3:2.0.19"
+	
+	compile "org.apache.pdfbox:pdfbox:1.8.2"
+	compile files('lib/jpedal_lgpl.jar')
+
+	runtime "ch.qos.logback:logback-classic:1.0.13"
+	runtime "com.h2database:h2:1.3.173"
+	runtime "jstl:jstl:1.2"
+	runtime "commons-fileupload:commons-fileupload:1.3"
+
+	providedCompile "javax.servlet:javax.servlet-api:3.0.1"
+
+	testCompile "org.apache.tomcat.embed:tomcat-embed-core:7.0.47"
+	testCompile "org.apache.tomcat.embed:tomcat-embed-logging-juli:7.0.47"
+	testCompile "org.apache.tomcat.embed:tomcat-embed-logging-log4j:7.0.47"
+	testCompile "org.apache.tomcat.embed:tomcat-embed-jasper:7.0.47"
+	
+	testCompile "junit:junit:4.11"
+	testCompile "org.springframework:spring-test:${springVersion}"
+}

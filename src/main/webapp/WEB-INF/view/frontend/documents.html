@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link href="resources/css/bootstrap.css" rel="stylesheet" media="screen" />
+<link href="resources/css/dropzone.css" rel="stylesheet" media="screen" />
+<script src="resources/js/dropzone.js"></script>
+
+<title th:text="#{documentUpload}">Document Upload</title>
+
+</head>
+<body>
+	<div id="wrap">
+		<div class="container">
+
+			<ol class="breadcrumb">
+				<li th:text="#{candidateData}">Candidate Data</li>
+				<li class="active" th:text="#{documentUpload}">Document Upload</li>
+				<li th:text="#{submitApplication}">Submit Application</li>
+			</ol>
+
+			<h1 th:text="#{documentUpload}">Document Upload</h1>
+
+			<form id="dropzone" role="form" class="dropzone" action="/upload" method="POST">
+			</form>
+			
+			<button type="submit" class="btn btn-primary btn-lg">
+					<span class="glyphicon glyphicon-ok" th:text="#{submit}">Submit</span>
+			</button>
+			
+
+		</div>
+	</div>
+</body>
+</html>

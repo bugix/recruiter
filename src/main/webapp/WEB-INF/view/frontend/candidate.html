@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link href="resources/css/bootstrap.css" rel="stylesheet" media="screen" />
+
+<title th:text="#{candidateData}">Candidate Data</title>
+
+</head>
+<body>
+	<div id="wrap">
+		<div class="container">
+
+			<ol class="breadcrumb">
+				<li class="active" th:text="#{candidateData}">Candidate Data</li>
+				<li th:text="#{documentUpload}">Document Upload</li>
+				<li th:text="#{submitApplication}">Submit Application</li>
+			</ol>
+
+			<h1 th:text="#{candidateData}">Candidate Data</h1>
+
+			<form id="candidateForm" role="form" action="" method="POST" th:object="${candidate}">
+
+				<div th:class="${#fields.hasErrors('firstName')} ? 'form-group has-error' : 'form-group'">
+					<label for="firstName" th:text="#{firstName}">First Name</label>
+					<input type="text" class="form-control" id="firstName" th:placeholder="#{firstName}" th:field="*{firstName}" autofocus="autofocus" />
+					<p class="help-block" th:if="${#fields.hasErrors('firstName')}"	th:each="err : ${#fields.errors('firstName')}" th:text="${err}">Error</p>
+				</div>
+
+				<div th:class="${#fields.hasErrors('lastName')} ? 'form-group has-error' : 'form-group'">
+					<label for="lastName" th:text="#{lastName}">Last Name</label>
+					<input type="text" class="form-control" id="lastName" th:placeholder="#{lastName}" th:field="*{lastName}" />
+					<p class="help-block" th:if="${#fields.hasErrors('lastName')}" th:each="err : ${#fields.errors('lastName')}" th:text="${err}">Error</p>
+				</div>
+
+				<div th:class="${#fields.hasErrors('email')} ? 'form-group has-error' : 'form-group'">
+					<label for="email" th:text="#{email}">EMail</label>
+					<input type="text" class="form-control" id="email" th:placeholder="#{email}" th:field="*{email}" />
+					<p class="help-block" th:if="${#fields.hasErrors('email')}"	th:each="err : ${#fields.errors('email')}" th:text="${err}">Error</p>
+				</div>
+
+				<button type="submit" class="btn btn-primary btn-lg">
+					<span class="glyphicon glyphicon-ok" th:text="#{submit}">Submit</span>
+				</button>
+			</form>
+
+		</div>
+	</div>
+</body>
+</html>
