@@ -35,7 +35,7 @@ dependencies {
 
 	compile "org.slf4j:jcl-over-slf4j:1.7.5"
 	
-	compile "org.thymeleaf:thymeleaf-spring3:2.0.19"
+	compile "org.thymeleaf:thymeleaf-spring3:2.1.1.RELEASE"
 	
 	compile "org.apache.pdfbox:pdfbox:1.8.2"
 	compile files('lib/jpedal_lgpl.jar')

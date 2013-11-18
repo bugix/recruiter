@@ -6,9 +6,7 @@ import java.util.Map;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
-import org.hibernate.loader.entity.EntityLoader;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -27,14 +25,13 @@ import ch.itraum.recruiter.repository.CandidateRepository;
 @Configuration
 @EnableJpaRepositories(basePackageClasses = { CandidateRepository.class })
 @EnableTransactionManagement
-//@ComponentScan(basePackageClasses = { EntityLoader.class, UserService.class })
 public class ApplicationConfig {
 
 	@Bean
 	public DataSource dataSource() {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
 		dataSource.setDriverClassName("org.h2.Driver");
-		dataSource.setUrl("jdbc:h2:~/testcase");
+		dataSource.setUrl("jdbc:h2:~/recruiter");
 		dataSource.setUsername("sa");
 		dataSource.setPassword("");
 
