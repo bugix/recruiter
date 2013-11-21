@@ -1,4 +1,4 @@
 recruiter
 =========
 
-Recruiting webapp
+Recruiting webapp.
