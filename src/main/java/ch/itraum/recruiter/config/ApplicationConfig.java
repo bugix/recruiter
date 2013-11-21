@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import ch.itraum.recruiter.model.Candidate;
 import ch.itraum.recruiter.repository.CandidateRepository;
-
+ 
 @Configuration
 @EnableJpaRepositories(basePackageClasses = { CandidateRepository.class })
 @EnableTransactionManagement
