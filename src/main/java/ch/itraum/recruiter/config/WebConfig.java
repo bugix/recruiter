@@ -1,11 +1,16 @@
 package ch.itraum.recruiter.config;
 
+import java.util.Locale;
+
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
+import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.thymeleaf.spring3.SpringTemplateEngine;
 import org.thymeleaf.spring3.view.ThymeleafViewResolver;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
@@ -52,6 +57,23 @@ public class WebConfig extends WebMvcConfigurationSupport {
 		StandardServletMultipartResolver standardServletMultipartResolver = new StandardServletMultipartResolver();
 		
 		return standardServletMultipartResolver;
+	}
+	
+	@Bean(name = "localeResolver")
+	public SessionLocaleResolver cookieLocaleResolver() {
+		SessionLocaleResolver sessionLocaleResolver = new SessionLocaleResolver();
+		sessionLocaleResolver.setDefaultLocale(Locale.GERMAN);
+		return sessionLocaleResolver;
+	}
+	
+	@Bean
+	public MessageSource messageSource() {
+		ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
+		messageSource.setBasenames("classpath:translations/frontend");
+		//messageSource.setUseCodeAsDefaultMessage(true);
+		messageSource.setDefaultEncoding("UTF-8");
+
+		return messageSource;
 	}
 
 }
