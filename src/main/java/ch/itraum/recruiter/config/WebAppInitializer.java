@@ -2,9 +2,11 @@ package ch.itraum.recruiter.config;
 
 import java.io.File;
 
+import javax.servlet.Filter;
 import javax.servlet.MultipartConfigElement;
 import javax.servlet.ServletRegistration;
 
+import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
@@ -38,4 +40,14 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
         registration.setMultipartConfig(multipartConfigElement);
 
     }
+	
+	@Override
+	protected Filter[] getServletFilters() {
+		
+		CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();
+		characterEncodingFilter.setEncoding("UTF-8");
+		characterEncodingFilter.setForceEncoding(true);
+		
+		return new Filter[] { characterEncodingFilter };
+	}
 }
