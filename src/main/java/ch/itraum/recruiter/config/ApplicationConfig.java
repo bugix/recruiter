@@ -31,7 +31,7 @@ public class ApplicationConfig {
 	public DataSource dataSource() {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
 		dataSource.setDriverClassName("org.h2.Driver");
-		dataSource.setUrl("jdbc:h2:~/recruiter");
+		dataSource.setUrl("jdbc:h2:~/H2DB/recruiter");
 		dataSource.setUsername("sa");
 		dataSource.setPassword("");
 
@@ -48,6 +48,9 @@ public class ApplicationConfig {
 		Map<String, String> jpaPropertyMap = new HashMap<String, String>();
 		jpaPropertyMap.put("hibernate.hbm2ddl.auto", "create");
 		jpaPropertyMap.put("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
+		jpaPropertyMap.put("hibernate.connection.CharSet", "utf8");
+		jpaPropertyMap.put("hibernate.connection.characterEncoding", "utf8");
+		jpaPropertyMap.put("hibernate.connection.useUnicode", "true");
 
 		factory.setJpaPropertyMap(jpaPropertyMap);
 		factory.setJpaVendorAdapter(vendorAdapter);
