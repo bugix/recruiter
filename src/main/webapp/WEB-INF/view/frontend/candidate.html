@@ -13,15 +13,27 @@
 		<div class="container">
 
 			<ol class="breadcrumb">
-				<li class="active" th:text="#{candidateData}">Candidate Data</li>
+				<li th:text="#{privaceAgreement}">Privacy Agreement</li>
+				<li class="active" th:text="#{contactData}">Contact Data</li>
+				<li th:text="#{educationExperience}">Education and Experience</li>
 				<li th:text="#{documentUpload}">Document Upload</li>
-				<li th:text="#{submitApplication}">Submit Application</li>
+				<li th:text="#{summary}">Summary</li>
 			</ol>
 
 			<h1 th:text="#{candidateData}">Candidate Data</h1>
 
 			<form id="candidateForm" role="form" action="" method="POST" th:object="${candidate}">
-
+				
+				<div th:class="${#fields.hasErrors('title')} ? 'form-group has-error' : 'form-group'">
+					<label for="title" th:text="#{title}">Title</label>
+					<select th:field="*{title}">
+						<option th:text="#{herr}" th:value="#{herr}"></option>
+						<option th:text="#{frau}" th:value="#{frau}"></option>
+					</select>	
+					<p class="help-block" th:if="${#fields.hasErrors('title')}"	th:each="err : ${#fields.errors('title')}" th:text="${err}">Error</p>
+				
+				</div>
+								
 				<div th:class="${#fields.hasErrors('firstName')} ? 'form-group has-error' : 'form-group'">
 					<label for="firstName" th:text="#{firstName}">First Name</label>
 					<input type="text" class="form-control" id="firstName" th:placeholder="#{firstName}" th:field="*{firstName}" autofocus="autofocus" />
@@ -40,11 +52,44 @@
 					<p class="help-block" th:if="${#fields.hasErrors('email')}"	th:each="err : ${#fields.errors('email')}" th:text="${err}">Error</p>
 				</div>
 
-				<button type="submit" class="btn btn-primary btn-lg">
-					<span class="glyphicon glyphicon-ok" th:text="#{submit}">Submit</span>
+				<div th:class="${#fields.hasErrors('street')} ? 'form-group has-error' : 'form-group'">
+					<label for="street" th:text="#{street}">Street</label>
+					<input type="text" class="form-control" id="street" th:placeholder="#{street}" th:field="*{street}" />
+					<p class="help-block" th:if="${#fields.hasErrors('street')}"	th:each="err : ${#fields.errors('street')}" th:text="${err}">Error</p>
+				</div>
+
+				<div th:class="${#fields.hasErrors('plz')} ? 'form-group has-error' : 'form-group'">
+					<label for="plz" th:text="#{plz}">PLZ</label>
+					<input type="text" class="form-control" id="plz" th:placeholder="#{plz}" th:field="*{plz}" />
+					<p class="help-block" th:if="${#fields.hasErrors('plz')}"	th:each="err : ${#fields.errors('plz')}" th:text="${err}">Error</p>
+				</div>
+
+				<div th:class="${#fields.hasErrors('city')} ? 'form-group has-error' : 'form-group'">
+					<label for="city" th:text="#{city}">City</label>
+					<input type="text" class="form-control" id="city" th:placeholder="#{city}" th:field="*{city}" />
+					<p class="help-block" th:if="${#fields.hasErrors('city')}"	th:each="err : ${#fields.errors('city')}" th:text="${err}">Error</p>
+				</div>
+
+				<div th:class="${#fields.hasErrors('phoneFix')} ? 'form-group has-error' : 'form-group'">
+					<label for="phoneFix" th:text="#{phoneFix}">Phone Fix</label>
+					<input type="text" class="form-control" id="phoneFix" th:placeholder="#{phoneFix}" th:field="*{phoneFix}" />
+					<p class="help-block" th:if="${#fields.hasErrors('phoneFix')}"	th:each="err : ${#fields.errors('phoneFix')}" th:text="${err}">Error</p>
+				</div>
+
+				<div th:class="${#fields.hasErrors('phoneMobile')} ? 'form-group has-error' : 'form-group'">
+					<label for="phoneMobile" th:text="#{phoneMobile}">Phone Mobile</label>
+					<input type="text" class="form-control" id="phoneMobile" th:placeholder="#{phoneMobile}" th:field="*{phoneMobile}" />
+					<p class="help-block" th:if="${#fields.hasErrors('phoneMobile')}"	th:each="err : ${#fields.errors('phoneMobile')}" th:text="${err}">Error</p>
+				</div>
+
+				<button type="submit" name="buttonPressed" value="contactData_Back" class="btn btn-primary btn-lg">
+					<span class="glyphicon glyphicon-ok" th:text="#{back}">Submit</span>
+				</button>
+
+				<button type="submit" name="buttonPressed" value="contactData_Forward" class="btn btn-primary btn-lg">
+					<span class="glyphicon glyphicon-ok" th:text="#{forward}">Submit</span>
 				</button>
 			</form>
-
 		</div>
 	</div>
 </body>
