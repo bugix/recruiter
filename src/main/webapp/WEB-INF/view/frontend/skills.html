@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link href="resources/css/bootstrap.css" rel="stylesheet" media="screen" />
+
+<title th:text="#{skills}">Skills</title>
+
+</head>
+<body>
+	<div id="wrap">
+		<div class="container">
+
+			<ol class="breadcrumb">
+				<li class="active" th:text="#{candidateData}">Candidate Data</li>
+				<li th:text="#{documentUpload}">Document Upload</li>
+				<li th:text="#{submitApplication}">Submit Application</li>
+			</ol>
+
+			<h1 th:text="#{skills}">Ausbildung</h1>
+
+			<form id="skillsForm" role="form" action="" method="POST" th:object="${skills}">
+
+				<div th:class="${#fields.hasErrors('institution')} ? 'form-group has-error' : 'form-group'">
+					<label for="institution" th:text="#{institution}">Last Name</label>
+					<input type="text" class="form-control" id="institution" th:placeholder="#{institution}" th:field="*{institution}" />
+					<p class="help-block" th:if="${#fields.hasErrors('institution')}" th:each="err : ${#fields.errors('institution')}" th:text="${err}">Error</p>
+				</div>
+									
+				<div th:class="${#fields.hasErrors('topic')} ? 'form-group has-error' : 'form-group'">
+					<label for="topic" th:text="#{topic}">Topic</label>
+					<input type="text" class="form-control" id="topic" th:placeholder="#{topic}" th:field="*{topic}" />
+					<p class="help-block" th:if="${#fields.hasErrors('topic')}" th:each="err : ${#fields.errors('topic')}" th:text="${err}">Error</p>
+				</div>
+				
+				<div th:class="${#fields.hasErrors('degree')} ? 'form-group has-error' : 'form-group'">
+					<label for="degree" th:text="#{degree}">Degree</label>
+					<input type="text" class="form-control" id="degree" th:placeholder="#{degree}" th:field="*{degree}" />
+					<p class="help-block" th:if="${#fields.hasErrors('degree')}" th:each="err : ${#fields.errors('degree')}" th:text="${err}">Error</p>
+				</div>
+				
+				<!-- hier kommt das startdatum der ausbildung hin  -->>
+				
+				
+				<!-- hier kommt das enddatum der ausbildung hin  -->>
+				
+				
+
+				<!-- hier kommt das häkchen für voraussichtliches abschlussdatum (prospectiveEnd)  -->>
+
+
+			
+			
+				<h1 th:text="#{skills}">Berufserfahrung</h1>
+				
+				<div th:class="${#fields.hasErrors('position')} ? 'form-group has-error' : 'form-group'">
+					<label for="position" th:text="#{position}">Position</label>
+					<input type="text" class="form-control" id="position" th:placeholder="#{position}" th:field="*{position}" />
+					<p class="help-block" th:if="${#fields.hasErrors('position')}" th:each="err : ${#fields.errors('position')}" th:text="${err}">Error</p>
+				</div>
+
+				<div th:class="${#fields.hasErrors('jobField')} ? 'form-group has-error' : 'form-group'">
+					<label for="jobField" th:text="#{jobField}">JobField</label>
+					<input type="text" class="form-control" id="jobField" th:placeholder="#{jobField}" th:field="*{jobField}" />
+					<p class="help-block" th:if="${#fields.hasErrors('jobField')}" th:each="err : ${#fields.errors('jobField')}" th:text="${err}">Error</p>
+				</div>
+
+
+				<div th:class="${#fields.hasErrors('cancelationPeriod')} ? 'form-group has-error' : 'form-group'">
+					<label for="cancelationPeriod" th:text="#{cancelationPeriod}">Last Name</label>
+					<input type="text" class="form-control" id="cancelationPeriod" th:placeholder="#{cancelationPeriod}" th:field="*{cancelationPeriod}" />
+					<p class="help-block" th:if="${#fields.hasErrors('cancelationPeriod')}" th:each="err : ${#fields.errors('cancelationPeriod')}" th:text="${err}">Error</p>
+				</div>
+
+
+
+
+				<!-- hier kommt das startdatum der Berufserfahrung hin  -->>
+				
+				
+				<!-- hier kommt das enddatum der Berufserfahrung hin  -->>
+				
+				
+
+				<!-- hier kommt das häkchen für akutelle Position hin  (currentPosition) -->>
+
+
+
+
+
+
+
+				<button type="submit" name="buttonPressed" value="contactSkills_Back" class="btn btn-primary btn-lg">
+					<span class="glyphicon glyphicon-ok" th:text="#{back}">Submit</span>
+				</button>
+
+				<button type="submit" name="buttonPressed" value="contactSkills_Forward" class="btn btn-primary btn-lg">
+					<span class="glyphicon glyphicon-ok" th:text="#{forward}">Submit</span>
+				</button>
+
+			</form>
+		</div>
+	</div>
+</body>
+</html>
+
+
+
+
+
+
+
