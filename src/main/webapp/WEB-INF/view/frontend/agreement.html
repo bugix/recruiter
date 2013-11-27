@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link href="resources/css/bootstrap.css" rel="stylesheet" media="screen" />
+
+<title th:text="#{agreement}">Agreement</title>
+</head>
+<body>
+
+	<div id="wrap">
+		<div class="container">
+
+			<ol class="breadcrumb">
+				<li class="active" th:text="#{agreement}">Agreement</li>
+				<li th:text="#{candidateData}">Candidate Data</li>
+				<li th:text="#{skills}">Skills</li>
+				<li th:text="#{documentUpload}">Document Upload</li>
+				<li th:text="#{submitApplication}">Submit Application</li>
+			</ol>
+
+			<h1 th:text="#{agreement}">Agreement</h1>
+
+			<p>Einverständniserklärung für Bewerber</p>
+
+			<pre>Wenn Sie sich auf eine Stelle bewerben, können Ihre Daten nur von autorisierten HR Mitarbeitenden bearbeitet werden.
+			Die Mitarbeitenden von Kiebitz bearbeiten die von Ihnen gelieferten Daten lediglich zum beschriebenen Verwendungszweck.
+			Sie sind mit Bezug auf diese Daten zur Vertraulichkeit verpflichtet.
+ 			Die Eingabe Ihrer Daten erfolgt unter Verwendung eines sicheren Übertragungsprotokolls (128-Bit-Verschlüsselung) via 
+ 			Internet. Die Daten werden in einem Rechenzentrum in Basel gehalten.
+ 			Ihre Daten werden nicht an Dritte weitergegeben, ausser es besteht eine gesetzliche Verpflichtung dazu.</pre>
+ 			
+			<p>Sie haben das Recht, Auskunft betreffend die über Sie gespeicherten Daten zu erhalten. Zudem können Sie jederzeit 
+			die Richtigstellung oder Löschung Ihrer Daten verlangen oder im Zusammenhang mit dem Bewerbungsvorgang mit uns Kontakt
+			aufnehmen. 
+			
+			<p>Unter diesen Voraussetzungen erklären Sie sich damit einverstanden, dass:
+	   		die im Zuge Ihrer Online-Bewerbung bzw. Online-Registrierung im Karriereportal eingegebenen Daten (persönliche
+	   		Kontaktdaten, Qualifikationen, Ausbildung,  frühere und derzeitige Arbeitgeber, etc.) und/oder die in einer zusätzlichen
+	   		schriftlichen Bewerbung mitgesandten Dokumenten enthaltenen Daten von den Kiebitz gespeichert werden dürfen;
+   			die Informationen, die Sie bei der Bewerbung für eine bestimmte Stelle einreichen, zusammen mit weiteren Daten, die
+   			während des Rekrutierungsprozesses gesammelt wurden (z.B. Angaben aus Interviews, Tests oder Referenzen), von Kiebitz
+   			gespeichert werden dürfen;
+    		Ihre Daten von den zuständigen Personal- und Linienverantwortlichen von Kiebitz zum Verwendungszweck bearbeitet werden
+    		dürfen;
+    		Ihre Daten zum Verwendungsszweck zu einem späteren Zeitpunkt bis auf Ihren Widerruf gespeichert werden und Ihre 
+    		Bewerbung auch für später frei werdende Stellen bei Kiebitz, die Ihrem Profil entsprechen, berücksichtigt werden dürfen;
+			Sie garantieren, dass die Daten im Zeitpunkt der Bekanntgabe richtig, eindeutig und aktuell sind.</p>
+			
+			<p>Wenn Sie Fragen zu dieser Datenschutzerklärung haben bzw. wenn Sie Ihre Einwilligung für die Zukunft widerrufen möchten,
+			können Sie sich an den Datenschutzbeauftragten von Kiebitz wenden, der auch im Falle von Auskunftsersuchen, Anregungen
+			oder Beschwerden betreffend den Datenschutz zur Verfügung steht. Wenn Sie Fragen zur Datensicherheit haben, so wenden
+			Sie sich bitte an unseren Beauftragten für IT-Security. Sollten Sie nicht mit den oben angegebenen Bedingungen
+			einverstanden sein, steht Ihnen die Möglichkeit einer Papierbewerbung offen.</p>
+			
+			<p>Version November 2013</p>
+			<p>Durch Betätigen der "Akzeptieren"-Schaltfläche akzeptieren Sie hiermit ausdrücklich die vorgenannten Bedingungen.</p>
+			
+			
+			<button type="submit" action="www.kiebitz.ch class="btn btn-primary btn-lg">
+				<span class="glyphicon glyphicon-ok" th:text="#{decline}">Decline</span>
+			</button>
+
+			<button type="submit" class="btn btn-primary btn-lg">
+				<span class="glyphicon glyphicon-ok" th:text="#{accept}">Accept</span>
+			</button>
+		</div>
+	</div>
+</body>
+
+</html>
