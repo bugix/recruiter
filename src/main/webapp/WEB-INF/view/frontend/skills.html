@@ -43,40 +43,73 @@
 				</div>
 				
 				
-				<div th:class="${#fields.hasErrors('startDateEducationYear')} ? 'form-group has-error' : 'form-group'">
-					<label for="startDateEducationYear" th:text="#{startDateEducationYear}">startDateEducationYear</label>
-					<select th:field="*{startDateEducationYear}">
-							<option th:each="year : ${yearList}" th:value="${year}" th:text="${year}">1970</option>
-					</select>
-				<p class="help-block" th:if="${#fields.hasErrors('startDateEducationYear')}" th:each="err : ${#fields.errors('startDateEducationYear')}" th:text="${err}">Error</p>
-				</div>
+<!-- 				<div th:class="${#fields.hasErrors('startDateEducationYear')} ? 'form-group has-error' : 'form-group'"> -->
+<!-- 					<label for="startDateEducationYear" th:text="#{startDateEducationYear}">startDateEducationYear</label> -->
+<!-- 					<select th:field="*{startDateEducationYear}"> -->
+<!-- 							<option th:each="year : ${yearList}" th:value="${year}" th:text="${year}">1970</option> -->
+<!-- 					</select> -->
+<!-- 				<p class="help-block" th:if="${#fields.hasErrors('startDateEducationYear')}" th:each="err : ${#fields.errors('startDateEducationYear')}" th:text="${err}">Error</p> -->
+<!-- 				</div> -->
+
+
+<!-- 				<div th:class="${#fields.hasErrors('startDateEducationMonth')} ? 'form-group has-error' : 'form-group'"> -->
+<!-- 					<label for="startDateEducationMonth" th:text="#{startDateEducationMonth}">startDateEducationMonth</label> -->
+<!-- 					<select th:field="*{startDateEducationMonth}"> -->
+<!-- 							<option th:each="month : ${monthList}" th:value="${month.key}" th:text="${month.value}">Januar</option> -->
+<!-- 					</select> -->
+<!-- 				<p class="help-block" th:if="${#fields.hasErrors('startDateEducationMonth')}"	th:each="err : ${#fields.errors('startDateEducationMonth')}" th:text="${err}">Error</p> -->
+<!-- 				</div> -->
 
 
 				<div th:class="${#fields.hasErrors('startDateEducationMonth')} ? 'form-group has-error' : 'form-group'">
-					<label for="startDateEducationMonth" th:text="#{startDateEducationMonth}">startDateEducationMonth</label>
+					<label for="startDateEducationMonth" th:text="#{startDateEducation}">startDateEducationMonth</label>
 					<select th:field="*{startDateEducationMonth}">
 							<option th:each="month : ${monthList}" th:value="${month.key}" th:text="${month.value}">Januar</option>
 					</select>
+					<select th:field="*{startDateEducationYear}">
+							<option th:each="year : ${yearList}" th:value="${year}" th:text="${year}">1970</option>
+					</select>					
 				<p class="help-block" th:if="${#fields.hasErrors('startDateEducationMonth')}"	th:each="err : ${#fields.errors('startDateEducationMonth')}" th:text="${err}">Error</p>
 				</div>
 
 
-				<div th:class="${#fields.hasErrors('endDateEducationYear')} ? 'form-group has-error' : 'form-group'">
-					<label for="endDateEducationYear" th:text="#{endDateEducationYear}">endDateEducationYear</label>
-					<select th:field="*{endDateEducationYear}">
-							<option th:each="year : ${yearList}" th:value="${year}" th:text="${year}">1970</option>
-					</select>
-				<p class="help-block" th:if="${#fields.hasErrors('endDateEducationYear')}" th:each="err : ${#fields.errors('endDateEducationYear')}" th:text="${err}">Error</p>
-				</div>
+
+
+
+
+
+<!-- 				<div th:class="${#fields.hasErrors('endDateEducationYear')} ? 'form-group has-error' : 'form-group'"> -->
+<!-- 					<label for="endDateEducationYear" th:text="#{endDateEducationYear}">endDateEducationYear</label> -->
+<!-- 					<select th:field="*{endDateEducationYear}"> -->
+<!-- 							<option th:each="year : ${yearList}" th:value="${year}" th:text="${year}">1970</option> -->
+<!-- 					</select> -->
+<!-- 				<p class="help-block" th:if="${#fields.hasErrors('endDateEducationYear')}" th:each="err : ${#fields.errors('endDateEducationYear')}" th:text="${err}">Error</p> -->
+<!-- 				</div> -->
+
+
+<!-- 				<div th:class="${#fields.hasErrors('endDateEducationMonth')} ? 'form-group has-error' : 'form-group'"> -->
+<!-- 					<label for="endDateEducationMonth" th:text="#{endDateEducationMonth}">endDateEducationMonth</label> -->
+<!-- 					<select th:field="*{endDateEducationMonth}"> -->
+<!-- 							<option th:each="month : ${monthList}" th:value="${month.key}" th:text="${month.value}">Januar</option> -->
+<!-- 					</select> -->
+<!-- 				<p class="help-block" th:if="${#fields.hasErrors('endDateEducationMonth')}"	th:each="err : ${#fields.errors('endDateEducationMonth')}" th:text="${err}">Error</p> -->
+<!-- 				</div> -->
+
 
 
 				<div th:class="${#fields.hasErrors('endDateEducationMonth')} ? 'form-group has-error' : 'form-group'">
-					<label for="endDateEducationMonth" th:text="#{endDateEducationMonth}">endDateEducationMonth</label>
+					<label for="endDateEducationMonth" th:text="#{endDateEducation}">endDateEducationMonth</label>
 					<select th:field="*{endDateEducationMonth}">
 							<option th:each="month : ${monthList}" th:value="${month.key}" th:text="${month.value}">Januar</option>
 					</select>
+					<select th:field="*{endDateEducationYear}">
+							<option th:each="year : ${yearList}" th:value="${year}" th:text="${year}">1970</option>
+					</select>
 				<p class="help-block" th:if="${#fields.hasErrors('endDateEducationMonth')}"	th:each="err : ${#fields.errors('endDateEducationMonth')}" th:text="${err}">Error</p>
 				</div>
+
+
+
 
 
 
@@ -107,41 +140,73 @@
 					<p class="help-block" th:if="${#fields.hasErrors('cancelationPeriod')}" th:each="err : ${#fields.errors('cancelationPeriod')}" th:text="${err}">Error</p>
 				</div>
 
-				<div th:class="${#fields.hasErrors('startDateExperienceYear')} ? 'form-group has-error' : 'form-group'">
-					<label for="startDateExperienceYear" th:text="#{startDateExperienceYear}">startDateExperienceYear</label>
-					<select th:field="*{startDateExperienceYear}">
-							<option th:each="year : ${yearList}" th:value="${year}" th:text="${year}">1970</option>
-					</select>
-				<p class="help-block" th:if="${#fields.hasErrors('startDateExperienceYear')}" th:each="err : ${#fields.errors('startDateExperienceYear')}" th:text="${err}">Error</p>
-				</div>
+<!-- 				<div th:class="${#fields.hasErrors('startDateExperienceYear')} ? 'form-group has-error' : 'form-group'"> -->
+<!-- 					<label for="startDateExperienceYear" th:text="#{startDateExperienceYear}">startDateExperienceYear</label> -->
+<!-- 					<select th:field="*{startDateExperienceYear}"> -->
+<!-- 							<option th:each="year : ${yearList}" th:value="${year}" th:text="${year}">1970</option> -->
+<!-- 					</select> -->
+<!-- 				<p class="help-block" th:if="${#fields.hasErrors('startDateExperienceYear')}" th:each="err : ${#fields.errors('startDateExperienceYear')}" th:text="${err}">Error</p> -->
+<!-- 				</div> -->
 
-			
+<!-- 				<div th:class="${#fields.hasErrors('startDateExperienceMonth')} ? 'form-group has-error' : 'form-group'"> -->
+<!-- 					<label for="startDateExperienceMonth" th:text="#{startDateExperienceMonth}">startDateExperienceMonth</label> -->
+<!-- 					<select th:field="*{startDateExperienceMonth}"> -->
+<!-- 							<option th:each="month : ${monthList}" th:value="${month.key}" th:text="${month.value}">Januar</option> -->
+<!-- 					</select> -->
+<!-- 				<p class="help-block" th:if="${#fields.hasErrors('startDateExperienceMonth')}"	th:each="err : ${#fields.errors('startDateExperienceMonth')}" th:text="${err}">Error</p> -->
+<!-- 				</div> -->
+
+
 
 				<div th:class="${#fields.hasErrors('startDateExperienceMonth')} ? 'form-group has-error' : 'form-group'">
-					<label for="startDateExperienceMonth" th:text="#{startDateExperienceMonth}">startDateExperienceMonth</label>
+					<label for="startDateExperienceMonth" th:text="#{startDateExperience}">startDateExperienceMonth</label>
 					<select th:field="*{startDateExperienceMonth}">
 							<option th:each="month : ${monthList}" th:value="${month.key}" th:text="${month.value}">Januar</option>
+					</select>
+					<select th:field="*{startDateExperienceYear}">
+							<option th:each="year : ${yearList}" th:value="${year}" th:text="${year}">1970</option>
 					</select>
 				<p class="help-block" th:if="${#fields.hasErrors('startDateExperienceMonth')}"	th:each="err : ${#fields.errors('startDateExperienceMonth')}" th:text="${err}">Error</p>
 				</div>
 
 
-				<div th:class="${#fields.hasErrors('endDateExperienceYear')} ? 'form-group has-error' : 'form-group'">
-					<label for="endDateExperienceYear" th:text="#{endDateExperienceYear}">endDateExperienceYear</label>
-					<select th:field="*{endDateExperienceYear}">
-							<option th:each="year : ${yearList}" th:value="${year}" th:text="${year}">1970</option>
-					</select>
-				<p class="help-block" th:if="${#fields.hasErrors('endDateExperienceYear')}" th:each="err : ${#fields.errors('endDateExperienceYear')}" th:text="${err}">Error</p>
-				</div>
+
+
+
+
+
+<!-- 				<div th:class="${#fields.hasErrors('endDateExperienceYear')} ? 'form-group has-error' : 'form-group'"> -->
+<!-- 					<label for="endDateExperienceYear" th:text="#{endDateExperienceYear}">endDateExperienceYear</label> -->
+<!-- 					<select th:field="*{endDateExperienceYear}"> -->
+<!-- 							<option th:each="year : ${yearList}" th:value="${year}" th:text="${year}">1970</option> -->
+<!-- 					</select> -->
+<!-- 				<p class="help-block" th:if="${#fields.hasErrors('endDateExperienceYear')}" th:each="err : ${#fields.errors('endDateExperienceYear')}" th:text="${err}">Error</p> -->
+<!-- 				</div> -->
+
+
+<!-- 				<div th:class="${#fields.hasErrors('endDateExperienceMonth')} ? 'form-group has-error' : 'form-group'"> -->
+<!-- 					<label for="endDateExperienceMonth" th:text="#{endDateExperienceMonth}">endDateExperienceMonth</label> -->
+<!-- 					<select th:field="*{endDateExperienceMonth}"> -->
+<!-- 							<option th:each="month : ${monthList}" th:value="${month.key}" th:text="${month.value}">Januar</option> -->
+<!-- 					</select> -->
+<!-- 				<p class="help-block" th:if="${#fields.hasErrors('endDateExperienceMonth')}"	th:each="err : ${#fields.errors('endDateExperienceMonth')}" th:text="${err}">Error</p> -->
+<!-- 				</div> -->
 
 
 				<div th:class="${#fields.hasErrors('endDateExperienceMonth')} ? 'form-group has-error' : 'form-group'">
-					<label for="endDateExperienceMonth" th:text="#{endDateExperienceMonth}">endDateExperienceMonth</label>
+					<label for="endDateExperienceMonth" th:text="#{endDateExperience}">endDateExperienceMonth</label>
 					<select th:field="*{endDateExperienceMonth}">
 							<option th:each="month : ${monthList}" th:value="${month.key}" th:text="${month.value}">Januar</option>
 					</select>
+					<select th:field="*{endDateExperienceYear}">
+							<option th:each="year : ${yearList}" th:value="${year}" th:text="${year}">1970</option>
+					</select>
 				<p class="help-block" th:if="${#fields.hasErrors('endDateExperienceMonth')}"	th:each="err : ${#fields.errors('endDateExperienceMonth')}" th:text="${err}">Error</p>
 				</div>
+
+
+
+
 
 
 				<div>
