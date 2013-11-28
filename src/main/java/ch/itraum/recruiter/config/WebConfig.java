@@ -13,6 +13,7 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
+import org.thymeleaf.messageresolver.StandardMessageResolver;
 import org.thymeleaf.spring3.SpringTemplateEngine;
 import org.thymeleaf.spring3.view.ThymeleafViewResolver;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
@@ -28,6 +29,7 @@ public class WebConfig extends WebMvcConfigurationSupport {
 		registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
 	}
 
+
 	@Bean
 	public ThymeleafViewResolver viewResolver() {
 		ThymeleafViewResolver thymeleafViewResolver = new ThymeleafViewResolver();
@@ -40,6 +42,9 @@ public class WebConfig extends WebMvcConfigurationSupport {
 	public SpringTemplateEngine templateEngine() {
 		SpringTemplateEngine springTemplateEngine = new SpringTemplateEngine();
 		springTemplateEngine.setTemplateResolver(templateResolver());
+		StandardMessageResolver stdMessageResolver = new StandardMessageResolver();
+		springTemplateEngine.setMessageResolver(stdMessageResolver);
+//		springTemplateEngine.setMessageSource(messageSource());
 		return springTemplateEngine;
 	}
 
@@ -68,15 +73,18 @@ public class WebConfig extends WebMvcConfigurationSupport {
 		return sessionLocaleResolver;
 	}
 	
-	@Bean
-	public MessageSource messageSource() {
-		ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
-		messageSource.setBasenames("classpath:translations/frontend");
-		//messageSource.setUseCodeAsDefaultMessage(true);
-		messageSource.setDefaultEncoding("UTF-8");
-
-		return messageSource;
-	}
+//	@Bean
+//	public MessageSource messageSource() {
+//		ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
+//		messageSource.setBasenames("classpath:translations/frontend");
+//		//messageSource.setUseCodeAsDefaultMessage(true);
+//		messageSource.setDefaultEncoding("UTF-8");
+//
+//		return messageSource;
+//	}
+	
+	
+	
 	
 //	@Bean
 //	public CommonsMultipartResolver commonsMultipartResolver(){

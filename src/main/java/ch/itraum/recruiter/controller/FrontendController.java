@@ -12,6 +12,7 @@ import javax.servlet.http.Part;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -42,6 +43,9 @@ public class FrontendController {
 	
 	@Autowired
 	private SkillsRepository skillsRepository;
+
+//	@Autowired
+//	private MessageSource messageSource;
 	
 	@ModelAttribute(value = "yearList")
 	public List<String> getYearList() {
@@ -90,6 +94,7 @@ public class FrontendController {
 		 
 //		model.addAttribute(getCandidateFromDB());
 		model.addAttribute(getCandidateFromSession());
+//		model.addAttribute(messageSource);
 		return "frontend/candidate";
 	}
  
