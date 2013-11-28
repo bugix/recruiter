@@ -22,11 +22,60 @@
 
 			<h1 th:text="#{submitApplication}">Submit ApplicationAgreement</h1>
 
-		
-			
-			
-			
-			
+
+			<div id="contactData" th:object="${candidate}">
+					<label th:text="#{title} + ': ' + ${candidate.title}"></label><br/>
+					<label th:text="#{firstName} + ': ' + ${candidate.firstName}"></label><br/>
+					<label th:text="#{lastName} + ': ' + ${candidate.lastName}"></label><br/>
+					<label th:text="#{email} + ': ' + ${candidate.email}"></label><br/>
+					<label th:text="#{street} + ': ' + ${candidate.street}"></label><br/>
+					<label th:text="#{plz} + ': ' + ${candidate.plz}"></label><br/>
+					<label th:text="#{city} + ': ' + ${candidate.city}"></label><br/>
+					<label th:text="#{phoneFix} + ': ' + ${candidate.phoneFix}"></label><br/>
+					<label th:text="#{phoneMobile} + ': ' + ${candidate.phoneMobile}"></label><br/>
+			</div>
+<br/>
+			<div id="skills" th:object="${skills}">
+					<label th:text="#{institution} + ': ' + ${skills.institution}"></label><br/>			
+					<label th:text="#{topic} + ': ' + ${skills.topic}"></label><br/>			
+					<label th:text="#{degree} + ': ' + ${skills.degree}"></label><br/>			
+					<label th:text="#{startDateEducation} + ': ' + ${skills.startDateEducation}"></label><br/>			
+					<label th:text="#{endDateEducation} + ': ' + ${skills.endDateEducation}"></label><br/>			
+					<label th:text="#{prospectiveEnd} + ': ' + ${skills.prospectiveEnd}"></label><br/>			
+					<label th:text="#{position} + ': ' + ${skills.position}"></label><br/>			
+					<label th:text="#{jobField} + ': ' + ${skills.jobField}"></label><br/>			
+					<label th:text="#{cancelationPeriod} + ': ' + ${skills.cancelationPeriod}"></label><br/>			
+					<label th:text="#{startDateExperience} + ': ' + ${skills.startDateExperience}"></label><br/>			
+					<label th:text="#{endDateExperience} + ': ' + ${skills.endDateExperience}"></label><br/>			
+					<label th:text="#{currentPosition} + ': ' + ${skills.currentPosition}"></label><br/>			
+			</div>
+<br/>
+			<div id="documents" th:object="${documents}">
+			    <table>
+			      <tr>
+			        <th th:text="#{uploadedFiles}">Alternativ Text</th>
+			      </tr>
+			      <tr th:each="doc : ${documents}">
+			        <td th:text="${doc.name}">Alternativ Text</td>
+			      </tr>
+			    </table>
+			</div>
+
+
+			<form method="POST">
+				<button type="submit" name="buttonPressed" value="submitApplication_Back" class="btn btn-primary btn-lg">
+					<span class="glyphicon glyphicon-ok" th:text="#{back}">Decline</span>
+				</button>
+	
+				<button type="submit" name="buttonPressed" value="submitApplication_Cancel" class="btn btn-primary btn-lg">
+					<span class="glyphicon glyphicon-ok" th:text="#{cancel}">Decline</span>
+				</button>
+	
+				<button type="submit" name="buttonPressed" value="submitApplication_Submit" class="btn btn-primary btn-lg">
+					<span class="glyphicon glyphicon-ok" th:text="#{submit}">Accept</span>
+				</button>
+			</form>
 		</div>
 	</div>
 </body>	
+</html>

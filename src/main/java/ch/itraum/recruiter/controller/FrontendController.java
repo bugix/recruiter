@@ -164,6 +164,75 @@ public class FrontendController {
 		}
 	}
 	
+	@RequestMapping(value = "/submitApplication", method = RequestMethod.GET)
+	public String getSubmitApplication(Model model) {
+		model.addAttribute(getCandidateFromSession());
+		model.addAttribute(getSkillsFromSession());
+		model.addAttribute("documents", getDocumentsForSessionCandidate());
+		return "frontend/submitApplication";
+	}
+	
+	@RequestMapping(value = "/thankYou", method = RequestMethod.GET)
+	public String getThankYou() {
+		deleteEverythingFromSession();
+		return "frontend/thankYou";
+	}
+		
+	@RequestMapping(value = "/confirmCancellation", method = RequestMethod.GET)
+	public String getConfirmCancellation() {
+		deleteEverythingFromDB();
+		//Only now we can delete the session objects because we need their 
+		//information for deleting the data in the DB
+		deleteEverythingFromSession();
+		return "frontend/confirmCancellation";
+	}
+		
+	@RequestMapping(value = "/submitApplication", method = RequestMethod.POST)
+	public String postSubmitApplication(Model model, @RequestParam("buttonPressed") String buttonPressed) {
+
+		model.addAttribute(getCandidateFromSession());
+		model.addAttribute(getSkillsFromSession());
+		model.addAttribute("documents", getDocumentsForSessionCandidate());
+		
+		if (buttonPressed.equals("submitApplication_Submit")) {
+			//TODO: Delete everything from Session
+			return "redirect:/thankYou";
+		}else  if (buttonPressed.equals("submitApplication_Back")) {
+			return "redirect:/documents";
+		}else  if (buttonPressed.equals("submitApplication_Cancel")) {
+			//TODO: Delete everything from Session and DB - then confirm cancellation
+			return "redirect:/confirmCancellation";
+		}else {
+			return "frontend/unexpectedAction";
+		}
+	}
+	
+	private void deleteEverythingFromDB(){
+		Candidate sessionCandidate = (Candidate)getCurrentSession().getAttribute("candidate");
+		if(sessionCandidate != null){
+			//Only if the candidate has an ID it was saved to the DB
+			if(sessionCandidate.getId() != null){
+				List<Document> documents = getDocumentsForSessionCandidate();
+				for(Document doc: documents){
+					documentRepository.delete(doc.getId());
+				}
+				//There is only one skills object for the candidate
+				//And if it was saved to the DB it has an ID
+				Skills sessionSkills = (Skills)getCurrentSession().getAttribute("skills");
+				if(sessionSkills != null && sessionSkills.getId() != null){
+					skillsRepository.delete(sessionSkills.getId());
+				}
+				candidateRepository.delete(sessionCandidate.getId());
+			}
+		}
+	}
+	
+	private void deleteEverythingFromSession(){
+		getCurrentSession().removeAttribute("candidate");
+		getCurrentSession().removeAttribute("skills");
+		getCurrentSession().removeAttribute("documents");
+	}
+	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String getAgreement(Model model) {
 		return "frontend/agreement";
@@ -282,10 +351,10 @@ public class FrontendController {
 	public String postDocumentsDelete(Model model, @RequestParam("buttonPressed") String buttonPressed, @RequestParam(value="chbDocuments", required=false) String chbDocuments) {
 
 		List<Document> documents = getDocumentsForSessionCandidate();
-		model.addAttribute(documents);
+		model.addAttribute("documents", documents);
 		
 		if (buttonPressed.equals("documents_Forward")) {
-			return "frontend/unexpectedAction";
+			return "redirect:/submitApplication";
 		}else  if (buttonPressed.equals("documents_Back")) {
 			return "redirect:/skills";
 		}else  if (buttonPressed.equals("documents_Delete")) {
