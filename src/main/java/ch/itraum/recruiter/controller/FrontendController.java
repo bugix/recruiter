@@ -54,13 +54,13 @@ public class FrontendController {
 	@RequestMapping(value = "/candidate", method = RequestMethod.GET)
 	public String getCandidate(Model model, HttpSession session) {
 		
-		System.out.println("*** Session data ***");
-		Enumeration<String> e = session.getAttributeNames();
-		while (e.hasMoreElements()){
-			String s = e.nextElement();
-			System.out.println(s);
-			System.out.println("**" + session.getAttribute(s));
-		}
+//		System.out.println("*** Session data ***");
+//		Enumeration<String> e = session.getAttributeNames();
+//		while (e.hasMoreElements()){
+//			String s = e.nextElement();
+//			System.out.println(s);
+//			System.out.println("**" + session.getAttribute(s));
+//		}
 		 
 //		model.addAttribute(getCandidateFromDB());
 		model.addAttribute(getCandidateFromSession());
@@ -86,7 +86,9 @@ public class FrontendController {
 				return "redirect:/skills";
 			}
 		} else if (buttonPressed.equals("contactData_Back")) {
-			return "redirect:/agreement";
+			//save current candidate object as is. Validation will effect further processing only if "forward" was pressed.
+			getCurrentSession().setAttribute("candidate", fillCandidateWithDataFrom(validCandidate)); //if there is already an skills object in the session, we need it's ID
+			return "redirect:/";
 		}else {
 			return "frontend/unexpectedAction";
 		}
@@ -156,7 +158,7 @@ public class FrontendController {
 		}else  if (buttonPressed.equals("contactSkills_Back")) {
 			//save current skills object as is. Validation will effect further processing only if "forward" was pressed.
 			getCurrentSession().setAttribute("skills", fillSkillsWithDataFrom(validSkills)); //if there is already an skills object in the session, we need it's ID
-			return "redirect:/";
+			return "redirect:/candidate";
 		}else {
 			return "frontend/unexpectedAction";
 		}
