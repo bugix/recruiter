@@ -48,9 +48,9 @@ public class ApplicationConfig {
 		Map<String, String> jpaPropertyMap = new HashMap<String, String>();
 		jpaPropertyMap.put("hibernate.hbm2ddl.auto", "create");
 		jpaPropertyMap.put("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
-		jpaPropertyMap.put("hibernate.connection.CharSet", "utf8");
-		jpaPropertyMap.put("hibernate.connection.characterEncoding", "utf8");
-		jpaPropertyMap.put("hibernate.connection.useUnicode", "true");
+//		jpaPropertyMap.put("hibernate.connection.CharSet", "utf8");
+//		jpaPropertyMap.put("hibernate.connection.characterEncoding", "utf8");
+//		jpaPropertyMap.put("hibernate.connection.useUnicode", "true");
 
 		factory.setJpaPropertyMap(jpaPropertyMap);
 		factory.setJpaVendorAdapter(vendorAdapter);

@@ -2,8 +2,13 @@ package ch.itraum.recruiter.controller;
 
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 import javax.validation.Valid;
@@ -12,17 +17,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.SmartValidator;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.WebContext;
 
 import ch.itraum.recruiter.model.Candidate;
-import ch.itraum.recruiter.model.CandidateSkills;
 import ch.itraum.recruiter.model.Document;
 import ch.itraum.recruiter.model.Skills;
 import ch.itraum.recruiter.repository.CandidateRepository;
@@ -42,10 +46,12 @@ public class FrontendController {
 	@Autowired
 	private SkillsRepository skillsRepository;
 	
+//	List<Document> documents;
+	
 //	@Autowired
 //	private SmartValidator validator;
 
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@RequestMapping(value = "/candidate", method = RequestMethod.GET)
 	public String getCandidate(Model model, HttpSession session) {
 		
 		System.out.println("*** Session data ***");
@@ -61,7 +67,7 @@ public class FrontendController {
 		return "frontend/candidate";
 	}
  
-	@RequestMapping(value = "/", method = RequestMethod.POST)
+	@RequestMapping(value = "/candidate", method = RequestMethod.POST)
 	public String postCandidate(@Valid Candidate validCandidate,
 			BindingResult result, Model model, @RequestParam("buttonPressed") String buttonPressed) {
 
@@ -69,37 +75,24 @@ public class FrontendController {
 		
 		if (buttonPressed.equals("contactData_Forward")) {
 			System.out.println("\n\n\n\n\nButton: contactData_Forward");
-//			validator.validate(validCandidate,  result, Candidate.class);
 			if (result.hasErrors()){
 				System.out.println("\n\n\n\n\nFehler im Kandidaten\n\n\n\n\n");
 				return "frontend/candidate";
 			}else{
 				//Candidate needs to be saved anyway before skills and documents can be saved. 
-				//So here is where it happens.
-				getCurrentSession().setAttribute("candidate", candidateRepository.save(fillCandidateWithData(validCandidate)));
+				//So here is where this happens.
+				//save Candidate to DB and save the received Candidate containing the DB ID into the HTTP Session
+				getCurrentSession().setAttribute("candidate", candidateRepository.save(fillCandidateWithDataFrom(validCandidate)));
 				return "redirect:/skills";
 			}
 		} else if (buttonPressed.equals("contactData_Back")) {
-			return "frontend/unexpectedAction";
-//		}else  if (buttonPressed.equals("contactSkills_Forward")) {
-//			Candidate candidateDB = candidateRepository.save(getCandidateFromSession());
-//			System.out.println("\n\n\n\n\ncandidateDB.firstName: " + candidateDB.getFirstName());
-//			Skills resSkills = new Skills();
-//			resSkills.setInstitution("ETH");
-//			resSkills.setCandidate(candidateDB);
-//			Skills curSkills = skillsRepository.save(resSkills);
-//			System.out.println("OK! Tried to fake save the Skills.");
-//			return "frontend/candidate";
+			return "redirect:/agreement";
 		}else {
-//			Candidate curCandidate = candidateRepository.save(fillCandidateWithData(validCandidate));
-//			getCurrentSession().setAttribute("candidateID", curCandidate.getId());
 			return "frontend/unexpectedAction";
 		}
-
-		
 	}
 	
-	private Candidate fillCandidateWithData(Candidate curCandidate){
+	private Candidate fillCandidateWithDataFrom(Candidate curCandidate){
 //		Candidate resCandidate = getCandidateFromDB();
 		Candidate resCandidate = getCandidateFromSession();
 		resCandidate.setFirstName(curCandidate.getFirstName());
@@ -112,6 +105,24 @@ public class FrontendController {
 		resCandidate.setStreet(curCandidate.getStreet());
 		resCandidate.setTitle(curCandidate.getTitle());
 		return resCandidate;
+	}
+	
+	private Skills fillSkillsWithDataFrom(Skills curSkills){
+		Skills resSkills = getSkillsFromSession();
+		resSkills.setCancelationPeriod(curSkills.getCancelationPeriod());
+		resSkills.setCandidate(curSkills.getCandidate());
+		resSkills.setCurrentPosition(curSkills.getCurrentPosition());
+		resSkills.setDegree(curSkills.getDegree());
+		resSkills.setEndDateEducation(curSkills.getEndDateEducation());
+		resSkills.setEndDateExperience(curSkills.getEndDateExperience());
+		resSkills.setInstitution(curSkills.getInstitution());
+		resSkills.setJobField(curSkills.getJobField());
+		resSkills.setPosition(curSkills.getPosition());
+		resSkills.setProspectiveEnd(curSkills.getProspectiveEnd());
+		resSkills.setStartDateEducation(curSkills.getStartDateEducation());
+		resSkills.setStartDateExperience(curSkills.getStartDateExperience());
+		resSkills.setTopic(curSkills.getTopic());
+		return resSkills;
 	}
 	
 	
@@ -132,47 +143,41 @@ public class FrontendController {
 		
 		if (buttonPressed.equals("contactSkills_Forward")) {
 			System.out.println("\n\n\n\n\nButton: contactSkills_Forward");
-//			validator.validate(validCandidate,  result, Candidate.class);
 			if (result.hasErrors()){
-//			if (false){
 				System.out.println("\n\n\n\n\nFehler im Skill Sheet\n\n\n\n\n");
 				return "frontend/skills";
 			}else{
-//				Candidate candidateDB = candidateRepository.save(getCandidateFromSession());
-//				validSkills.setInstitution("ETH");
-				validSkills.setCandidate(getCandidateFromSession());
-				getCurrentSession().setAttribute("skills", validSkills);
-				
-				Skills curSkills = skillsRepository.save(validSkills);
+				validSkills.setCandidate(getCandidateFromSession()); //this Candidate is already validated
+				//save Skills to DB and save the received Skills containing the DB ID into the HTTP Session
+				getCurrentSession().setAttribute("skills", skillsRepository.save(fillSkillsWithDataFrom(validSkills)));
 				System.out.println("OK! Tried to save the Skills.");
 				return "redirect:/documents";
 			}
 		}else  if (buttonPressed.equals("contactSkills_Back")) {
-			//save current skills object as is, it will only be validated when pressing "forward"
-			getCurrentSession().setAttribute("skills", validSkills);
+			//save current skills object as is. Validation will effect further processing only if "forward" was pressed.
+			getCurrentSession().setAttribute("skills", fillSkillsWithDataFrom(validSkills)); //if there is already an skills object in the session, we need it's ID
 			return "redirect:/";
 		}else {
 			return "frontend/unexpectedAction";
 		}
-		
-//		
-//		if (result.hasErrors()&& buttonPressed.equals("contactSkills_Forward")) {
-//			System.out.println("\n\n\n\n\nFehler in den Skills!\n\n\n\n\n");
-////			return "frontend/candidateSkills";
-//		} else if (buttonPressed.equals("contactSkills_Back")) {
-//			return "frontend/candidate";
-//		}else {
-//			Skills resSkills = new Skills();
-//			resSkills.setInstitution("ETH");
-//			resSkills.setCandidate(getCandidateFromSession());
-//			Skills curSkills = skillsRepository.save(resSkills);
-//			System.out.println("OK! Tried to save the Skills.");
-////			Candidate curCandidate = candidateRepository.save(candidate);
-////			System.out.println("\n\n\n\n\nCandidate ID from Repository: " + curCandidate.getId());
-////			getCurrentSession().setAttribute("candidateID", curCandidate.getId());
-//		}
-//
-//		return "frontend/candidateSkills";
+	}
+	
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public String getAgreement(Model model) {
+		return "frontend/agreement";
+	}
+	
+	
+	@RequestMapping(value = "/", method = RequestMethod.POST)
+	public String postCandidateSkills(Model model, @RequestParam("buttonPressed") String buttonPressed) {
+
+		if (buttonPressed.equals("agreement_Accept")) {
+			return "redirect:/candidate";
+		}else  if (buttonPressed.equals("agreement_Decline")) {
+			return "frontend/unexpectedAction";
+		}else {
+			return "frontend/unexpectedAction";
+		}
 	}
 	
 	//If there is already an ID saved in the HttpSession the corresponding object will be fetched and returned. 
@@ -221,19 +226,74 @@ public class FrontendController {
 	@RequestMapping(value = "/documents", method = RequestMethod.GET)
 	public String getDocuments(Model model) {
 
-		model.addAttribute(new CandidateSkills());
+		List<Document> documents = getDocumentsForSessionCandidate();
+//		Document doc = new Document();
+//		doc.setName("Das ist der Filename");
+//		documents.add(doc);
+//		documents.add(doc);
+//		documents.add(doc);
+//		documents.add(doc);
+//		documents.add(doc);
+
+		model.addAttribute("documents", documents);
 		System.out.println("\n\n\n\n\ngetDocuments\n\n\n\n\n");
 
 		return "frontend/documents";
 	}
 
+	private List<Document> getDocumentsForSessionCandidate(){
+//		List<Integer> ids = new ArrayList<Integer>();
+//		ids.add(getCandidateFromSession().getId());
+//		Iterable<Document> docs = documentRepository.findAll(ids);
+//		List<Document> docList = new ArrayList<Document>();
+		List<Document> docList = documentRepository.findByCandidate_Id(getCandidateFromSession().getId());
+		System.out.println("\n\n\n\n\n");
+		for(Document doc: docList){
+			System.out.println("Doc ID: " + doc.getId() + ", Doc Name: " + doc.getName());
+		}
+		return docList;
+	}
+	
+//	@RequestMapping(value = "/documents", method = RequestMethod.POST)
+//	public String postDocuments(Model model, @RequestParam("buttonPressed") String buttonPressed) {
+//
+//		List<Document> documents = getDocumentsForSessionCandidate();
+//		model.addAttribute(documents);
+//		
+//		if (buttonPressed.equals("documents_Forward")) {
+//			return "frontend/unexpectedAction";
+//		}else  if (buttonPressed.equals("documents_Back")) {
+//			return "redirect:/skills";
+//		}else {
+//			return "frontend/unexpectedAction";
+//		}
+//	}
+	
+	private void deleteDocumentsFromDB(String csv_IDs){
+		String[] strIDs = csv_IDs.split(",");
+		for(int i = 0; i< strIDs.length; i++){
+			documentRepository.delete(Integer.parseInt(strIDs[i]));
+		}
+	}
+
 	@RequestMapping(value = "/documents", method = RequestMethod.POST)
-	public String postDocuments(Model model, @RequestParam("buttonPressed") String buttonPressed) {
+	public String postDocumentsDelete(Model model, @RequestParam("buttonPressed") String buttonPressed, @RequestParam(value="chbDocuments", required=false) String chbDocuments) {
 
-		model.addAttribute(new CandidateSkills());
-		System.out.println("\n\n\n\n\npostDocuments\n\n\n\n\n");
-
-		return "frontend/documents";
+		List<Document> documents = getDocumentsForSessionCandidate();
+		model.addAttribute(documents);
+		
+		if (buttonPressed.equals("documents_Forward")) {
+			return "frontend/unexpectedAction";
+		}else  if (buttonPressed.equals("documents_Back")) {
+			return "redirect:/skills";
+		}else  if (buttonPressed.equals("documents_Delete")) {
+			if(chbDocuments != null){
+				deleteDocumentsFromDB(chbDocuments);
+			}
+			return "redirect:/documents";
+		}else {
+			return "frontend/unexpectedAction";
+		}
 	}
 
 	@ResponseBody
@@ -249,6 +309,7 @@ public class FrontendController {
 
 		document.setContent(imgDataBa);
 		document.setName(getFileName(file));
+		document.setCandidate(getCandidateFromSession());
 
 		documentRepository.save(document);
 	}

@@ -1407,7 +1407,11 @@ require.register("dropzone/lib/dropzone.js", function(exports, require, module){
         file = files[_l];
         formData.append("" + this.options.paramName + (this.options.uploadMultiple ? "[]" : ""), file, file.name);
       }
-      return xhr.send(formData);
+      //Here the HTTP Transfer of the file should be finished. To give the DB some time for storing the file
+      //wait for one second before reloading the page. (Reloading is needed for refreshing the information 
+      //about the uploaded files.
+      setTimeout(function(){document.location.reload(true);}, 1000);
+     return xhr.send(formData);
     };
 
     Dropzone.prototype._finished = function(files, responseText, e) {
@@ -1425,7 +1429,7 @@ require.register("dropzone/lib/dropzone.js", function(exports, require, module){
       if (this.options.autoProcessQueue) {
         return this.processQueue();
       }
-    };
+  };
 
     Dropzone.prototype._errorProcessing = function(files, message, xhr) {
       var file, _i, _len;

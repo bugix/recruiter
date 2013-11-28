@@ -13,9 +13,11 @@
 		<div class="container">
 
 			<ol class="breadcrumb">
-				<li class="active" th:text="#{candidateData}">Candidate Data</li>
+				<li th:text="#{privaceAgreement}">Privacy Agreement</li>
+				<li th:text="#{contactData}">Contact Data</li>
+				<li class="active" th:text="#{educationExperience}">Education and Experience</li>
 				<li th:text="#{documentUpload}">Document Upload</li>
-				<li th:text="#{submitApplication}">Submit Application</li>
+				<li th:text="#{summary}">Summary</li>
 			</ol>
 
 			<h1 th:text="#{skills}">Ausbildung</h1>
@@ -35,6 +37,7 @@
 				</div>
 				
 				<div th:class="${#fields.hasErrors('degree')} ? 'form-group has-error' : 'form-group'">
+
 					<label for="degree" th:text="#{degree}">Degree</label>
 					<input type="text" class="form-control" id="degree" th:placeholder="#{degree}" th:field="*{degree}" />
 					<p class="help-block" th:if="${#fields.hasErrors('degree')}" th:each="err : ${#fields.errors('degree')}" th:text="${err}">Error</p>
