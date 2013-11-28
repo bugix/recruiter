@@ -1,11 +1,12 @@
 package ch.itraum.recruiter.model;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 
 import org.springframework.data.jpa.domain.AbstractPersistable;
-
-import java.util.Date;
 
 
 @Entity
@@ -23,9 +24,23 @@ public class Skills extends AbstractPersistable<Integer>{
 	
 	private String degree;
 	
-	private Date startDateEducation;
+	@Transient
+	private String startDateEducationMonth;
 	
-	private Date endDateEducation;
+	@Transient
+	private String startDateEducationYear;
+
+	private Date startDateEducation = new Date();
+	
+	@Transient
+	private String endDateEducationMonth;
+	
+	@Transient
+	private String endDateEducationYear;
+
+	
+	
+	private Date endDateEducation = new Date();
 	
 	private Boolean prospectiveEnd;
 	
@@ -37,9 +52,24 @@ public class Skills extends AbstractPersistable<Integer>{
 	
 	private String cancelationPeriod;
 	
-	private Date startDateExperience;
+	@Transient
+	private String startDateExperienceMonth;
 	
-	private Date endDateExperience;
+	@Transient
+	private String startDateExperienceYear;
+	
+		
+	private Date startDateExperience = new Date();
+	
+	@Transient
+	private String endDateExperienceMonth;
+	
+	@Transient
+	private String endDateExperienceYear;
+	
+	
+	private Date endDateExperience = new Date();
+	
 	
 	private Boolean currentPosition;
 
@@ -92,7 +122,26 @@ public class Skills extends AbstractPersistable<Integer>{
 	public void setEndDateEducation(Date endDateEducation) {
 		this.endDateEducation = endDateEducation;
 	}
+		
+	
+	public Date getStartDateExperience() {
+		return startDateExperience;
+	}
 
+	public void setStartDateExperience(Date startDateExperience) {
+		this.startDateExperience = startDateExperience;
+	}
+	
+	
+	public Date getEndDateExperience() {
+		return endDateExperience;
+	}
+
+	public void setEndDateExperience(Date endDateExperience) {
+		this.endDateExperience = endDateExperience;
+	}
+	
+	
 	public Boolean getProspectiveEnd() {
 		return prospectiveEnd;
 	}
@@ -125,21 +174,7 @@ public class Skills extends AbstractPersistable<Integer>{
 		this.cancelationPeriod = cancelationPeriod;
 	}
 
-	public Date getStartDateExperience() {
-		return startDateExperience;
-	}
 
-	public void setStartDateExperience(Date startDateExperience) {
-		this.startDateExperience = startDateExperience;
-	}
-
-	public Date getEndDateExperience() {
-		return endDateExperience;
-	}
-
-	public void setEndDateExperience(Date endDateExperience) {
-		this.endDateExperience = endDateExperience;
-	}
 
 	public Boolean getCurrentPosition() {
 		return currentPosition;
@@ -149,5 +184,120 @@ public class Skills extends AbstractPersistable<Integer>{
 		this.currentPosition = currentPosition;
 	}
 	
+	
+	
+//	StartDateEducation
+	public String getStartDateEducationMonth() {
+		
+		String month = String.valueOf(startDateEducation.getMonth());
+
+		return month;
+	}
+
+	public void setStartDateEducationMonth(String startDateEducationMonth) {
+		startDateEducation.setMonth(Integer.parseInt(startDateEducationMonth));
+	}
+
+	public String getStartDateEducationYear() {
+
+		String year = String.valueOf(startDateEducation.getYear() + 1900);
+
+		return year;
+	}
+
+	public void setStartDateEducationYear(String startDateEducationYear) {
+		
+		startDateEducation.setYear(Integer.parseInt(startDateEducationYear) - 1900);
+
+	}
+	
+	
+//	EndDateEducation
+	public String getEndDateEducationMonth() {
+		
+		String month = String.valueOf(endDateEducation.getMonth());
+
+		return month;
+	}
+
+	public void setEndDateEducationMonth(String endDateEducationMonth) {
+		endDateEducation.setMonth(Integer.parseInt(endDateEducationMonth));
+	}
+
+	public String getEndDateEducationYear() {
+
+		String year = String.valueOf(endDateEducation.getYear() + 1900);
+
+		return year;
+	}
+
+	public void setEndDateEducationYear(String endDateEducationYear) {
+		
+		endDateEducation.setYear(Integer.parseInt(endDateEducationYear) - 1900);
+
+	}
+	
+	
+	
+//	StartDateExperience
+	
+		
+	public String getStartDateExperienceMonth() {
+		
+		String month = String.valueOf(startDateExperience.getMonth());
+
+		return month;
+	}
+		
+	public void setStartDateExperienceMonth(String startDateExperienceMonth) {
+		
+		startDateExperience.setMonth(Integer.parseInt(startDateExperienceMonth));
+	}
+
+
+	public String getStartDateExperienceYear() {
+
+		String year = String.valueOf(startDateExperience.getYear() + 1900);
+
+		return year;
+	}
+
+	public void setStartDateExperienceYear(String startDateExperienceYear) {
+		
+		startDateExperience.setYear(Integer.parseInt(startDateExperienceYear) - 1900);
+
+	}
+	
+		
+	
+	
+//	EndDateExperience
+	
+	public String getEndDateExperienceMonth() {
+		
+		String month = String.valueOf(endDateExperience.getMonth());
+
+		return month;
+	}
+
+	public void setEndDateExperienceMonth(String endDateExperienceMonth) {
+		endDateExperience.setMonth(Integer.parseInt(endDateExperienceMonth));
+	}
+	
+	
+	public String getEndDateExperienceYear() {
+
+		String year = String.valueOf(endDateExperience.getYear() + 1900);
+
+		return year;
+	}
+
+	public void setEndDateExperienceYear(String endDateExperienceYear) {
+		
+		endDateExperience.setYear(Integer.parseInt(endDateExperienceYear) - 1900);
+
+	}
+	
+		
 	
 }

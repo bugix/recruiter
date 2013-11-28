@@ -2,13 +2,11 @@ package ch.itraum.recruiter.controller;
 
 import java.io.DataInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Enumeration;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 import javax.validation.Valid;
@@ -17,14 +15,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.context.WebContext;
 
 import ch.itraum.recruiter.model.Candidate;
 import ch.itraum.recruiter.model.Document;
@@ -46,11 +43,40 @@ public class FrontendController {
 	@Autowired
 	private SkillsRepository skillsRepository;
 	
-//	List<Document> documents;
-	
-//	@Autowired
-//	private SmartValidator validator;
+	@ModelAttribute(value = "yearList")
+	public List<String> getYearList() {
+		
+		List<String> yearList = new LinkedList<String>();
+		
+		for (int i = 1970; i < 2024; i++)
+		{
+			yearList.add("" + i);
+		}
 
+		return yearList;
+	}
+	
+	@ModelAttribute(value = "monthList")
+	public Map<String, String> getMonthMap()
+	{
+		Map<String, String> monthMap = new LinkedHashMap<String, String>();
+		
+		monthMap.put("0", "Januar");
+		monthMap.put("1", "Februar");
+		monthMap.put("2", "März");
+		monthMap.put("3", "April");
+		monthMap.put("4", "Mai");
+		monthMap.put("5", "Juni");
+		monthMap.put("6", "Juli");
+		monthMap.put("7", "August");
+		monthMap.put("8", "September");
+		monthMap.put("9", "Oktober");
+		monthMap.put("10", "November");
+		monthMap.put("11", "Dezember");
+	
+		return monthMap;
+	}
+	
 	@RequestMapping(value = "/candidate", method = RequestMethod.GET)
 	public String getCandidate(Model model, HttpSession session) {
 		
