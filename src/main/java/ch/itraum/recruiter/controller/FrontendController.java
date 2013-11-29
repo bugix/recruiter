@@ -205,6 +205,15 @@ public class FrontendController {
 		deleteEverythingFromSession();
 		return "frontend/confirmCancellation";
 	}
+	
+	@RequestMapping(value = "/confirmCancellation", method = RequestMethod.POST)
+	public String postConfirmCancellation(Model model, @RequestParam("buttonPressed") String buttonPressed) {
+		if (buttonPressed.equals("confirmCancellation_BackToStart")) {
+			return "redirect:/";
+		}else {
+			return "frontend/unexpectedAction";
+		}
+	}
 		
 	@RequestMapping(value = "/submitApplication", method = RequestMethod.POST)
 	public String postSubmitApplication(Model model, @RequestParam("buttonPressed") String buttonPressed) {

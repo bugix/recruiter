@@ -17,8 +17,6 @@ public class Candidate extends AbstractPersistable<Integer> {
 	@NotEmpty
 	private String firstName;
 	
-	
-	
 	@NotEmpty
 	private String lastName;
 	

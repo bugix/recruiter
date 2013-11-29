@@ -16,7 +16,6 @@ public class Skills extends AbstractPersistable<Integer>{
 	@OneToOne
 	private Candidate candidate;
 	
-	
 //	Group Education
 	private String institution;
 	
