@@ -90,20 +90,19 @@ public class FrontendController {
 		model.addAttribute(getCandidateFromSession());
 		
 		if (buttonPressed.equals("contactData_Forward")) {
-			System.out.println("\n\n\n\n\nButton: contactData_Forward");
 			if (result.hasErrors()){
-				System.out.println("\n\n\n\n\nFehler im Kandidaten\n\n\n\n\n");
-				return "frontend/candidate";
+				getCurrentSession().setAttribute("candidate", fillCandidateFromSessionWithDataFrom(validCandidate));
+				return "redirect:/candidate";
 			}else{
 				//Candidate needs to be saved anyway before skills and documents can be saved. 
 				//So here is where this happens.
 				//save Candidate to DB and save the received Candidate containing the DB ID into the HTTP Session
-				getCurrentSession().setAttribute("candidate", candidateRepository.save(fillCandidateWithDataFrom(validCandidate)));
+				getCurrentSession().setAttribute("candidate", candidateRepository.save(fillCandidateFromSessionWithDataFrom(validCandidate)));
 				return "redirect:/skills";
 			}
 		} else if (buttonPressed.equals("contactData_Back")) {
 			//save current candidate object as is. Validation will effect further processing only if "forward" was pressed.
-			getCurrentSession().setAttribute("candidate", fillCandidateWithDataFrom(validCandidate)); //if there is already an skills object in the session, we need it's ID
+			getCurrentSession().setAttribute("candidate", fillCandidateFromSessionWithDataFrom(validCandidate)); //if there is already an skills object in the session, we need it's ID
 			return "redirect:/";
 		}else  if (buttonPressed.equals("contactData_Cancel")) {
 			return "redirect:/confirmCancellation";
@@ -112,7 +111,7 @@ public class FrontendController {
 		}
 	}
 	
-	private Candidate fillCandidateWithDataFrom(Candidate curCandidate){
+	private Candidate fillCandidateFromSessionWithDataFrom(Candidate curCandidate){
 		Candidate resCandidate = getCandidateFromSession();
 		resCandidate.setFirstName(curCandidate.getFirstName());
 		resCandidate.setLastName(curCandidate.getLastName());
