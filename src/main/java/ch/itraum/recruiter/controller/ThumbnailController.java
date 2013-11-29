@@ -59,14 +59,10 @@ public class ThumbnailController {
 		
 		pdfDecoder.closePdfFile();
 		
-		
-		
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		ImageIO.write(image, "png", outputStream);
 		
 		return outputStream.toByteArray();
 		
 	}
-	
-	
 }

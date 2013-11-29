@@ -32,7 +32,6 @@ import ch.itraum.recruiter.repository.DocumentRepository;
 import ch.itraum.recruiter.repository.SkillsRepository;
 
 @Controller
-//@SessionAttributes({"candidate","candidateSkills"})
 public class FrontendController {
 
 	@Autowired
@@ -44,9 +43,6 @@ public class FrontendController {
 	@Autowired
 	private SkillsRepository skillsRepository;
 
-//	@Autowired
-//	private MessageSource messageSource;
-	
 	@ModelAttribute(value = "yearList")
 	public List<String> getYearList() {
 		
@@ -83,18 +79,7 @@ public class FrontendController {
 	
 	@RequestMapping(value = "/candidate", method = RequestMethod.GET)
 	public String getCandidate(Model model, HttpSession session) {
-		
-//		System.out.println("*** Session data ***");
-//		Enumeration<String> e = session.getAttributeNames();
-//		while (e.hasMoreElements()){
-//			String s = e.nextElement();
-//			System.out.println(s);
-//			System.out.println("**" + session.getAttribute(s));
-//		}
-		 
-//		model.addAttribute(getCandidateFromDB());
 		model.addAttribute(getCandidateFromSession());
-//		model.addAttribute(messageSource);
 		return "frontend/candidate";
 	}
  
@@ -128,7 +113,6 @@ public class FrontendController {
 	}
 	
 	private Candidate fillCandidateWithDataFrom(Candidate curCandidate){
-//		Candidate resCandidate = getCandidateFromDB();
 		Candidate resCandidate = getCandidateFromSession();
 		resCandidate.setFirstName(curCandidate.getFirstName());
 		resCandidate.setLastName(curCandidate.getLastName());
@@ -329,15 +313,7 @@ public class FrontendController {
 	
 	@RequestMapping(value = "/documents", method = RequestMethod.GET)
 	public String getDocuments(Model model) {
-
 		List<Document> documents = getDocumentsForSessionCandidate();
-//		Document doc = new Document();
-//		doc.setName("Das ist der Filename");
-//		documents.add(doc);
-//		documents.add(doc);
-//		documents.add(doc);
-//		documents.add(doc);
-//		documents.add(doc);
 
 		model.addAttribute("documents", documents);
 		System.out.println("\n\n\n\n\ngetDocuments\n\n\n\n\n");
@@ -346,10 +322,6 @@ public class FrontendController {
 	}
 
 	private List<Document> getDocumentsForSessionCandidate(){
-//		List<Integer> ids = new ArrayList<Integer>();
-//		ids.add(getCandidateFromSession().getId());
-//		Iterable<Document> docs = documentRepository.findAll(ids);
-//		List<Document> docList = new ArrayList<Document>();
 		List<Document> docList = documentRepository.findByCandidate_Id(getCandidateFromSession().getId());
 		System.out.println("\n\n\n\n\n");
 		for(Document doc: docList){
@@ -357,21 +329,6 @@ public class FrontendController {
 		}
 		return docList;
 	}
-	
-//	@RequestMapping(value = "/documents", method = RequestMethod.POST)
-//	public String postDocuments(Model model, @RequestParam("buttonPressed") String buttonPressed) {
-//
-//		List<Document> documents = getDocumentsForSessionCandidate();
-//		model.addAttribute(documents);
-//		
-//		if (buttonPressed.equals("documents_Forward")) {
-//			return "frontend/unexpectedAction";
-//		}else  if (buttonPressed.equals("documents_Back")) {
-//			return "redirect:/skills";
-//		}else {
-//			return "frontend/unexpectedAction";
-//		}
-//	}
 	
 	private void deleteDocumentsFromDB(String csv_IDs){
 		String[] strIDs = csv_IDs.split(",");

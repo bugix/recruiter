@@ -82,22 +82,4 @@ public class WebConfig extends WebMvcConfigurationSupport {
 //
 //		return messageSource;
 //	}
-	
-	
-	
-	
-//	@Bean
-//	public CommonsMultipartResolver commonsMultipartResolver(){
-//		CommonsMultipartResolver resolver = new CommonsMultipartResolver();
-//		return resolver;
-//	}
-//	
-//	@Bean
-//	public InternalResourceViewResolver internalResourceViewResolver(){
-//		InternalResourceViewResolver resolver = new InternalResourceViewResolver();
-//		resolver.setPrefix("/WEB-INF/jsp/");
-//		resolver.setSuffix(".jsp");
-//		return resolver;
-//	}
-
 }
