@@ -120,6 +120,8 @@ public class FrontendController {
 			//save current candidate object as is. Validation will effect further processing only if "forward" was pressed.
 			getCurrentSession().setAttribute("candidate", fillCandidateWithDataFrom(validCandidate)); //if there is already an skills object in the session, we need it's ID
 			return "redirect:/";
+		}else  if (buttonPressed.equals("contactData_Cancel")) {
+			return "redirect:/confirmCancellation";
 		}else {
 			return "frontend/unexpectedAction";
 		}
@@ -190,6 +192,8 @@ public class FrontendController {
 			//save current skills object as is. Validation will effect further processing only if "forward" was pressed.
 			getCurrentSession().setAttribute("skills", fillSkillsWithDataFrom(validSkills)); //if there is already an skills object in the session, we need it's ID
 			return "redirect:/candidate";
+		}else  if (buttonPressed.equals("contactSkills_Cancel")) {
+			return "redirect:/confirmCancellation";
 		}else {
 			return "frontend/unexpectedAction";
 		}
@@ -226,12 +230,10 @@ public class FrontendController {
 		model.addAttribute("documents", getDocumentsForSessionCandidate());
 		
 		if (buttonPressed.equals("submitApplication_Submit")) {
-			//TODO: Delete everything from Session
 			return "redirect:/thankYou";
 		}else  if (buttonPressed.equals("submitApplication_Back")) {
 			return "redirect:/documents";
 		}else  if (buttonPressed.equals("submitApplication_Cancel")) {
-			//TODO: Delete everything from Session and DB - then confirm cancellation
 			return "redirect:/confirmCancellation";
 		}else {
 			return "frontend/unexpectedAction";
@@ -271,12 +273,12 @@ public class FrontendController {
 	
 	
 	@RequestMapping(value = "/", method = RequestMethod.POST)
-	public String postCandidateSkills(Model model, @RequestParam("buttonPressed") String buttonPressed) {
+	public String postAgreement(Model model, @RequestParam("buttonPressed") String buttonPressed) {
 
 		if (buttonPressed.equals("agreement_Accept")) {
 			return "redirect:/candidate";
 		}else  if (buttonPressed.equals("agreement_Decline")) {
-			return "frontend/unexpectedAction";
+			return "redirect:/confirmCancellation";
 		}else {
 			return "frontend/unexpectedAction";
 		}
@@ -393,6 +395,8 @@ public class FrontendController {
 				deleteDocumentsFromDB(chbDocuments);
 			}
 			return "redirect:/documents";
+		}else  if (buttonPressed.equals("documents_Cancel")) {
+			return "redirect:/confirmCancellation";
 		}else {
 			return "frontend/unexpectedAction";
 		}
