@@ -35,8 +35,8 @@
 			<p th:text="#{paragraph_05}"></p>
 			<p th:text="#{paragraph_06}"></p>
 			
-			<form method="POST">
-					<select onchange="this.form.submit()" name="buttonPressed">
+			<form method="GET">
+					<select onchange="this.form.submit()" name="lang">
 							<option th:each="language : ${languageList}" th:value="${language.key}" th:text="${language.value}">Januar</option>
 					</select>
 			</form>			
