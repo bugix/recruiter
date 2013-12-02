@@ -36,6 +36,12 @@
 			<p th:text="#{paragraph_06}"></p>
 			
 			<form method="POST">
+					<select onchange="this.form.submit()" name="buttonPressed">
+							<option th:each="language : ${languageList}" th:value="${language.key}" th:text="${language.value}">Januar</option>
+					</select>
+			</form>			
+			
+			<form method="POST">
 				<button type="submit" name="buttonPressed" value="agreement_Decline" class="btn btn-primary btn-lg">
 					<span class="glyphicon glyphicon-ok" th:text="#{decline}">Decline</span>
 				</button>

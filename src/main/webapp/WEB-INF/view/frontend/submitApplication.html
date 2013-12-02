@@ -39,14 +39,14 @@
 					<label th:text="#{institution} + ': ' + ${skills.institution}"></label><br/>			
 					<label th:text="#{topic} + ': ' + ${skills.topic}"></label><br/>			
 					<label th:text="#{degree} + ': ' + ${skills.degree}"></label><br/>			
-					<label th:text="#{startDateEducation} + ': ' + ${skills.startDateEducation}"></label><br/>			
-					<label th:text="#{endDateEducation} + ': ' + ${skills.endDateEducation}"></label><br/>			
+					<label th:text="#{startDateEducation} + ': ' + ${#dates.monthName(skills.startDateEducation)}+'  '+ ${#dates.year(skills.startDateEducation)}"></label><br/>			
+					<label th:text="#{endDateEducation} + ': ' + ${#dates.monthName(skills.endDateEducation)} +'  ' + ${#dates.year(skills.endDateEducation)}"></label><br/>			
 					<label th:text="#{prospectiveEnd} + ': ' + ${skills.prospectiveEnd}"></label><br/>			
 					<label th:text="#{position} + ': ' + ${skills.position}"></label><br/>			
 					<label th:text="#{jobField} + ': ' + ${skills.jobField}"></label><br/>			
 					<label th:text="#{cancelationPeriod} + ': ' + ${skills.cancelationPeriod}"></label><br/>			
-					<label th:text="#{startDateExperience} + ': ' + ${skills.startDateExperience}"></label><br/>			
-					<label th:text="#{endDateExperience} + ': ' + ${skills.endDateExperience}"></label><br/>			
+					<label th:text="#{startDateExperience} + ': ' + ${#dates.monthName(skills.startDateExperience)} + '  ' + ${#dates.year(skills.startDateExperience)}"></label><br/>			
+					<label th:text="#{endDateExperience} + ': '+ ${#dates.monthName(skills.endDateExperience)} + '  '+ ${#dates.year(skills.endDateExperience)}"></label><br/>			
 					<label th:text="#{currentPosition} + ': ' + ${skills.currentPosition}"></label><br/>			
 			</div>
 <br/>
@@ -64,15 +64,15 @@
 
 			<form method="POST">
 				<button type="submit" name="buttonPressed" value="submitApplication_Back" class="btn btn-primary btn-lg">
-					<span class="glyphicon glyphicon-ok" th:text="#{back}">Decline</span>
+					<span class="glyphicon glyphicon-arrow-left" th:text="#{back}">Decline</span>
 				</button>
 	
-				<button type="submit" name="buttonPressed" value="submitApplication_Cancel" class="btn btn-primary btn-lg">
-					<span class="glyphicon glyphicon-ok" th:text="#{cancel}">Decline</span>
+				<button type="submit" name="buttonPressed" value="submitApplication_Cancel" class="btn btn-danger btn-lg">
+					<span class="glyphicon glyphicon-remove" th:text="#{cancel}">Decline</span>
 				</button>
 	
-				<button type="submit" name="buttonPressed" value="submitApplication_Submit" class="btn btn-primary btn-lg">
-					<span class="glyphicon glyphicon-ok" th:text="#{submit}">Accept</span>
+				<button type="submit" name="buttonPressed" value="submitApplication_Submit" class="btn btn-success btn-lg">
+					<span class="glyphicon glyphicon-floppy-saved" th:text="#{submit}">Accept</span>
 				</button>
 			</form>
 		</div>

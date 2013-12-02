@@ -7,12 +7,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import ch.itraum.recruiter.model.Candidate;
 import ch.itraum.recruiter.model.Document;
@@ -42,6 +43,9 @@ public class FrontendController {
 	
 	@Autowired
 	private SkillsRepository skillsRepository;
+	
+	@Autowired
+	private SessionLocaleResolver localeResolver;
 
 	@ModelAttribute(value = "yearList")
 	public List<String> getYearList() {
@@ -77,6 +81,17 @@ public class FrontendController {
 		return monthMap;
 	}
 	
+	@ModelAttribute(value = "languageList")
+	public Map<String, String> getLanguageMap()
+	{
+		Map<String, String> languageMap = new LinkedHashMap<String, String>();
+		
+		languageMap.put("de", "Deutsch");
+		languageMap.put("en", "English");
+	
+		return languageMap;
+	}
+	
 	@RequestMapping(value = "/candidate", method = RequestMethod.GET)
 	public String getCandidate(Model model, HttpSession session) {
 		model.addAttribute(getCandidateFromSession());
@@ -93,6 +108,7 @@ public class FrontendController {
 			if (result.hasErrors()){
 				getCurrentSession().setAttribute("candidate", fillCandidateFromSessionWithDataFrom(validCandidate));
 				return "redirect:/candidate";
+//				return "frontend/candidate";
 			}else{
 				//Candidate needs to be saved anyway before skills and documents can be saved. 
 				//So here is where this happens.
@@ -261,17 +277,21 @@ public class FrontendController {
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String getAgreement(Model model) {
+//		localeResolver.setDefaultLocale(Locale.ENGLISH);
 		return "frontend/agreement";
 	}
 	
 	
 	@RequestMapping(value = "/", method = RequestMethod.POST)
-	public String postAgreement(Model model, @RequestParam("buttonPressed") String buttonPressed) {
+	public String postAgreement(HttpServletRequest request, Model model, @RequestParam("buttonPressed") String buttonPressed) {
 
 		if (buttonPressed.equals("agreement_Accept")) {
 			return "redirect:/candidate";
 		}else  if (buttonPressed.equals("agreement_Decline")) {
 			return "redirect:/confirmCancellation";
+		}else  if (buttonPressed.equals("de")||buttonPressed.equals("en")) {
+			request.setAttribute("lang", buttonPressed);
+			return "redirect:/";
 		}else {
 			return "frontend/unexpectedAction";
 		}
