@@ -98,6 +98,7 @@ public class FrontendController {
 				//So here is where this happens.
 				//save Candidate to DB and save the received Candidate containing the DB ID into the HTTP Session
 				getCurrentSession().setAttribute("candidate", candidateRepository.save(fillCandidateFromSessionWithDataFrom(validCandidate)));
+				System.out.println("\n\n\n\n\n\n\n\n\n\nCandidate.toString(): " + validCandidate.toString());
 				return "redirect:/skills";
 			}
 		} else if (buttonPressed.equals("contactData_Back")) {
