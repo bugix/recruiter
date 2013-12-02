@@ -15,20 +15,53 @@
 		<div class="container">
 
 			<ol class="breadcrumb">
-				<li th:text="#{candidateData}">Candidate Data</li>
+				<li th:text="#{privacyAgreement}">Privacy Agreement</li>
+				<li th:text="#{contactData}">Contact Data</li>
+				<li th:text="#{educationExperience}">Education and Experience</li>
 				<li class="active" th:text="#{documentUpload}">Document Upload</li>
-				<li th:text="#{submitApplication}">Submit Application</li>
+				<li th:text="#{summary}">Summary</li>
 			</ol>
 
 			<h1 th:text="#{documentUpload}">Document Upload</h1>
 
 			<form id="dropzone" role="form" class="dropzone" action="/upload" method="POST">
 			</form>
+
+
+			<form method="POST" th:object="${documents}">
+<!-- 					<label th:text="${#lists.isEmpty(documents) ? 'Leer' : 'Voll'}">Test Label</label> -->
 			
-			<button type="submit" class="btn btn-primary btn-lg">
-					<span class="glyphicon glyphicon-ok" th:text="#{submit}">Submit</span>
-			</button>
+			    <table>
+			      <tr>
+			        <th></th>
+			        <th th:text="#{uploadedFiles}">Alternativ Text</th>
+			      </tr>
+			      <tr th:each="doc : ${documents}">
+			        <td>
+			        	<input type="checkbox" name="chbDocuments" th:value="${doc.id}"></input>
+<!-- 			        	<input type="checkbox" name="1" value="1"></input> -->
+			        </td>
+			        <td th:text="${doc.name}">Alternativ Text</td>
+			      </tr>
+			    </table>
 			
+		
+				<button type="submit" name="buttonPressed" value="documents_Delete" class="btn btn-warning btn-lg">
+					<span class="glyphicon glyphicon-trash" th:text="#{delete}">Submit</span>
+				</button>
+	
+				<button type="submit" name="buttonPressed" value="documents_Back" class="btn btn-primary btn-lg">
+					<span class="glyphicon glyphicon-arrow-left" th:text="#{back}">Submit</span>
+				</button>
+	
+				<button type="submit" name="buttonPressed" value="documents_Cancel" class="btn btn-danger btn-lg">
+					<span class="glyphicon glyphicon-remove" th:text="#{cancel}">Submit</span>
+				</button>
+
+				<button type="submit" name="buttonPressed" value="documents_Forward" class="btn btn-primary btn-lg">
+					<span class="glyphicon glyphicon-arrow-right" th:text="#{forward}">Submit</span>
+				</button>
+			</form>
 
 		</div>
 	</div>

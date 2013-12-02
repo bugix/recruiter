@@ -13,9 +13,11 @@
 		<div class="container">
 
 			<ol class="breadcrumb">
-				<li class="active" th:text="#{candidateData}">Candidate Data</li>
+				<li th:text="#{privaceAgreement}">Privacy Agreement</li>
+				<li class="active" th:text="#{contactData}">Contact Data</li>
+				<li th:text="#{educationExperience}">Education and Experience</li>
 				<li th:text="#{documentUpload}">Document Upload</li>
-				<li th:text="#{submitApplication}">Submit Application</li>
+				<li th:text="#{summary}">Summary</li>
 			</ol>
 
 			<h1 th:text="#{candidateData}">Candidate Data</h1>
@@ -80,11 +82,19 @@
 					<p class="help-block" th:if="${#fields.hasErrors('phoneMobile')}"	th:each="err : ${#fields.errors('phoneMobile')}" th:text="${err}">Error</p>
 				</div>
 
-				<button type="submit" class="btn btn-primary btn-lg">
-					<span class="glyphicon glyphicon-ok" th:text="#{submit}">Submit</span>
+		
+				<button type="submit" name="buttonPressed" value="contactData_Back" class="btn btn-primary btn-lg">
+					<span class="glyphicon glyphicon-arrow-left" th:text="#{back}">Submit</span>
+				</button>
+
+				<button type="submit" name="buttonPressed" value="contactData_Cancel" class="btn btn-danger btn-lg">
+					<span class="glyphicon glyphicon-remove" th:text="#{cancel}">Submit</span>
+				</button>
+
+				<button type="submit" name="buttonPressed" value="contactData_Forward" class="btn btn-primary btn-lg">
+					<span class="glyphicon glyphicon-arrow-right" th:text="#{forward}">Submit</span>
 				</button>
 			</form>
-
 		</div>
 	</div>
 </body>
