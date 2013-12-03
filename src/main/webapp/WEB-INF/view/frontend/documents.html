@@ -5,6 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link href="resources/css/bootstrap.css" rel="stylesheet" media="screen" />
 <link href="resources/css/dropzone.css" rel="stylesheet" media="screen" />
+
+<link th:if="${language=='de'}" href="resources/css/dropzone_de.css" rel="stylesheet" media="screen" />
+<link th:if="${language=='en'}" href="resources/css/dropzone_en.css" rel="stylesheet" media="screen" />
+
 <script src="resources/js/dropzone.js"></script>
 
 <title th:text="#{documentUpload}">Document Upload</title>
@@ -23,7 +27,9 @@
 			</ol>
 
 			<h1 th:text="#{documentUpload}">Document Upload</h1>
-
+<label th:text="${language}">Title</label> 
+<label th:if="${language=='de'}" text="Deutsch ist gewählt">Nix Deutsch</label> 
+<label th:if="${language=='en'}" text="Englisch ist gewählt">Nix Englisch</label> 
 			<form id="dropzone" role="form" class="dropzone" action="/upload" method="POST">
 			</form>
 

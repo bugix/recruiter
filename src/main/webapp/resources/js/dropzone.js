@@ -8,6 +8,18 @@
  * @api public
  */
 
+function getBrowserLanguage(){
+	  var l_lang;
+	  if (navigator.userLanguage) // Explorer
+	    l_lang = navigator.userLanguage;
+	  else if (navigator.language) // FF
+	    l_lang = navigator.language;
+	  else
+	    l_lang = "de";
+//	  alert("Browser Language = " + l_lang);
+	  return l_lang;
+}	
+	
 function require(path, parent, orig) {
   var resolved = require.resolve(path);
 

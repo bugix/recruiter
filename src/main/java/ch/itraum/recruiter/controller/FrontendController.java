@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -95,6 +96,11 @@ public class FrontendController {
 	@RequestMapping(value = "/candidate", method = RequestMethod.GET)
 	public String getCandidate(Model model, HttpSession session) {
 		model.addAttribute(getCandidateFromSession());
+		Object sessionResult = getCurrentSession().getAttribute("candidateResult"); 
+		if(sessionResult != null){
+			model.addAttribute((BindingResult)sessionResult);
+			System.out.println("\n\n\n\n\n\n\n\nAdded BindingResult to Model.");
+		}
 		return "frontend/candidate";
 	}
  
@@ -103,10 +109,15 @@ public class FrontendController {
 			BindingResult result, Model model, @RequestParam("buttonPressed") String buttonPressed) {
 
 		model.addAttribute(getCandidateFromSession());
+		Object sessionResult = getCurrentSession().getAttribute("candidateResult"); 
+		if(sessionResult != null){
+			model.addAttribute((BindingResult)sessionResult);
+		}
 		
 		if (buttonPressed.equals("contactData_Forward")) {
 			if (result.hasErrors()){
 				getCurrentSession().setAttribute("candidate", fillCandidateFromSessionWithDataFrom(validCandidate));
+				getCurrentSession().setAttribute("candidateResult", result); 
 				return "redirect:/candidate";
 //				return "frontend/candidate";
 			}else{
@@ -173,6 +184,7 @@ public class FrontendController {
 	public String postCandidateSkills(@Valid Skills validSkills,
 			BindingResult result, Model model, @RequestParam("buttonPressed") String buttonPressed) {
 
+//		getCurrentSession().getAttribute(localeResolver.LOCALE_SESSION_ATTRIBUTE_NAME);
 		model.addAttribute(getSkillsFromSession());
 		System.out.println("\n\n\n\n\ngetCandidateSkills - POST\n\n\n\n\n");
 		
@@ -286,6 +298,15 @@ public class FrontendController {
 	public String postAgreement(HttpServletRequest request, Model model, @RequestParam("buttonPressed") String buttonPressed) {
 
 		if (buttonPressed.equals("agreement_Accept")) {
+			Object tryLang = getCurrentSession().getAttribute(localeResolver.LOCALE_SESSION_ATTRIBUTE_NAME);
+			String lang;
+			if(tryLang != null){
+				lang = ((Locale)tryLang).toString();
+			}else{
+				lang = "de";
+			}
+			getCurrentSession().setAttribute("curLanguage", lang);
+			System.out.println("\n\n\n\n\n\n\n\n\n\n\n\nSaved Language to Session: " + lang);
 			return "redirect:/candidate";
 		}else  if (buttonPressed.equals("agreement_Decline")) {
 			return "redirect:/confirmCancellation";
@@ -345,14 +366,15 @@ public class FrontendController {
 		List<Document> documents = getDocumentsForSessionCandidate();
 
 		model.addAttribute("documents", documents);
-		System.out.println("\n\n\n\n\ngetDocuments\n\n\n\n\n");
+		model.addAttribute("language", getCurrentSession().getAttribute("curLanguage"));
+		System.out.println("\n\n\n\n\ngetDocuments");
+		System.out.println("\n\n\n\n\nAdded Language "+getCurrentSession().getAttribute("curLanguage")+" to Model for Documents");
 
 		return "frontend/documents";
 	}
 
 	private List<Document> getDocumentsForSessionCandidate(){
 		List<Document> docList = documentRepository.findByCandidate_Id(getCandidateFromSession().getId());
-		System.out.println("\n\n\n\n\n");
 		for(Document doc: docList){
 			System.out.println("Doc ID: " + doc.getId() + ", Doc Name: " + doc.getName());
 		}
