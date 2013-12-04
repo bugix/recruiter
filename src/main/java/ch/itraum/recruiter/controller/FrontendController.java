@@ -78,7 +78,7 @@ public class FrontendController {
 						monthMap.put("6", "July");
 						monthMap.put("7", "August");
 						monthMap.put("8", "September");
-						monthMap.put("9", "Oktober");
+						monthMap.put("9", "October");
 						monthMap.put("10", "November");
 						monthMap.put("11", "December");
 						break;
