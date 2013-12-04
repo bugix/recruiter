@@ -27,9 +27,6 @@
 			</ol>
 
 			<h1 th:text="#{documentUpload}">Document Upload</h1>
-<label th:text="${language}">Title</label> 
-<label th:if="${language=='de'}" text="Deutsch ist gewählt">Nix Deutsch</label> 
-<label th:if="${language=='en'}" text="Englisch ist gewählt">Nix Englisch</label> 
 			<form id="dropzone" role="form" class="dropzone" action="/upload" method="POST">
 			</form>
 
