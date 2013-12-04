@@ -37,7 +37,8 @@
 			
 			<form method="GET">
 					<select onchange="this.form.submit()" name="lang">
-							<option th:each="language : ${languageList}" th:value="${language.key}" th:text="${language.value}">Januar</option>
+							<option th:each="language : ${languageList}" th:value="${language.key}" th:text="${language.value}" th:selected="${language.key == selectedLanguage}">Januar</option>
+<!-- 							<option th:each="language : ${languageList}" th:value="${language.key}" th:text="${language.value}">Januar</option> -->
 					</select>
 			</form>			
 			

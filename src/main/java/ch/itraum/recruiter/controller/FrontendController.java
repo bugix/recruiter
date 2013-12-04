@@ -290,6 +290,8 @@ public class FrontendController {
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String getAgreement(Model model) {
 //		localeResolver.setDefaultLocale(Locale.ENGLISH);
+		String language = getCurrentOrDefaultLanguageFromSession();
+		model.addAttribute("selectedLanguage", language);
 		return "frontend/agreement";
 	}
 	
@@ -298,14 +300,16 @@ public class FrontendController {
 	public String postAgreement(HttpServletRequest request, Model model, @RequestParam("buttonPressed") String buttonPressed) {
 
 		if (buttonPressed.equals("agreement_Accept")) {
-			Object tryLang = getCurrentSession().getAttribute(localeResolver.LOCALE_SESSION_ATTRIBUTE_NAME);
-			String lang;
-			if(tryLang != null){
-				lang = ((Locale)tryLang).toString();
-			}else{
-				lang = "de";
-			}
+//			Object tryLang = getCurrentSession().getAttribute(localeResolver.LOCALE_SESSION_ATTRIBUTE_NAME);
+//			String lang;
+//			if(tryLang != null){
+//				lang = ((Locale)tryLang).toString();
+//			}else{
+//				lang = "de";
+//			}
+			String lang = getCurrentOrDefaultLanguageFromSession();
 			getCurrentSession().setAttribute("curLanguage", lang);
+//			getCurrentSession().setAttribute("selectedLanguage", lang);
 			System.out.println("\n\n\n\n\n\n\n\n\n\n\n\nSaved Language to Session: " + lang);
 			return "redirect:/candidate";
 		}else  if (buttonPressed.equals("agreement_Decline")) {
@@ -359,6 +363,25 @@ public class FrontendController {
 			resultSkills = new Skills();
 		}		
 		return resultSkills;
+	}
+	
+	private String getCurrentOrDefaultLanguageFromSession(){
+//		Object sessionLanguage = getCurrentSession().getAttribute("selectedLanguage");
+//		String resultLanguage;
+//		if(sessionLanguage != null){
+//			resultLanguage = (String)sessionLanguage;
+//		}else{
+//			resultLanguage = "de";
+//		}		
+//		return resultLanguage;
+		Object tryLang = getCurrentSession().getAttribute(localeResolver.LOCALE_SESSION_ATTRIBUTE_NAME);
+		String lang;
+		if(tryLang != null){
+			lang = ((Locale)tryLang).toString();
+		}else{
+			lang = "de";
+		}
+		return lang;
 	}
 	
 	@RequestMapping(value = "/documents", method = RequestMethod.GET)
