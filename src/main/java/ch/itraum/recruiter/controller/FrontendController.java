@@ -16,7 +16,6 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,7 +32,6 @@ import ch.itraum.recruiter.model.Skills;
 import ch.itraum.recruiter.repository.CandidateRepository;
 import ch.itraum.recruiter.repository.DocumentRepository;
 import ch.itraum.recruiter.repository.SkillsRepository;
-import ch.itraum.recruiter.validation.CandidateValidator;
 
 @Controller
 public class FrontendController {
@@ -393,7 +391,7 @@ public class FrontendController {
 //			resultLanguage = "de";
 //		}		
 //		return resultLanguage;
-		Object tryLang = getCurrentSession().getAttribute(localeResolver.LOCALE_SESSION_ATTRIBUTE_NAME);
+		Object tryLang = getCurrentSession().getAttribute(SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME);
 		String lang;
 		if(tryLang != null){
 			lang = ((Locale)tryLang).toString();
