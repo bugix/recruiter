@@ -2,8 +2,16 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<!-- <link rel="shortcut icon" href="../../docs-assets/ico/favicon.png"> -->
+
 <link href="resources/css/bootstrap.css" rel="stylesheet" media="screen" />
+
+<!-- Custom styles for this template -->
+<link href="resources/css/stylesheet_reto.css" rel="stylesheet" type="text/css"/>
+
 <link href="resources/css/dropzone.css" rel="stylesheet" media="screen" />
 
 <link th:if="${language=='de'}" href="resources/css/dropzone_de.css" rel="stylesheet" media="screen" />
@@ -14,10 +22,22 @@
 <title th:text="#{documentUpload}">Document Upload</title>
 
 </head>
-<body>
-	<div id="wrap">
-		<div class="container">
 
+
+<body>
+	
+
+<div class="logo-header">		
+	<div class="container">
+		<div align="right">
+			<img src="resources/images/kiebitz-logo.jpg" width="273" height="97" alt="Kiebitz" />
+		</div>
+	</div>
+</div>	
+			
+<div class="jumbotron">
+	<div class="container">
+		<h1 th:text="#{documentUpload}">Upload</h1>
 			<ol class="breadcrumb">
 				<li th:text="#{agreement}">Agreement</li>
 				<li th:text="#{candidateData}">Candidate Data</li>
@@ -25,8 +45,14 @@
 				<li class="active" th:text="#{documentUpload}">Document Upload</li>
 				<li th:text="#{submitApplication}">Submit Application</li>
 			</ol>
+	</div>
+</div>
+		
 
-			<h1 th:text="#{documentUpload}">Document Upload</h1>
+<div id="wrap">
+		<div class="container">
+
+			<h3 th:text="#{documentUpload}">Document Upload</h3>
 			<form id="dropzone" role="form" class="dropzone" action="/upload" method="POST">
 			</form>
 
@@ -52,19 +78,22 @@
 					<span class="glyphicon glyphicon-trash" th:text="#{delete}">Submit</span>
 				</button>
 	
-				<button type="submit" name="buttonPressed" value="documents_Back" class="btn btn-primary btn-lg">
+				<button type="submit" name="buttonPressed" value="documents_Back" class="btn btn-warning btn-lg">
 					<span class="glyphicon glyphicon-arrow-left" th:text="#{back}">Submit</span>
 				</button>
 	
-				<button type="submit" name="buttonPressed" value="documents_Cancel" class="btn btn-danger btn-lg">
+				<button type="submit" name="buttonPressed" value="documents_Cancel" class="btn btn-warning btn-lg">
 					<span class="glyphicon glyphicon-remove" th:text="#{cancel}">Submit</span>
 				</button>
 
-				<button type="submit" name="buttonPressed" value="documents_Forward" class="btn btn-primary btn-lg">
+				<button type="submit" name="buttonPressed" value="documents_Forward" class="btn btn-warning btn-lg">
 					<span class="glyphicon glyphicon-arrow-right" th:text="#{forward}">Submit</span>
 				</button>
 			</form>
-
+			<hr/>
+				<footer>
+				<p>&copy; Kiebitz 2013</p>
+				</footer>
 		</div>
 	</div>
 </body>

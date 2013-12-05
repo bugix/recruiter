@@ -16,6 +16,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,6 +33,7 @@ import ch.itraum.recruiter.model.Skills;
 import ch.itraum.recruiter.repository.CandidateRepository;
 import ch.itraum.recruiter.repository.DocumentRepository;
 import ch.itraum.recruiter.repository.SkillsRepository;
+import ch.itraum.recruiter.validation.CandidateValidator;
 
 @Controller
 public class FrontendController {
@@ -94,30 +96,47 @@ public class FrontendController {
 	}
 	
 	@RequestMapping(value = "/candidate", method = RequestMethod.GET)
-	public String getCandidate(Model model, HttpSession session) {
+	public String getCandidate(Model model, Candidate candidate, BindingResult result) {
 		model.addAttribute(getCandidateFromSession());
-		Object sessionResult = getCurrentSession().getAttribute("candidateResult"); 
-		if(sessionResult != null){
-			model.addAttribute((BindingResult)sessionResult);
-			System.out.println("\n\n\n\n\n\n\n\nAdded BindingResult to Model.");
-		}
+//		candidate = getCandidateFromSession();
+//		CandidateValidator candidateValidator = new CandidateValidator();
+//		candidateValidator.validate(candidate, result);
+		
+		
+//		Object sessionResult = getCurrentSession().getAttribute("candidateResult"); 
+//		if(sessionResult != null){
+////			Candidate validCandidate = getCandidateFromSession();
+////			model.addAttribute((BindingResult)sessionResult);
+////		    BindingResult errors = new BeanPropertyBindingResult(validCandidate, "validCandidate");
+////		    errors.reject("validCandidate.invalid");
+////		    model.asMap().put(BindingResult.MODEL_KEY_PREFIX + "validCandidate", sessionResult);
+//			result = (BindingResult)sessionResult;
+//		}
 		return "frontend/candidate";
 	}
  
 	@RequestMapping(value = "/candidate", method = RequestMethod.POST)
 	public String postCandidate(@Valid Candidate validCandidate,
 			BindingResult result, Model model, @RequestParam("buttonPressed") String buttonPressed) {
+		//TODO:unset candidate validation flag
 
+//		model.addAttribute("validCandidate", getCandidateFromSession());
 		model.addAttribute(getCandidateFromSession());
-		Object sessionResult = getCurrentSession().getAttribute("candidateResult"); 
-		if(sessionResult != null){
-			model.addAttribute((BindingResult)sessionResult);
-		}
+//		Object sessionResult = getCurrentSession().getAttribute("candidateResult"); 
+//		if(sessionResult != null){
+////			model.asMap().put(sessionResult.)
+////			model.addAttribute((BindingResult)sessionResult);
+////		    BindingResult errors = new BeanPropertyBindingResult(validCandidate, "validCandidate");
+////		    errors.reject("validCandidate.invalid");
+////		    model.asMap().put(BindingResult.MODEL_KEY_PREFIX + "validCandidate", sessionResult);	
+//			result = (BindingResult)sessionResult;
+//		}
 		
 		if (buttonPressed.equals("contactData_Forward")) {
 			if (result.hasErrors()){
 				getCurrentSession().setAttribute("candidate", fillCandidateFromSessionWithDataFrom(validCandidate));
 				getCurrentSession().setAttribute("candidateResult", result); 
+				//TODO:set candidate validatin flag
 				return "redirect:/candidate";
 //				return "frontend/candidate";
 			}else{

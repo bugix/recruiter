@@ -1,0 +1,35 @@
+
+h1 {
+color: #666;
+}
+
+h3 {
+color: #666;
+}
+
+.logo-header {
+background-color: #666;
+}
+
+.jumbotron {
+background-color: #fc6;
+padding-bottom: 0px;
+}
+
+.star {
+color: #f93;
+}
+
+.breadcrumb {
+background-color: #f93;
+color: #ccc;
+}
+
+.breadcrumb > .active {
+color: #fff;
+}
+
+footer {
+padding-top: 40px;
+}
+

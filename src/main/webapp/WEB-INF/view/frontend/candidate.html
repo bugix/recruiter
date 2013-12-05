@@ -2,16 +2,34 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<!-- <link rel="shortcut icon" href="../../docs-assets/ico/favicon.png"> -->
+
+<!-- Bootstrap core CSS -->
 <link href="resources/css/bootstrap.css" rel="stylesheet" media="screen" />
+ 
+<!-- Custom styles for this template -->
+<link href="resources/css/stylesheet_reto.css" rel="stylesheet" type="text/css"/>
 
 <title th:text="#{candidateData}">Candidate Data</title>
 
 </head>
-<body>
-	<div id="wrap">
-		<div class="container">
 
+<body>
+
+<div class="logo-header">		
+	<div class="container">
+		<div align="right">
+			<img src="resources/images/kiebitz-logo.jpg" width="273" height="97" alt="Kiebitz" />
+		</div>
+	</div>
+</div>	
+			
+<div class="jumbotron">
+	<div class="container">
+		<h1 th:text="#{candidateData}">Candidate Data</h1>
 			<ol class="breadcrumb">
 				<li th:text="#{agreement}">Agreement</li>
 				<li class="active" th:text="#{candidateData}">Candidate Data</li>
@@ -19,81 +37,131 @@
 				<li th:text="#{documentUpload}">Document Upload</li>
 				<li th:text="#{submitApplication}">Submit Application</li>
 			</ol>
+	</div>
+</div>
 
-			<h1 th:text="#{candidateData}">Candidate Data</h1>
 
-			<form id="candidateForm" role="form" action="" method="POST" th:object="${candidate}">
+
+<div id="wrap">
+	<div class="container">
+			<h3 th:text="#{personalDetails}">Persönliche Angaben</h3>
+			
+			<form class="form-horizontal" id="candidateForm" role="form" action="" method="POST" th:object="${candidate}">
 				
 				<div th:class="${#fields.hasErrors('title')} ? 'form-group has-error' : 'form-group'">
-					<label for="title" th:text="#{title}">Title</label>
-					<select th:field="*{title}">
+					<label for="title" th:text="#{title}" class="col-sm-2 control-label">Title</label>
+					<div class="col-sm-10">
+					<select class="form-control" th:field="*{title}">
 						<option th:text="#{herr}" th:value="#{herr}"></option>
 						<option th:text="#{frau}" th:value="#{frau}"></option>
 					</select>	
 					<p class="help-block" th:if="${#fields.hasErrors('title')}"	th:each="err : ${#fields.errors('title')}" th:text="${err}">Error</p>
-				
+					</div>
 				</div>
+					
 								
 				<div th:class="${#fields.hasErrors('firstName')} ? 'form-group has-error' : 'form-group'">
-					<label for="firstName" th:text="#{firstName}">First Name</label>
+					<label for="firstName" th:text="#{firstName}" class="col-sm-2 control-label">First Name</label>
+					<div class="col-sm-10">
 					<input type="text" class="form-control" id="firstName" th:placeholder="#{firstName}" th:field="*{firstName}" autofocus="autofocus" />
 					<p class="help-block" th:if="${#fields.hasErrors('firstName')}"	th:each="err : ${#fields.errors('firstName')}" th:text="${err}">Error</p>
+					</div>
 				</div>
+
+
 
 				<div th:class="${#fields.hasErrors('lastName')} ? 'form-group has-error' : 'form-group'">
-					<label for="lastName" th:text="#{lastName}">Last Name</label>
-					<input type="text" class="form-control" id="lastName" th:placeholder="#{lastName}" th:field="*{lastName}" />
+					<label for="lastName" th:text="#{lastName}" class="col-sm-2 control-label">Last Name</label>
+					<div class="col-sm-10">
+					<input type="text" class="form-control" id="lastName" th:placeholder="#{lastName}" th:field="*{lastName}" autofocus="autofocus" />
 					<p class="help-block" th:if="${#fields.hasErrors('lastName')}" th:each="err : ${#fields.errors('lastName')}" th:text="${err}">Error</p>
+					</div>
 				</div>
 
+			<hr/>
+
+			<h3 th:text="#{contactDetails}">Adresse und Kontakt</h3>
+
+
+
+
 				<div th:class="${#fields.hasErrors('email')} ? 'form-group has-error' : 'form-group'">
-					<label for="email" th:text="#{email}">EMail</label>
+					<label for="email" th:text="#{email}" class="col-sm-2 control-label">EMail</label>
+					<div class="col-sm-10">
 					<input type="text" class="form-control" id="email" th:placeholder="#{email}" th:field="*{email}" />
 					<p class="help-block" th:if="${#fields.hasErrors('email')}"	th:each="err : ${#fields.errors('email')}" th:text="${err}">Error</p>
+					</div>
 				</div>
 
 				<div th:class="${#fields.hasErrors('street')} ? 'form-group has-error' : 'form-group'">
-					<label for="street" th:text="#{street}">Street</label>
+					<label for="street" th:text="#{street}" class="col-sm-2 control-label">Street</label>
+					<div class="col-sm-10">
 					<input type="text" class="form-control" id="street" th:placeholder="#{street}" th:field="*{street}" />
 					<p class="help-block" th:if="${#fields.hasErrors('street')}"	th:each="err : ${#fields.errors('street')}" th:text="${err}">Error</p>
+					</div>
 				</div>
 
 				<div th:class="${#fields.hasErrors('plz')} ? 'form-group has-error' : 'form-group'">
-					<label for="plz" th:text="#{plz}">PLZ</label>
+					<label for="plz" th:text="#{plz}" class="col-sm-2 control-label">PLZ</label>
+					<div class="col-sm-10">
 					<input type="text" class="form-control" id="plz" th:placeholder="#{plz}" th:field="*{plz}" />
 					<p class="help-block" th:if="${#fields.hasErrors('plz')}"	th:each="err : ${#fields.errors('plz')}" th:text="${err}">Error</p>
 				</div>
+				</div>
 
 				<div th:class="${#fields.hasErrors('city')} ? 'form-group has-error' : 'form-group'">
-					<label for="city" th:text="#{city}">City</label>
+					<label for="city" th:text="#{city}" class="col-sm-2 control-label">City</label>
+					<div class="col-sm-10">
 					<input type="text" class="form-control" id="city" th:placeholder="#{city}" th:field="*{city}" />
 					<p class="help-block" th:if="${#fields.hasErrors('city')}"	th:each="err : ${#fields.errors('city')}" th:text="${err}">Error</p>
 				</div>
+				</div>
 
 				<div th:class="${#fields.hasErrors('phoneFix')} ? 'form-group has-error' : 'form-group'">
-					<label for="phoneFix" th:text="#{phoneFix}">Phone Fix</label>
+					<label for="phoneFix" th:text="#{phoneFix}" class="col-sm-2 control-label">Phone Fix</label>
+					<div class="col-sm-10">
 					<input type="text" class="form-control" id="phoneFix" th:placeholder="#{phoneFix}" th:field="*{phoneFix}" />
 					<p class="help-block" th:if="${#fields.hasErrors('phoneFix')}"	th:each="err : ${#fields.errors('phoneFix')}" th:text="${err}">Error</p>
 				</div>
+				</div>
 
 				<div th:class="${#fields.hasErrors('phoneMobile')} ? 'form-group has-error' : 'form-group'">
-					<label for="phoneMobile" th:text="#{phoneMobile}">Phone Mobile</label>
+					<label for="phoneMobile" th:text="#{phoneMobile}" class="col-sm-2 control-label">Phone Mobile</label>
+					<div class="col-sm-10">
 					<input type="text" class="form-control" id="phoneMobile" th:placeholder="#{phoneMobile}" th:field="*{phoneMobile}" />
 					<p class="help-block" th:if="${#fields.hasErrors('phoneMobile')}"	th:each="err : ${#fields.errors('phoneMobile')}" th:text="${err}">Error</p>
 				</div>
+				</div>
 
-				<button type="submit" name="buttonPressed" value="contactData_Back" class="btn btn-primary btn-lg">
-					<span class="glyphicon glyphicon-arrow-left" th:text="#{back}">Submit</span>
-				</button>
 
-				<button type="submit" name="buttonPressed" value="contactData_Cancel" class="btn btn-danger btn-lg">
-					<span class="glyphicon glyphicon-remove" th:text="#{cancel}">Submit</span>
-				</button>
+				<div class="form-group">
+					<div class="col-sm-offset-2 col-sm-10">
+						<button type="submit" name="buttonPressed" value="contactData_Back" class="btn btn-warning btn-lg">
+							<span class="glyphicon glyphicon-chevron-left" th:text="#{back}">Submit</span>
+						</button>
 
-				<button type="submit" name="buttonPressed" value="contactData_Forward" class="btn btn-primary btn-lg">
-					<span class="glyphicon glyphicon-arrow-right" th:text="#{forward}">Submit</span>
-				</button>
+						<button type="submit" name="buttonPressed" value="contactData_Cancel" class="btn btn-warning btn-lg">
+							<span class="glyphicon glyphicon-remove" th:text="#{cancel}">Submit</span>
+						</button>
+		
+						<button type="submit" name="buttonPressed" value="contactData_Forward" class="btn btn-warning btn-lg">
+							<span class="glyphicon glyphicon-chevron-right" th:text="#{forward}">Submit</span>
+						</button>
+					</div>
+				</div>
+			
 			</form>
+		<hr/>
+		
+		<p th:text="#{footerText}">Die mit einem markierten Felder Lorem ipsum dolor sit sadipscing elitr,
+			sed diam nonumy.</p>
+<!-- 		<p th:text="#{star}" class="star"> </p> -->
+		
+		
+		
+		<footer>
+		<p>&copy; Kiebitz 2013</p>
+		</footer>
 		</div>
 	</div>
 </body>
