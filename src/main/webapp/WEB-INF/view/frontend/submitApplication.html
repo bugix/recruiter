@@ -5,8 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<!-- <link rel="shortcut icon" href="../../docs-assets/ico/favicon.png"> -->
-
+<link rel="shortcut icon" href="resources/images/favicon.png"/>
 <link href="resources/css/bootstrap.css" rel="stylesheet" media="screen" />
 
 <!-- Custom styles for this template -->
@@ -43,7 +42,7 @@
 <div id="wrap">
 		<div class="container">
 
-			<h3 th:text="#{submitApplication}">Submit ApplicationAgreement</h3>
+			<h3 th:text="#{candidateData}">Submit Application</h3>
 
 
 			<div id="contactData" th:object="${candidate}">
@@ -58,6 +57,8 @@
 					<label th:text="#{phoneMobile} + ': ' + ${candidate.phoneMobile}"></label><br/>
 			</div>
 <br/>
+			<h3 th:text="#{education}">Submit Application</h3>
+
 			<div id="skills" th:object="${skills}">
 					<label th:text="#{institution} + ': ' + ${skills.institution}"></label><br/>			
 					<label th:text="#{topic} + ': ' + ${skills.topic}"></label><br/>			
@@ -65,6 +66,8 @@
 					<label th:text="#{startDateEducation} + ': ' + ${#dates.monthName(skills.startDateEducation)}+'  '+ ${#dates.year(skills.startDateEducation)}"></label><br/>			
 					<label th:text="#{endDateEducation} + ': ' + ${#dates.monthName(skills.endDateEducation)} +'  ' + ${#dates.year(skills.endDateEducation)}"></label><br/>			
 					<label th:text="#{prospectiveEnd} + ': ' + ${skills.prospectiveEnd}"></label><br/>			
+<br/>				
+			<h3 th:text="#{experience}">Submit Application</h3>	
 					<label th:text="#{position} + ': ' + ${skills.position}"></label><br/>			
 					<label th:text="#{jobField} + ': ' + ${skills.jobField}"></label><br/>			
 					<label th:text="#{cancelationPeriod} + ': ' + ${skills.cancelationPeriod}"></label><br/>			
@@ -72,7 +75,9 @@
 					<label th:text="#{endDateExperience} + ': '+ ${#dates.monthName(skills.endDateExperience)} + '  '+ ${#dates.year(skills.endDateExperience)}"></label><br/>			
 					<label th:text="#{currentPosition} + ': ' + ${skills.currentPosition}"></label><br/>			
 			</div>
-<br/>
+<br/>			
+			<h3 th:text="#{documentUpload}">Submit Application</h3>	
+			
 			<div id="documents" th:object="${documents}">
 			    <table>
 			      <tr>
@@ -84,7 +89,8 @@
 			    </table>
 			</div>
 
-
+<br/>
+<br/>
 			<form method="POST">
 				<button type="submit" name="buttonPressed" value="submitApplication_Back" class="btn btn-warning btn-lg">
 					<span class="glyphicon glyphicon-chevron-left" th:text="#{back}">Decline</span>
