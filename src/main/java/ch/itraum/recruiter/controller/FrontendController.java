@@ -66,37 +66,18 @@ public class FrontendController {
 	{
 		Map<String, String> monthMap = new LinkedHashMap<String, String>();
 		
-		String curLanguage = getCurrentOrDefaultLanguageFromSession();
-		
-		switch(curLanguage){
-		case "en": 		monthMap.put("0", "January");
-						monthMap.put("1", "February");
-						monthMap.put("2", "March");
-						monthMap.put("3", "April");
-						monthMap.put("4", "May");
-						monthMap.put("5", "June");
-						monthMap.put("6", "July");
-						monthMap.put("7", "August");
-						monthMap.put("8", "September");
-						monthMap.put("9", "October");
-						monthMap.put("10", "November");
-						monthMap.put("11", "December");
-						break;
-		default:		monthMap.put("0", "Januar");
-						monthMap.put("1", "Februar");
-						monthMap.put("2", "März");
-						monthMap.put("3", "April");
-						monthMap.put("4", "Mai");
-						monthMap.put("5", "Juni");
-						monthMap.put("6", "Juli");
-						monthMap.put("7", "August");
-						monthMap.put("8", "September");
-						monthMap.put("9", "Oktober");
-						monthMap.put("10", "November");
-						monthMap.put("11", "Dezember");
-						break;
-		}
-		
+		monthMap.put("0", "january");
+		monthMap.put("1", "february");
+		monthMap.put("2", "march");
+		monthMap.put("3", "april");
+		monthMap.put("4", "may");
+		monthMap.put("5", "june");
+		monthMap.put("6", "july");
+		monthMap.put("7", "august");
+		monthMap.put("8", "september");
+		monthMap.put("9", "october");
+		monthMap.put("10", "november");
+		monthMap.put("11", "december");
 	
 		return monthMap;
 	}
