@@ -2,16 +2,30 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<!-- <link rel="shortcut icon" href="../../docs-assets/ico/favicon.png"> -->
+
 <link href="resources/css/bootstrap.css" rel="stylesheet" media="screen" />
+
+<!-- Custom styles for this template -->
+<link href="resources/css/stylesheet_reto.css" rel="stylesheet" type="text/css"/>
 
 <title th:text="#{agreement}">Agreement</title>
 </head>
 <body>
-
-	<div id="wrap">
-		<div class="container">
-
+<div class="logo-header">		
+	<div class="container">
+		<div align="right">
+			<img src="resources/images/kiebitz-logo.jpg" width="273" height="97" alt="Kiebitz" />
+		</div>
+	</div>
+</div>	
+			
+<div class="jumbotron">
+	<div class="container">
+		<h1 th:text="#{agreement}">Skills</h1>
 			<ol class="breadcrumb">
 				<li class="active" th:text="#{agreement}">Agreement</li>
 				<li th:text="#{candidateData}">Candidate Data</li>
@@ -19,38 +33,52 @@
 				<li th:text="#{documentUpload}">Document Upload</li>
 				<li th:text="#{submitApplication}">Submit Application</li>
 			</ol>
+	</div>
+</div>
+		
 
-			<h1 th:text="#{agreement}">Agreement</h1>
+	
+	
 
-			<p th:text="#{agreementCandidate}"></p>
 
-			<p th:text="#{paragraph_01}"></p>
- 			
-			<p th:text="#{paragraph_02}"></p>
-			
-			<p th:utext="#{paragraph_03}"></p>
-			
-			<p th:text="#{paragraph_04}"></p>
-			
-			<p th:text="#{paragraph_05}"></p>
-			<p th:text="#{paragraph_06}"></p>
-			
+
+<div id="wrap">
+		<div class="container">
+
 			<form method="GET">
 					<select onchange="this.form.submit()" name="lang">
 							<option th:each="language : ${languageList}" th:value="${language.key}" th:text="${language.value}">Januar</option>
 					</select>
 			</form>			
+
+			<h3 th:text="#{agreementCandidate}">Agreement</h3>
+
+			<p th:text="#{paragraph_01}" style="text-align:justify"></p>
+ 			
+			<p th:text="#{paragraph_02}" style="text-align:justify"></p>
+			
+			<p th:utext="#{paragraph_03}" style="text-align:justify"></p>
+			
+			<p th:text="#{paragraph_04}" style="text-align:justify"></p>
+			
+			<p th:text="#{paragraph_05}" style="text-align:justify"></p>
+			<p th:text="#{paragraph_06}" style="text-align:justify"></p>
+			
+		
 			
 			<form method="POST">
-				<button type="submit" name="buttonPressed" value="agreement_Decline" class="btn btn-danger btn-lg">
+				<button type="submit" name="buttonPressed" value="agreement_Decline" class="btn btn-warning btn-lg">
 					<span class="glyphicon glyphicon-remove" th:text="#{decline}">Decline</span>
 				</button>
 	
-				<button type="submit" name="buttonPressed" value="agreement_Accept" class="btn btn-primary btn-lg">
+				<button type="submit" name="buttonPressed" value="agreement_Accept" class="btn btn-warning btn-lg">
 					<span class="glyphicon glyphicon-ok" th:text="#{accept}">Accept</span>
 				</button>
 			</form>
-			
+			<hr/>
+			<footer>
+			<p>&copy; Kiebitz 2013</p>
+			</footer>
 		</div>
 	</div>
 </body>

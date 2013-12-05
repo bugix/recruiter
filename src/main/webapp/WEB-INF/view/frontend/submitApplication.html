@@ -2,16 +2,33 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<!-- <link rel="shortcut icon" href="../../docs-assets/ico/favicon.png"> -->
+
 <link href="resources/css/bootstrap.css" rel="stylesheet" media="screen" />
+
+<!-- Custom styles for this template -->
+<link href="resources/css/stylesheet_reto.css" rel="stylesheet" type="text/css"/>
+
 
 <title th:text="#{submitApplication}">Submit Application</title>
 </head>
+
 <body>
 
-	<div id="wrap">
-		<div class="container">
-
+<div class="logo-header">		
+	<div class="container">
+		<div align="right">
+			<img src="resources/images/kiebitz-logo.jpg" width="273" height="97" alt="Kiebitz" />
+		</div>
+	</div>
+</div>	
+			
+<div class="jumbotron">
+	<div class="container">
+		<h1 th:text="#{submitApplication}">Submit</h1>
 			<ol class="breadcrumb">
 				<li th:text="#{agreement}">Agreement</li>
 				<li th:text="#{candidateData}">Candidate Data</li>
@@ -19,8 +36,14 @@
 				<li th:text="#{documentUpload}">Document Upload</li>
 				<li class="active" th:text="#{submitApplication}">Submit Application</li>
 			</ol>
+	</div>
+</div>
 
-			<h1 th:text="#{submitApplication}">Submit ApplicationAgreement</h1>
+
+<div id="wrap">
+		<div class="container">
+
+			<h3 th:text="#{submitApplication}">Submit ApplicationAgreement</h3>
 
 
 			<div id="contactData" th:object="${candidate}">
@@ -63,11 +86,11 @@
 
 
 			<form method="POST">
-				<button type="submit" name="buttonPressed" value="submitApplication_Back" class="btn btn-primary btn-lg">
-					<span class="glyphicon glyphicon-arrow-left" th:text="#{back}">Decline</span>
+				<button type="submit" name="buttonPressed" value="submitApplication_Back" class="btn btn-warning btn-lg">
+					<span class="glyphicon glyphicon-chevron-left" th:text="#{back}">Decline</span>
 				</button>
 	
-				<button type="submit" name="buttonPressed" value="submitApplication_Cancel" class="btn btn-danger btn-lg">
+				<button type="submit" name="buttonPressed" value="submitApplication_Cancel" class="btn btn-warning btn-lg">
 					<span class="glyphicon glyphicon-remove" th:text="#{cancel}">Decline</span>
 				</button>
 	
@@ -75,6 +98,10 @@
 					<span class="glyphicon glyphicon-floppy-saved" th:text="#{submit}">Accept</span>
 				</button>
 			</form>
+			<hr/>
+			<footer>
+		<p>&copy; Kiebitz 2013</p>
+		</footer>
 		</div>
 	</div>
 </body>	

@@ -2,16 +2,32 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<!-- <link rel="shortcut icon" href="../../docs-assets/ico/favicon.png"> -->
+
 <link href="resources/css/bootstrap.css" rel="stylesheet" media="screen" />
+
+<!-- Custom styles for this template -->
+<link href="resources/css/stylesheet_reto.css" rel="stylesheet" type="text/css"/>
 
 <title th:text="#{skills}">Skills</title>
 
 </head>
 <body>
-	<div id="wrap">
-		<div class="container">
 
+<div class="logo-header">		
+	<div class="container">
+		<div align="right">
+			<img src="resources/images/kiebitz-logo.jpg" width="273" height="97" alt="Kiebitz" />
+		</div>
+	</div>
+</div>	
+			
+<div class="jumbotron">
+	<div class="container">
+		<h1 th:text="#{skills}">Skills</h1>
 			<ol class="breadcrumb">
 				<li th:text="#{agreement}">Agreement</li>
 				<li th:text="#{candidateData}">Candidate Data</li>
@@ -19,33 +35,55 @@
 				<li th:text="#{documentUpload}">Document Upload</li>
 				<li th:text="#{submitApplication}">Submit Application</li>
 			</ol>
+	</div>
+</div>
+		
 
-			<h1 th:text="#{education}">Ausbildung</h1>
+
+<div id="wrap">
+		<div class="container">
+
+			<h3 th:text="#{education}">Ausbildung</h3>
 			
 			<p th:utext="#{educationInstructions}"></p>
 
-			<form id="skillsForm" role="form" action="" method="POST" th:object="${skills}">
+			<form class="form-horizontal" id="skillsForm" role="form" action="" method="POST" th:object="${skills}">
 
 				<div th:class="${#fields.hasErrors('institution')} ? 'form-group has-error' : 'form-group'">
-					<label for="institution" th:text="#{institution}">Last Name</label>
+					<label for="institution" th:text="#{institution}" class="col-sm-2 control-label">Last Name</label>
+					<div class="col-sm-10">
 					<input type="text" class="form-control" id="institution" th:placeholder="#{institution}" th:field="*{institution}" />
 					<p class="help-block" th:if="${#fields.hasErrors('institution')}" th:each="err : ${#fields.errors('institution')}" th:text="${err}">Error</p>
 				</div>
+				</div>
+					
+					
 									
 				<div th:class="${#fields.hasErrors('topic')} ? 'form-group has-error' : 'form-group'">
-					<label for="topic" th:text="#{topic}">Topic</label>
+					<label for="topic" th:text="#{topic}" class="col-sm-2 control-label">Topic</label>
+					<div class="col-sm-10">
 					<input type="text" class="form-control" id="topic" th:placeholder="#{topic}" th:field="*{topic}" />
 					<p class="help-block" th:if="${#fields.hasErrors('topic')}" th:each="err : ${#fields.errors('topic')}" th:text="${err}">Error</p>
 				</div>
+				</div>
+				
+				
+				
 				
 				<div th:class="${#fields.hasErrors('degree')} ? 'form-group has-error' : 'form-group'">
-					<label for="degree" th:text="#{degree}">Degree</label>
+					<label for="degree" th:text="#{degree}" class="col-sm-2 control-label">Degree</label>
+					<div class="col-sm-10">
 					<input type="text" class="form-control" id="degree" th:placeholder="#{degree}" th:field="*{degree}" />
 					<p class="help-block" th:if="${#fields.hasErrors('degree')}" th:each="err : ${#fields.errors('degree')}" th:text="${err}">Error</p>
 				</div>
+				</div>
+
+
+
 
 				<div th:class="${#fields.hasErrors('startDateEducationMonth')} ? 'form-group has-error' : 'form-group'">
-					<label for="startDateEducationMonth" th:text="#{startDateEducation}">startDateEducationMonth</label>
+					<label for="startDateEducationMonth" th:text="#{startDateEducation}" class="col-sm-2 control-label">startDateEducationMonth</label>
+					<div class="col-sm-10">
 					<select th:field="*{startDateEducationMonth}">
 							<option th:each="month : ${monthList}" th:value="${month.key}" th:text="${month.value}">Januar</option>
 					</select>
@@ -54,9 +92,11 @@
 					</select>					
 				<p class="help-block" th:if="${#fields.hasErrors('startDateEducationMonth')}"	th:each="err : ${#fields.errors('startDateEducationMonth')}" th:text="${err}">Error</p>
 				</div>
-
+				</div>
+				
 				<div th:class="${#fields.hasErrors('endDateEducationMonth')} ? 'form-group has-error' : 'form-group'">
-					<label for="endDateEducationMonth" th:text="#{endDateEducation}">endDateEducationMonth</label>
+					<label for="endDateEducationMonth" th:text="#{endDateEducation}" class="col-sm-2 control-label">endDateEducationMonth</label>
+					<div class="col-sm-10">
 					<select th:field="*{endDateEducationMonth}">
 							<option th:each="month : ${monthList}" th:value="${month.key}" th:text="${month.value}">Januar</option>
 					</select>
@@ -65,38 +105,52 @@
 					</select>
 				<p class="help-block" th:if="${#fields.hasErrors('endDateEducationMonth')}"	th:each="err : ${#fields.errors('endDateEducationMonth')}" th:text="${err}">Error</p>
 				</div>
+				</div>
 
-
-				<div>
+				
+				
+				<div th:class="${#fields.hasErrors('endDateEducationMonth')} ? 'form-group has-error' : 'form-group'" >
+				<label for="endDateEducationMonth" th:text="#{prospectiveEndLabel}" class="col-sm-2 control-label">endDateEducationMonth</label>
+				<div class="col-sm-10">	
 					<input type="checkbox" name="prospectiveEnd" th:text="#{prospectiveEnd}" th:field="*{prospectiveEnd}" />
 				</div>
-			
-			
-				<h1 th:text="#{experience}">Berufserfahrung</h1>
+				</div>
+		
+			<hr/>
+				
+				
+				<h3 th:text="#{experience}">Berufserfahrung</h3>
 				
 			<p th:utext="#{skillsInstructions}"></p>
 				
 				<div th:class="${#fields.hasErrors('position')} ? 'form-group has-error' : 'form-group'">
-					<label for="position" th:text="#{position}">Position</label>
+					<label for="position" th:text="#{position}" class="col-sm-2 control-label">Position</label>
+					<div class="col-sm-10">
 					<input type="text" class="form-control" id="position" th:placeholder="#{position}" th:field="*{position}" />
 					<p class="help-block" th:if="${#fields.hasErrors('position')}" th:each="err : ${#fields.errors('position')}" th:text="${err}">Error</p>
 				</div>
+				</div>
 
 				<div th:class="${#fields.hasErrors('jobField')} ? 'form-group has-error' : 'form-group'">
-					<label for="jobField" th:text="#{jobField}">JobField</label>
+					<label for="jobField" th:text="#{jobField}" class="col-sm-2 control-label">JobField</label>
+					<div class="col-sm-10">
 					<input type="text" class="form-control" id="jobField" th:placeholder="#{jobField}" th:field="*{jobField}" />
 					<p class="help-block" th:if="${#fields.hasErrors('jobField')}" th:each="err : ${#fields.errors('jobField')}" th:text="${err}">Error</p>
+				</div>
 				</div>
 
 
 				<div th:class="${#fields.hasErrors('cancelationPeriod')} ? 'form-group has-error' : 'form-group'">
-					<label for="cancelationPeriod" th:text="#{cancelationPeriod}">Kündigungsfrist</label>
+					<label for="cancelationPeriod" th:text="#{cancelationPeriod}" class="col-sm-2 control-label">Kündigungsfrist</label>
+					<div class="col-sm-10">
 					<input type="text" class="form-control" id="cancelationPeriod" th:placeholder="#{cancelationPeriod}" th:field="*{cancelationPeriod}" />
 					<p class="help-block" th:if="${#fields.hasErrors('cancelationPeriod')}" th:each="err : ${#fields.errors('cancelationPeriod')}" th:text="${err}">Error</p>
 				</div>
+				</div>
 
 				<div th:class="${#fields.hasErrors('startDateExperienceMonth')} ? 'form-group has-error' : 'form-group'">
-					<label for="startDateExperienceMonth" th:text="#{startDateExperience}">startDateExperienceMonth</label>
+					<label for="startDateExperienceMonth" th:text="#{startDateExperience}" class="col-sm-2 control-label">startDateExperienceMonth</label>
+					<div class="col-sm-10">
 					<select th:field="*{startDateExperienceMonth}">
 							<option th:each="month : ${monthList}" th:value="${month.key}" th:text="${month.value}">Januar</option>
 					</select>
@@ -105,9 +159,11 @@
 					</select>
 				<p class="help-block" th:if="${#fields.hasErrors('startDateExperienceMonth')}"	th:each="err : ${#fields.errors('startDateExperienceMonth')}" th:text="${err}">Error</p>
 				</div>
+				</div>
 
 				<div th:class="${#fields.hasErrors('endDateExperienceMonth')} ? 'form-group has-error' : 'form-group'">
-					<label for="endDateExperienceMonth" th:text="#{endDateExperience}">endDateExperienceMonth</label>
+					<label for="endDateExperienceMonth" th:text="#{endDateExperience}" class="col-sm-2 control-label">endDateExperienceMonth</label>
+					<div class="col-sm-10">
 					<select th:field="*{endDateExperienceMonth}">
 							<option th:each="month : ${monthList}" th:value="${month.key}" th:text="${month.value}">Januar</option>
 					</select>
@@ -116,24 +172,46 @@
 					</select>
 				<p class="help-block" th:if="${#fields.hasErrors('endDateExperienceMonth')}"	th:each="err : ${#fields.errors('endDateExperienceMonth')}" th:text="${err}">Error</p>
 				</div>
-
-				<div>
-					<input type="checkbox" name="currentPosition" th:text="#{currentPosition}" th:field="*{currentPosition}" />
 				</div>
 				
-				<button type="submit" name="buttonPressed" value="contactSkills_Back" class="btn btn-primary btn-lg">
-					<span class="glyphicon glyphicon-arrow-left" th:text="#{back}">Submit</span>
-				</button>
-
-				<button type="submit" name="buttonPressed" value="contactSkills_Cancel" class="btn btn-danger btn-lg">
-					<span class="glyphicon glyphicon-remove" th:text="#{cancel}">Submit</span>
-				</button>
-
-				<button type="submit" name="buttonPressed" value="contactSkills_Forward" class="btn btn-primary btn-lg">
-					<span class="glyphicon glyphicon-arrow-right" th:text="#{forward}">Submit</span>
-				</button>
-
+				
+				<div th:class="${#fields.hasErrors('endDateEducationMonth')} ? 'form-group has-error' : 'form-group'" >
+				<label for="endDateEducationMonth" th:text="#{prospectiveEndLabel}" class="col-sm-2 control-label">endDateEducationMonth</label>
+				<div class="col-sm-10">	
+					<input type="checkbox" name="currentPosition" th:text="#{currentPosition}" th:field="*{currentPosition}" />
+				</div>
+				</div>
+				
+				<p></p>
+				
+				<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">			
+					<button type="submit" name="buttonPressed" value="contactSkills_Back" class="btn btn-warning btn-lg">
+						<span class="glyphicon glyphicon-chevron-left" th:text="#{back}">Submit</span>
+					</button>
+	
+					<button type="submit" name="buttonPressed" value="contactSkills_Cancel" class="btn btn-warning btn-lg">
+						<span class="glyphicon glyphicon-remove" th:text="#{cancel}">Submit</span>
+					</button>
+	
+					<button type="submit" name="buttonPressed" value="contactSkills_Forward" class="btn btn-warning btn-lg">
+						<span class="glyphicon glyphicon-chevron-right" th:text="#{forward}">Submit</span>
+					</button>
+				</div>
+				</div>
 			</form>
+			<hr/>
+		
+		<p th:text="#{footerText}">Die mit einem markierten Felder Lorem ipsum dolor sit sadipscing elitr,
+			sed diam nonumy.</p>
+<!-- 		<p th:text="#{star}" class="star"> </p> -->
+		
+		
+		
+		<footer>
+		<p>&copy; Kiebitz 2013</p>
+		</footer>
+			
 		</div>
 	</div>
 </body>
