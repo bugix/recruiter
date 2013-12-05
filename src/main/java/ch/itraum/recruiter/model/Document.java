@@ -1,7 +1,6 @@
 package ch.itraum.recruiter.model;
 
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 
