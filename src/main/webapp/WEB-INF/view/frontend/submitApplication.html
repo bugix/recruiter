@@ -65,7 +65,7 @@
 					<label th:text="#{degree} + ': ' + ${skills.degree}"></label><br/>			
 					<label th:text="#{startDateEducation} + ': ' + ${#dates.monthName(skills.startDateEducation)}+'  '+ ${#dates.year(skills.startDateEducation)}"></label><br/>			
 					<label th:text="#{endDateEducation} + ': ' + ${#dates.monthName(skills.endDateEducation)} +'  ' + ${#dates.year(skills.endDateEducation)}"></label><br/>			
-					<label th:text="#{prospectiveEnd} + ': ' + ${skills.prospectiveEnd}"></label><br/>			
+					<label th:text="${skills.prospectiveEnd}==true?#{prospectiveEnd}:#{empty}"></label><br/>			
 <br/>				
 			<h3 th:text="#{experience}">Submit Application</h3>	
 					<label th:text="#{position} + ': ' + ${skills.position}"></label><br/>			
@@ -73,7 +73,7 @@
 					<label th:text="#{cancelationPeriod} + ': ' + ${skills.cancelationPeriod}"></label><br/>			
 					<label th:text="#{startDateExperience} + ': ' + ${#dates.monthName(skills.startDateExperience)} + '  ' + ${#dates.year(skills.startDateExperience)}"></label><br/>			
 					<label th:text="#{endDateExperience} + ': '+ ${#dates.monthName(skills.endDateExperience)} + '  '+ ${#dates.year(skills.endDateExperience)}"></label><br/>			
-					<label th:text="#{currentPosition} + ': ' + ${skills.currentPosition}"></label><br/>			
+					<label th:text="${skills.currentPosition}==true?#{currentPosition}:#{empty}"></label><br/>			
 			</div>
 <br/>			
 			<h3 th:text="#{documentUpload}">Submit Application</h3>	
