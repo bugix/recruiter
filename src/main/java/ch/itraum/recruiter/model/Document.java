@@ -1,7 +1,6 @@
 package ch.itraum.recruiter.model;
 
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 
@@ -15,11 +14,11 @@ public class Document extends AbstractPersistable<Integer> {
 	
 	@Lob
 	private byte[] content;
-	
+
 	@ManyToOne
 	private Candidate candidate;
 
-	public String getName() {
+		public String getName() {
 		return name;
 	}
 

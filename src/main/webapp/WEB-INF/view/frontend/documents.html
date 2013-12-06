@@ -50,15 +50,48 @@
 
 <div id="wrap">
 		<div class="container">
-
-			<h3 th:text="#{documentUpload}">Document Upload</h3>
-			<form id="dropzone" role="form" class="dropzone" action="/upload" method="POST">
-			</form>
-
+		   <table border="0" width="100%">
+		     <colgroup width="50%" span="2"></colgroup>
+     		     <tr>
+     			 	<td>
+     			 		<h3 th:text="#{documentUpload}">Document Upload</h3>
+     			 	</td>
+				 	<td>
+				 		<h3 th:text="#{motivationalLetter}">MOtivational Letter</h3>
+				 	</td>
+				  </tr>
+				  <tr>
+					<td>
+						<form id="dropzone" role="form" class="dropzone" action="/upload" method="POST">
+				 		</form>
+					</td>
+					<td>
+					
+					<form class="form-horizontal" id="documentForm" role="form" action="" method="POST" th:object="${documents}">
+						
+<!-- 					<div th:class="${#fields.hasErrors('motivationalLetter')} ? 'form-group has-error' : 'form-group'"> -->
+<!-- 						<label for="motivationalLetter" th:text="#{motivationalLetter}" class="col-sm-2 control-label">Motivationsschreiben</label> -->
+<!-- 					<div class="col-sm-10"> -->
+<!-- 						<input type="text" class="form-control" id="motivationalLetter" th:placeholder="#{motivationalLetter}" th:field="*{motivationalLetter}" /> -->
+<!-- 						<p class="help-block" th:if="${#fields.hasErrors('motivationalLetter')}"	th:each="err : ${#fields.errors('motivationalLetter')}" th:text="${err}">Error</p> -->
+<!-- 					</div> -->
+<!-- 					</div> -->
+				
+<!-- 								 <p>Welche HTML-Elemente fallen Ihnen ein, und was bewirken sie:<br> -->
+   								 <textarea name="textfield" cols="80" rows="17" ></textarea>
+<!--   								</p> -->
+				
+				
+				
+			 		</form>
+					
+							
+					</td>
+				  </tr>
+			 </table>
 
 			<form method="POST" th:object="${documents}">
 <!-- 					<label th:text="${#lists.isEmpty(documents) ? 'Leer' : 'Voll'}">Test Label</label> -->
-			
 			    <table>
 			      <tr>
 			        <th></th>
@@ -72,7 +105,6 @@
 			        <td th:text="${doc.name}">Alternativ Text</td>
 			      </tr>
 			    </table>
-			
 				<button type="submit" name="buttonPressed" value="documents_Delete" class="btn btn-warning btn-lg">
 					<span class="glyphicon glyphicon-trash" th:text="#{delete}">Submit</span>
 				</button>
@@ -89,11 +121,16 @@
 					<span class="glyphicon glyphicon-chevron-right" th:text="#{forward}">Submit</span>
 				</button>
 			</form>
-			<hr/>
+		
+		<hr/>
+			
+				
 				<footer>
 				<p>&copy; Kiebitz 2013</p>
 				</footer>
+		
 		</div>
+	
 	</div>
 </body>
 </html>
