@@ -14,6 +14,7 @@ import javax.servlet.http.Part;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -26,12 +27,14 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
+import sun.reflect.ReflectionFactory.GetReflectionFactoryAction;
 import ch.itraum.recruiter.model.Candidate;
 import ch.itraum.recruiter.model.Document;
 import ch.itraum.recruiter.model.Skills;
 import ch.itraum.recruiter.repository.CandidateRepository;
 import ch.itraum.recruiter.repository.DocumentRepository;
 import ch.itraum.recruiter.repository.SkillsRepository;
+import ch.itraum.recruiter.validation.CandidateValidator;
 
 @Controller
 public class FrontendController {
@@ -48,14 +51,27 @@ public class FrontendController {
 	@Autowired
 	private SessionLocaleResolver localeResolver;
 
+//	@ModelAttribute(value = "yearList")
+//	public List<String> getYearList() {
+//		
+//		List<String> yearList = new LinkedList<String>();
+//		
+//		for (int i = 1970; i < 2024; i++)
+//		{
+//			yearList.add("" + i);
+//		}
+//
+//		return yearList;
+//	}
+	
 	@ModelAttribute(value = "yearList")
-	public List<String> getYearList() {
+	public Map<String, String> getYearList() {
 		
-		List<String> yearList = new LinkedList<String>();
+		Map<String, String> yearList = new LinkedHashMap<String, String>();
 		
 		for (int i = 1970; i < 2024; i++)
 		{
-			yearList.add("" + i);
+			yearList.put("" + i, "" + i);
 		}
 
 		return yearList;
@@ -94,32 +110,46 @@ public class FrontendController {
 	}
 	
 	@RequestMapping(value = "/candidate", method = RequestMethod.GET)
-	public String getCandidate(Model model, Candidate candidate, BindingResult result) {
-		model.addAttribute(getCandidateFromSession());
-//		candidate = getCandidateFromSession();
+	public String getCandidate(Model model) {
+		
+		Candidate candidate = getCandidateFromSession();
+		model.addAttribute(candidate);
+		
+//		Object sessionResult = getCurrentSession().getAttribute("sessionResult"); 
+//		if(sessionResult != null){
+//			BindingResult result = (BindingResult)sessionResult;
+//			model.addAttribute(result);
+//			//TODO: Do the rest (validation etc.)
+//		}else{
+//			//Don't validate
+//		}
+		
 //		CandidateValidator candidateValidator = new CandidateValidator();
 //		candidateValidator.validate(candidate, result);
+//		
+//		BindingResult sessionResult = getres
 		
-		
-//		Object sessionResult = getCurrentSession().getAttribute("candidateResult"); 
-//		if(sessionResult != null){
-////			Candidate validCandidate = getCandidateFromSession();
-////			model.addAttribute((BindingResult)sessionResult);
-////		    BindingResult errors = new BeanPropertyBindingResult(validCandidate, "validCandidate");
-////		    errors.reject("validCandidate.invalid");
-////		    model.asMap().put(BindingResult.MODEL_KEY_PREFIX + "validCandidate", sessionResult);
-//			result = (BindingResult)sessionResult;
-//		}
 		return "frontend/candidate";
 	}
  
 	@RequestMapping(value = "/candidate", method = RequestMethod.POST)
-	public String postCandidate(@Valid Candidate validCandidate,
+	public String postCandidate(Candidate validCandidate,
 			BindingResult result, Model model, @RequestParam("buttonPressed") String buttonPressed) {
+//		public String postCandidate(BindingResult result, Model model, @RequestParam("buttonPressed") String buttonPressed) {
 		//TODO:unset candidate validation flag
-
+//		Candidate sessionCandidate = getCandidateFromSession();
+//		validCandidate.setFirstName(sessionCandidate.getFirstName());
+//		validCandidate.setLastName(sessionCandidate.getLastName());
+//		validCandidate.setEmail(sessionCandidate.getEmail());
+//		validCandidate.setCity(sessionCandidate.getCity());
+//		validCandidate.setPhoneFix(sessionCandidate.getPhoneFix());
+//		validCandidate.setPhoneMobile(sessionCandidate.getPhoneMobile());
+//		validCandidate.setPlz(sessionCandidate.getPlz());
+//		validCandidate.setStreet(sessionCandidate.getStreet());
+//		validCandidate.setTitle(sessionCandidate.getTitle());
+		
 //		model.addAttribute("validCandidate", getCandidateFromSession());
-		model.addAttribute(getCandidateFromSession());
+//		model.addAttribute(validCandidate);
 //		Object sessionResult = getCurrentSession().getAttribute("candidateResult"); 
 //		if(sessionResult != null){
 ////			model.asMap().put(sessionResult.)
@@ -130,10 +160,14 @@ public class FrontendController {
 //			result = (BindingResult)sessionResult;
 //		}
 		
+//		CandidateValidator candidateValidator = new CandidateValidator();
+//		candidateValidator.validate(validCandidate, result);
+		
 		if (buttonPressed.equals("contactData_Forward")) {
 			if (result.hasErrors()){
 				getCurrentSession().setAttribute("candidate", fillCandidateFromSessionWithDataFrom(validCandidate));
-				getCurrentSession().setAttribute("candidateResult", result); 
+//				getCurrentSession().setAttribute("candidateResult", result); 
+				getCurrentSession().setAttribute("sessionResult", result); 
 				//TODO:set candidate validatin flag
 				return "redirect:/candidate";
 //				return "frontend/candidate";
@@ -155,6 +189,15 @@ public class FrontendController {
 			return "frontend/unexpectedAction";
 		}
 	}
+	
+//	private BindingResult getBindingResultFromSession(){
+//		Object sessionResult = getCurrentSession().getAttribute("sessionResult"); 
+//		if(sessionResult != null){
+//			return(BindingResult)sessionResult;
+//		}else{
+//			return null;
+//		}
+//	}
 	
 	private Candidate fillCandidateFromSessionWithDataFrom(Candidate curCandidate){
 		Candidate resCandidate = getCandidateFromSession();
@@ -190,8 +233,14 @@ public class FrontendController {
 	
 	
 	@RequestMapping(value = "/skills", method = RequestMethod.GET)
-	public String getCandidateSkills(Model model) {
+	public String getCandidateSkills(Model model, @RequestParam(value="hasNoExperience", required=false) String hasNoExperience, @RequestParam(value="toggleCheckbox", required=false) String toggleCheckbox) {
 		model.addAttribute(getSkillsFromSession());
+		if(hasNoExperience == null){
+			getCurrentSession().setAttribute("hasNoExperience", "off");
+		}else{
+			getCurrentSession().setAttribute("hasNoExperience", hasNoExperience);
+		}
+		model.addAttribute("hasNoExperience", getCurrentSession().getAttribute("hasNoExperience"));
 		System.out.println("\n\n\n\n\ngetCandidateSkills - GET\n\n\n\n\n");
 		return "frontend/skills";
 	}
@@ -233,6 +282,7 @@ public class FrontendController {
 		model.addAttribute(getCandidateFromSession());
 		model.addAttribute(getSkillsFromSession());
 		model.addAttribute("documents", getDocumentsForSessionCandidate());
+		model.addAttribute("hasNoExperience", getCurrentSession().getAttribute("hasNoExperience"));		
 		return "frontend/submitApplication";
 	}
 	
