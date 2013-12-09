@@ -32,6 +32,7 @@
 				<li th:text="#{candidateData}">Candidate Data</li>
 				<li class="active" th:text="#{skills}">Skills</li>
 				<li th:text="#{documentUpload}">Document Upload</li>
+				<li th:text="#{letterOfMotivation}">Letter of Motivation</li>
 				<li th:text="#{submitApplication}">Submit Application</li>
 			</ol>
 	</div>
@@ -122,6 +123,15 @@
 				
 			<p th:utext="#{skillsInstructions}"></p>
 				
+				<div th:class="${#fields.hasErrors('endDateEducationMonth')} ? 'form-group has-error' : 'form-group'" >
+					<label for="endDateEducationMonth" th:text="#{prospectiveEndLabel}" class="col-sm-2 control-label">endDateEducationMonth</label>
+				<div class="col-sm-10">	
+					<input type="checkbox" name="hasNoExperience" th:text="#{hasNoExperience}" th:field="*{hasNoExperience}" />
+				</div>
+				</div>
+				
+				
+				
 				<div th:class="${#fields.hasErrors('position')} ? 'form-group has-error' : 'form-group'">
 					<label for="position" th:text="#{position}" class="col-sm-2 control-label">Position</label>
 					<div class="col-sm-10">
@@ -175,11 +185,10 @@
 				
 				
 				<div th:class="${#fields.hasErrors('endDateEducationMonth')} ? 'form-group has-error' : 'form-group'" >
-				<label for="endDateEducationMonth" th:text="#{prospectiveEndLabel}" class="col-sm-2 control-label">endDateEducationMonth</label>
+					<label for="endDateEducationMonth" th:text="#{prospectiveEndLabel}" class="col-sm-2 control-label">endDateEducationMonth</label>
 				<div class="col-sm-10">	
 					<input type="checkbox" name="currentPosition" th:text="#{currentPosition}" th:field="*{currentPosition}" />
 				</div>
-					<input type="checkbox" name="hasNoExperience" th:text="#{hasNoExperience}" th:field="*{hasNoExperience}" />
 				</div>
 				
 				

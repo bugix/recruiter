@@ -101,7 +101,7 @@ public class FrontendController {
 	}
  
 	@RequestMapping(value = "/candidate", method = RequestMethod.POST)
-	public String postCandidate(Candidate validCandidate,
+	public String postCandidate(@Valid Candidate validCandidate,
 			BindingResult result, Model model, @RequestParam("buttonPressed") String buttonPressed) {
 //		model.addAttribute(getCandidateFromSession());
 		if (buttonPressed.equals("contactData_Forward")) {
