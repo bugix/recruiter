@@ -3,7 +3,6 @@ package ch.itraum.recruiter.controller;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -14,7 +13,6 @@ import javax.servlet.http.Part;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -27,7 +25,6 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
-import sun.reflect.ReflectionFactory.GetReflectionFactoryAction;
 import ch.itraum.recruiter.model.Candidate;
 import ch.itraum.recruiter.model.Document;
 import ch.itraum.recruiter.model.Skills;
@@ -35,7 +32,6 @@ import ch.itraum.recruiter.repository.CandidateRepository;
 import ch.itraum.recruiter.repository.DocumentRepository;
 import ch.itraum.recruiter.repository.SkillsRepository;
 import ch.itraum.recruiter.tools.recruiterHelper;
-import ch.itraum.recruiter.validation.CandidateValidator;
 
 @Controller
 public class FrontendController {
@@ -52,19 +48,6 @@ public class FrontendController {
 	@Autowired
 	private SessionLocaleResolver localeResolver;
 
-//	@ModelAttribute(value = "yearList")
-//	public List<String> getYearList() {
-//		
-//		List<String> yearList = new LinkedList<String>();
-//		
-//		for (int i = 1970; i < 2024; i++)
-//		{
-//			yearList.add("" + i);
-//		}
-//
-//		return yearList;
-//	}
-	
 	@ModelAttribute(value = "yearList")
 	public Map<String, String> getYearList() {
 		
@@ -104,77 +87,26 @@ public class FrontendController {
 	{
 		Map<String, String> languageMap = new LinkedHashMap<String, String>();
 		
-		languageMap.put("de", "Deutsch");
-		languageMap.put("en", "English");
+		languageMap.put(recruiterHelper.LANGUAGE_GERMAN, "Deutsch");
+		languageMap.put(recruiterHelper.LANGUAGE_ENGLISH, "English");
 	
 		return languageMap;
 	}
 	
 	@RequestMapping(value = "/candidate", method = RequestMethod.GET)
 	public String getCandidate(Model model) {
-		
 		Candidate candidate = getCandidateFromSession();
 		model.addAttribute(candidate);
-		
-//		Object sessionResult = getCurrentSession().getAttribute("sessionResult"); 
-//		if(sessionResult != null){
-//			BindingResult result = (BindingResult)sessionResult;
-//			model.addAttribute(result);
-//			//TODO: Do the rest (validation etc.)
-//		}else{
-//			//Don't validate
-//		}
-		
-//		CandidateValidator candidateValidator = new CandidateValidator();
-//		candidateValidator.validate(candidate, result);
-//		
-//		BindingResult sessionResult = getres
-		
 		return "frontend/candidate";
 	}
  
 	@RequestMapping(value = "/candidate", method = RequestMethod.POST)
 	public String postCandidate(Candidate validCandidate,
 			BindingResult result, Model model, @RequestParam("buttonPressed") String buttonPressed) {
-//		public String postCandidate(BindingResult result, Model model, @RequestParam("buttonPressed") String buttonPressed) {
-		//TODO:unset candidate validation flag
-//		Candidate sessionCandidate = getCandidateFromSession();
-//		validCandidate.setFirstName(sessionCandidate.getFirstName());
-//		validCandidate.setLastName(sessionCandidate.getLastName());
-//		validCandidate.setEmail(sessionCandidate.getEmail());
-//		validCandidate.setCity(sessionCandidate.getCity());
-//		validCandidate.setPhoneFix(sessionCandidate.getPhoneFix());
-//		validCandidate.setPhoneMobile(sessionCandidate.getPhoneMobile());
-//		validCandidate.setPlz(sessionCandidate.getPlz());
-//		validCandidate.setStreet(sessionCandidate.getStreet());
-//		validCandidate.setTitle(sessionCandidate.getTitle());
-		
-//		model.addAttribute("validCandidate", getCandidateFromSession());
-		
 //		model.addAttribute(getCandidateFromSession());
-		
-//		Object sessionResult = getCurrentSession().getAttribute("candidateResult"); 
-//		if(sessionResult != null){
-////			model.asMap().put(sessionResult.)
-////			model.addAttribute((BindingResult)sessionResult);
-////		    BindingResult errors = new BeanPropertyBindingResult(validCandidate, "validCandidate");
-////		    errors.reject("validCandidate.invalid");
-////		    model.asMap().put(BindingResult.MODEL_KEY_PREFIX + "validCandidate", sessionResult);	
-//			result = (BindingResult)sessionResult;
-//		}
-		
-//		CandidateValidator candidateValidator = new CandidateValidator();
-//		candidateValidator.validate(validCandidate, result);
-		
 		if (buttonPressed.equals("contactData_Forward")) {
 			if (result.hasErrors()){
-				getCurrentSession().setAttribute("candidate", fillCandidateFromSessionWithDataFrom(validCandidate));
-//				getCurrentSession().setAttribute("candidateResult", result); 
-				getCurrentSession().setAttribute("sessionResult", result); 
-				//TODO:set candidate validatin flag
-				
-				System.out.println("\n\n\nCandidate form has Errors\n\n\n");
-				
+//				getCurrentSession().setAttribute("candidate", fillCandidateFromSessionWithDataFrom(validCandidate));
 //				return "redirect:/candidate";
 				return "frontend/candidate";
 			}else{
@@ -182,7 +114,6 @@ public class FrontendController {
 				//So here is where this happens.
 				//save Candidate to DB and save the received Candidate containing the DB ID into the HTTP Session
 				getCurrentSession().setAttribute("candidate", candidateRepository.save(fillCandidateFromSessionWithDataFrom(validCandidate)));
-				System.out.println("\n\n\n\n\n\n\n\n\n\nCandidate.toString(): " + validCandidate.toString());
 				return "redirect:/skills";
 			}
 		} else if (buttonPressed.equals("contactData_Back")) {
@@ -195,16 +126,7 @@ public class FrontendController {
 			return "frontend/unexpectedAction";
 		}
 	}
-	
-//	private BindingResult getBindingResultFromSession(){
-//		Object sessionResult = getCurrentSession().getAttribute("sessionResult"); 
-//		if(sessionResult != null){
-//			return(BindingResult)sessionResult;
-//		}else{
-//			return null;
-//		}
-//	}
-	
+
 	private Candidate fillCandidateFromSessionWithDataFrom(Candidate curCandidate){
 		Candidate resCandidate = getCandidateFromSession();
 		resCandidate.setFirstName(curCandidate.getFirstName());
@@ -242,13 +164,6 @@ public class FrontendController {
 	@RequestMapping(value = "/skills", method = RequestMethod.GET)
 	public String getCandidateSkills(Model model) {
 		model.addAttribute(getSkillsFromSession());
-//		if(hasNoExperience == null){
-//			getCurrentSession().setAttribute("hasNoExperience", "off");
-//		}else{
-//			getCurrentSession().setAttribute("hasNoExperience", hasNoExperience);
-//		}
-//		model.addAttribute("hasNoExperience", getCurrentSession().getAttribute("hasNoExperience"));
-//		System.out.println("\n\n\n\n\ngetCandidateSkills - GET\n\n\n\n\n");
 		return "frontend/skills";
 	}
 	
@@ -256,15 +171,9 @@ public class FrontendController {
 	@RequestMapping(value = "/skills", method = RequestMethod.POST)
 	public String postCandidateSkills(@Valid Skills validSkills,
 			BindingResult result, Model model, @RequestParam("buttonPressed") String buttonPressed) {
-
-//		getCurrentSession().getAttribute(localeResolver.LOCALE_SESSION_ATTRIBUTE_NAME);
 //		model.addAttribute(getSkillsFromSession());
-		System.out.println("\n\n\n\n\ngetCandidateSkills - POST\n\n\n\n\n");
-		
 		if (buttonPressed.equals("contactSkills_Forward")) {
-			System.out.println("\n\n\n\n\nButton: contactSkills_Forward");
 			if (result.hasErrors()){
-				System.out.println("\n\n\n\n\nFehler im Skill Sheet\n\n\n\n\n");
 				return "frontend/skills";
 			}else{
 				validSkills.setCandidate(getCandidateFromSession()); //this Candidate is already validated
@@ -274,7 +183,6 @@ public class FrontendController {
 				//because they are not part of the SQL Model and are therefore not delivered back.
 				skillsWithID.takeAllAttributesExceptIDFrom(validSkills);
 				getCurrentSession().setAttribute("skills", skillsWithID);
-				System.out.println("OK! Tried to save the Skills.");
 				return "redirect:/documents";
 			}
 		}else  if (buttonPressed.equals("contactSkills_Back")) {
@@ -293,7 +201,7 @@ public class FrontendController {
 		model.addAttribute(getCandidateFromSession());
 		model.addAttribute(getSkillsFromSession());
 		model.addAttribute("documents", getDocumentsForSessionCandidate());
-		model.addAttribute("hasNoExperience", getCurrentSession().getAttribute("hasNoExperience"));		
+//		model.addAttribute("hasNoExperience", getCurrentSession().getAttribute("hasNoExperience"));		
 		return "frontend/submitApplication";
 	}
 	
@@ -367,7 +275,6 @@ public class FrontendController {
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String getAgreement(Model model) {
-//		localeResolver.setDefaultLocale(Locale.ENGLISH);
 		String language = getCurrentOrDefaultLanguageFromSession();
 		model.addAttribute("selectedLanguage", language);
 		return "frontend/agreement";
@@ -378,43 +285,17 @@ public class FrontendController {
 	public String postAgreement(HttpServletRequest request, Model model, @RequestParam("buttonPressed") String buttonPressed) {
 
 		if (buttonPressed.equals("agreement_Accept")) {
-//			Object tryLang = getCurrentSession().getAttribute(localeResolver.LOCALE_SESSION_ATTRIBUTE_NAME);
-//			String lang;
-//			if(tryLang != null){
-//				lang = ((Locale)tryLang).toString();
-//			}else{
-//				lang = "de";
-//			}
 			String lang = getCurrentOrDefaultLanguageFromSession();
 			getCurrentSession().setAttribute("curLanguage", lang);
-//			getCurrentSession().setAttribute("selectedLanguage", lang);
-			System.out.println("\n\n\n\n\n\n\n\n\n\n\n\nSaved Language to Session: " + lang);
 			return "redirect:/candidate";
 		}else  if (buttonPressed.equals("agreement_Decline")) {
 			return "redirect:/confirmCancellation";
-		}else  if (buttonPressed.equals("de")||buttonPressed.equals("en")) {
+		}else  if (buttonPressed.equals(recruiterHelper.LANGUAGE_GERMAN)||buttonPressed.equals(recruiterHelper.LANGUAGE_ENGLISH)) {
 			request.setAttribute("lang", buttonPressed);
 			return "redirect:/";
 		}else {
 			return "frontend/unexpectedAction";
 		}
-	}
-	
-	//If there is already an ID saved in the HttpSession the corresponding object will be fetched and returned. 
-	//Otherwise a new Object will be returned
-	private Candidate getCandidateFromDB(){
-		Object sessionObjectID = getCurrentSession().getAttribute("candidateID");
-		Candidate resultCandidate;
-		if(sessionObjectID != null){
-			int candidateSessionID = (int)sessionObjectID;
-			System.out.println("Candidate ID from Session: " + candidateSessionID + "\n\n\n\n\n");
-			resultCandidate = candidateRepository.findOne(candidateSessionID);
-		}else{
-			System.out.println("\n\n\n\n\nNo Candidate yet\n\n\n\n\n");
-			resultCandidate = new Candidate();
-		}		
-		System.out.println("\n\n\n\n\ngetCandidateFromSession: ID="+resultCandidate.getId()+"\n\n\n\n\n");
-		return resultCandidate;
 	}
 	
 	//If there is already a candidate saved in the HttpSession he will be returned. 
@@ -444,20 +325,12 @@ public class FrontendController {
 	}
 	
 	private String getCurrentOrDefaultLanguageFromSession(){
-//		Object sessionLanguage = getCurrentSession().getAttribute("selectedLanguage");
-//		String resultLanguage;
-//		if(sessionLanguage != null){
-//			resultLanguage = (String)sessionLanguage;
-//		}else{
-//			resultLanguage = "de";
-//		}		
-//		return resultLanguage;
 		Object tryLang = getCurrentSession().getAttribute(SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME);
 		String lang;
 		if(tryLang != null){
 			lang = ((Locale)tryLang).toString();
 		}else{
-			lang = "de";
+			lang = recruiterHelper.LANGUAGE_DEFAULT;
 		}
 		return lang;
 	}
@@ -477,28 +350,18 @@ public class FrontendController {
 				letterFound = true;
 			}
 		}
-		
 		if(letterFound){
 			documents.remove(motivationalLetter);
 			textAreaContent = new String (motivationalLetter.getContent());
 		}
-		
-		
-		
 		model.addAttribute("textAreaContent", textAreaContent);
 		model.addAttribute("documents", documents);
 		model.addAttribute("language", getCurrentSession().getAttribute("curLanguage"));
-		System.out.println("\n\n\n\n\ngetDocuments");
-		System.out.println("\n\n\n\n\nAdded Language "+getCurrentSession().getAttribute("curLanguage")+" to Model for Documents");
-
 		return "frontend/documents";
 	}
 
 	private List<Document> getDocumentsForSessionCandidate(){
 		List<Document> docList = documentRepository.findByCandidate_Id(getCandidateFromSession().getId());
-		for(Document doc: docList){
-			System.out.println("Doc ID: " + doc.getId() + ", Doc Name: " + doc.getName());
-		}
 		return docList;
 	}
 	
@@ -559,13 +422,7 @@ public class FrontendController {
 
 	@ResponseBody
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
-	public void fileUploadSubmit(@RequestParam("file") Part file, @RequestParam(value="textfield", required=false) String textfield) throws IOException {
-		System.out.println("\n\n\n\n\nfileUploadSubmit\n\n\n\n\n");
-		
-		//save letter of motivation first
-//		Document letterOfMotivation = getLetterOfMotivationFromListIfPossibleElseCreateANewOne(documents);
-		Document letterOfMotivation = new Document();
-		saveLetterOfMotivationAsDocumentFileToDB(letterOfMotivation, textfield.getBytes());
+	public void fileUploadSubmit(@RequestParam("file") Part file) throws IOException {
 
 		Document document = new Document();
 
