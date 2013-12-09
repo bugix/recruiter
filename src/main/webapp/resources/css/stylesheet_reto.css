@@ -23,6 +23,7 @@ color: #f93;
 .breadcrumb {
 background-color: #f93;
 color: #ccc;
+font-size: 18px;
 }
 
 .breadcrumb > .active {
