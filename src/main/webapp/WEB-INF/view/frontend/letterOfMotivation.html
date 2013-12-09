@@ -11,11 +11,6 @@
 <!-- Custom styles for this template -->
 <link href="resources/css/stylesheet_reto.css" rel="stylesheet" type="text/css"/>
 
-<link href="resources/css/dropzone.css" rel="stylesheet" media="screen" />
-
-
-<script src="resources/js/dropzone.js"></script>
-
 <title th:text="#{letterOfMotivation}">Letter of Motivation</title>
 
 </head>
@@ -52,28 +47,22 @@
 		  		<h3 th:text="#{letterOfMotivation}">Motivational Letter</h3>
 				 			
 				
-				<form class="form-horizontal" method="POST" th:object="${documents}">
+				<form class="form-horizontal" method="POST">
 			
 			
-				<textarea name="textFieldLetterOfMotivation" th:text="${textAreaContent}" rows="30" ></textarea>
+				<textarea name="textFieldLetterOfMotivation" th:text="${textFieldLetterOfMotivation}" rows="30" ></textarea>
 <!-- 				<textarea name="textFieldLetterOfMotivation" th:text="${textAreaContent}" cols="80" rows="17" ></textarea> -->
 			
-			
-				      
 			   
-					<button type="submit" name="buttonPressed" value="documents_Delete" class="btn btn-warning btn-lg">
-						<span class="glyphicon glyphicon-trash" th:text="#{delete}">Submit</span>
-					</button>
-		
-					<button type="submit" name="buttonPressed" value="documents_Back" class="btn btn-warning btn-lg">
+					<button type="submit" name="buttonPressed" value="letterOfMotivation_Back" class="btn btn-warning btn-lg">
 						<span class="glyphicon glyphicon-chevron-left" th:text="#{back}">Submit</span>
 					</button>
 		
-					<button type="submit" name="buttonPressed" value="documents_Cancel" class="btn btn-warning btn-lg">
+					<button type="submit" name="buttonPressed" value="letterOfMotivation_Cancel" class="btn btn-warning btn-lg">
 						<span class="glyphicon glyphicon-remove" th:text="#{cancel}">Submit</span>
 					</button>
 	
-					<button type="submit" name="buttonPressed" value="documents_Forward" class="btn btn-warning btn-lg">
+					<button type="submit" name="buttonPressed" value="letterOfMotivation_Forward" class="btn btn-warning btn-lg">
 						<span class="glyphicon glyphicon-chevron-right" th:text="#{forward}">Submit</span>
 					</button>
 				</form>

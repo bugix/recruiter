@@ -239,7 +239,7 @@ public class FrontendController {
 		if (buttonPressed.equals("submitApplication_Submit")) {
 			return "redirect:/thankYou";
 		}else  if (buttonPressed.equals("submitApplication_Back")) {
-			return "redirect:/documents";
+			return "redirect:/letterOfMotivation";
 		}else  if (buttonPressed.equals("submitApplication_Cancel")) {
 			return "redirect:/confirmCancellation";
 		}else {
@@ -414,7 +414,7 @@ public class FrontendController {
 			}
 		}
 		model.addAttribute("textFieldLetterOfMotivation", textAreaContent);
-		return "frontend/documents";
+		return "frontend/letterOfMotivation";
 	}
 
 	@RequestMapping(value = "/letterOfMotivation", method = RequestMethod.POST)
@@ -445,7 +445,7 @@ public class FrontendController {
 	private void manageDBStuff4LetterOfMotivation(String letterOfMotivationText){
 		List<Document> documents = getDocumentsForSessionCandidate();
 		Document letterOfMotivation = getLetterOfMotivationFromListIfPossibleElseCreateANewOne(documents);
-		if(letterOfMotivation.getContent().length == 0){//if there is no letter in the DB yet
+		if(letterOfMotivation.getContent() == null || letterOfMotivation.getContent().length == 0){//if there is no letter in the DB yet
 			if(letterOfMotivationText.isEmpty()){
 				//Do nothing
 			}else{
