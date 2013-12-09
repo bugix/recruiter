@@ -299,6 +299,14 @@ public class Skills extends AbstractPersistable<Integer>{
 		endDateExperience.setYear(Integer.parseInt(endDateExperienceYear) - 1900);
 
 	}
+
+	public Boolean getHasNoExperience() {
+		return hasNoExperience;
+	}
+
+	public void setHasNoExperience(Boolean hasNoExperience) {
+		this.hasNoExperience = hasNoExperience;
+	}
 	
 		
 	
