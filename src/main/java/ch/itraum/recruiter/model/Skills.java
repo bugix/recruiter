@@ -72,6 +72,9 @@ public class Skills extends AbstractPersistable<Integer>{
 	
 	private Boolean currentPosition;
 
+	@Transient
+	private Boolean hasNoExperience;
+
 	
 	
 	public Candidate getCandidate() {
