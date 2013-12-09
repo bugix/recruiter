@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<link rel="shortcut icon" href="resources/images/favicon.png"/>
+<link href="resources/css/bootstrap.css" rel="stylesheet" media="screen" />
+
+<!-- Custom styles for this template -->
+<link href="resources/css/stylesheet_reto.css" rel="stylesheet" type="text/css"/>
+
+<link href="resources/css/dropzone.css" rel="stylesheet" media="screen" />
+
+
+<script src="resources/js/dropzone.js"></script>
+
+<title th:text="#{letterOfMotivation}">Letter of Motivation</title>
+
+</head>
+
+
+<body>
+	
+
+<div class="logo-header">		
+	<div class="container">
+		<div align="right">
+			<img src="resources/images/kiebitz-logo.jpg" width="273" height="97" alt="Kiebitz" />
+		</div>
+	</div>
+</div>	
+			
+<div class="jumbotron">
+	<div class="container">
+		<h1 th:text="#{letterOfMotivation}">Letter of Motivation</h1>
+			<ol class="breadcrumb">
+				<li th:text="#{agreement}">Agreement</li>
+				<li th:text="#{candidateData}">Candidate Data</li>
+				<li th:text="#{skills}">Skills</li>
+				<li th:text="#{documentUpload}">Document Upload</li>
+				<li class="active" th:text="#{letterOfMotivation}">Letter of Motivation</li>
+				<li th:text="#{submitApplication}">Submit Application</li>
+			</ol>
+	</div>
+</div>
+		
+
+<div id="wrap">
+		<div class="container">
+		  		<h3 th:text="#{letterOfMotivation}">Motivational Letter</h3>
+				 			
+				
+				<form class="form-horizontal" method="POST" th:object="${documents}">
+			
+			
+				<textarea name="textFieldLetterOfMotivation" th:text="${textAreaContent}" rows="30" ></textarea>
+<!-- 				<textarea name="textFieldLetterOfMotivation" th:text="${textAreaContent}" cols="80" rows="17" ></textarea> -->
+			
+			
+				      
+			   
+					<button type="submit" name="buttonPressed" value="documents_Delete" class="btn btn-warning btn-lg">
+						<span class="glyphicon glyphicon-trash" th:text="#{delete}">Submit</span>
+					</button>
+		
+					<button type="submit" name="buttonPressed" value="documents_Back" class="btn btn-warning btn-lg">
+						<span class="glyphicon glyphicon-chevron-left" th:text="#{back}">Submit</span>
+					</button>
+		
+					<button type="submit" name="buttonPressed" value="documents_Cancel" class="btn btn-warning btn-lg">
+						<span class="glyphicon glyphicon-remove" th:text="#{cancel}">Submit</span>
+					</button>
+	
+					<button type="submit" name="buttonPressed" value="documents_Forward" class="btn btn-warning btn-lg">
+						<span class="glyphicon glyphicon-chevron-right" th:text="#{forward}">Submit</span>
+					</button>
+				</form>
+		
+		<hr/>
+				<footer>
+				<p>&copy; Kiebitz 2013</p>
+				</footer>
+		</div>
+	</div>
+</body>
+</html>
