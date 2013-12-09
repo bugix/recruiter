@@ -51,36 +51,13 @@
 
 <div id="wrap">
 		<div class="container">
-		   <table border="0" width="100%">
-		     <colgroup width="50%" span="2"></colgroup>
-     		     <tr>
-     			 	<td>
-     			 		<h3 th:text="#{documentUpload}">Document Upload</h3>
-     			 	</td>
-				 	<td>
-				 		<h3 th:text="#{motivationalLetter}">MOtivational Letter</h3>
-				 	</td>
-				  </tr>
-				  <tr>
-					<td>
-						<form id="dropzone" role="form" class="dropzone" action="/upload" method="POST">
-				 		</form>
-					</td>
-					<td>
-					
+
+     		<h3 th:text="#{documentUpload}">Document Upload</h3>
+    		
+			<form id="dropzone" role="form" class="dropzone" action="/upload" method="POST">
+			</form>
 			
-							
-						<form class="form-horizontal" id="documentForm" role="form" action="" method="POST" th:object="${documents}">
-<!-- 							<textarea name="textfield" cols="80" rows="17" ></textarea> -->
-				 		</form>
-					</td>
-				  </tr>
-			 </table>
-
 			<form method="POST" th:object="${documents}">
-<!-- 					<label th:text="${#lists.isEmpty(documents) ? 'Leer' : 'Voll'}">Test Label</label> -->
-
-				<textarea name="textfield" th:text="${textAreaContent}" cols="80" rows="17" ></textarea>
 				
 			    <table>
 			      <tr>
