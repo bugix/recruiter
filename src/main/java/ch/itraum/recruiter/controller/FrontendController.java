@@ -34,6 +34,7 @@ import ch.itraum.recruiter.model.Skills;
 import ch.itraum.recruiter.repository.CandidateRepository;
 import ch.itraum.recruiter.repository.DocumentRepository;
 import ch.itraum.recruiter.repository.SkillsRepository;
+import ch.itraum.recruiter.tools.recruiterHelper;
 import ch.itraum.recruiter.validation.CandidateValidator;
 
 @Controller
@@ -467,7 +468,7 @@ public class FrontendController {
 		String textAreaContent = "";
 		
 		for(Document doc: documents){
-			if(doc.getName().equals("Motivationsschreiben_Kiebitz_1976_1973_1977.txt")){
+			if(doc.getName().equals(recruiterHelper.FILE_NAME_MOTIVATIONSSCHREIBEN)){
 				motivationalLetter = doc;
 				letterFound = true;
 			}
@@ -517,7 +518,7 @@ public class FrontendController {
 				Document motivationalLetter = new Document();
 				
 				for(Document doc: documents){
-					if(doc.getName().equals("Motivationsschreiben_Kiebitz_1976_1973_1977.txt")){
+					if(doc.getName().equals(recruiterHelper.FILE_NAME_MOTIVATIONSSCHREIBEN)){
 						motivationalLetter = doc;
 					}
 				}
@@ -526,7 +527,7 @@ public class FrontendController {
 				byte[] imgDataBa = textfield.getBytes();
 
 				motivationalLetter.setContent(imgDataBa);
-				motivationalLetter.setName("Motivationsschreiben_Kiebitz_1976_1973_1977.txt");
+				motivationalLetter.setName(recruiterHelper.FILE_NAME_MOTIVATIONSSCHREIBEN);
 				motivationalLetter.setCandidate(getCandidateFromSession());
 
 				documentRepository.save(motivationalLetter);
