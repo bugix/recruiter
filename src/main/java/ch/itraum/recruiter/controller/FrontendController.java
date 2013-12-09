@@ -14,6 +14,7 @@ import javax.servlet.http.Part;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -26,12 +27,15 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
+import sun.reflect.ReflectionFactory.GetReflectionFactoryAction;
 import ch.itraum.recruiter.model.Candidate;
 import ch.itraum.recruiter.model.Document;
 import ch.itraum.recruiter.model.Skills;
 import ch.itraum.recruiter.repository.CandidateRepository;
 import ch.itraum.recruiter.repository.DocumentRepository;
 import ch.itraum.recruiter.repository.SkillsRepository;
+import ch.itraum.recruiter.tools.recruiterHelper;
+import ch.itraum.recruiter.validation.CandidateValidator;
 
 @Controller
 public class FrontendController {
@@ -48,14 +52,27 @@ public class FrontendController {
 	@Autowired
 	private SessionLocaleResolver localeResolver;
 
+//	@ModelAttribute(value = "yearList")
+//	public List<String> getYearList() {
+//		
+//		List<String> yearList = new LinkedList<String>();
+//		
+//		for (int i = 1970; i < 2024; i++)
+//		{
+//			yearList.add("" + i);
+//		}
+//
+//		return yearList;
+//	}
+	
 	@ModelAttribute(value = "yearList")
-	public List<String> getYearList() {
+	public Map<String, String> getYearList() {
 		
-		List<String> yearList = new LinkedList<String>();
+		Map<String, String> yearList = new LinkedHashMap<String, String>();
 		
 		for (int i = 1970; i < 2024; i++)
 		{
-			yearList.add("" + i);
+			yearList.put("" + i, "" + i);
 		}
 
 		return yearList;
@@ -94,30 +111,44 @@ public class FrontendController {
 	}
 	
 	@RequestMapping(value = "/candidate", method = RequestMethod.GET)
-	public String getCandidate(Model model, Candidate candidate, BindingResult result) {
-		model.addAttribute(getCandidateFromSession());
-//		candidate = getCandidateFromSession();
+	public String getCandidate(Model model) {
+		
+		Candidate candidate = getCandidateFromSession();
+		model.addAttribute(candidate);
+		
+//		Object sessionResult = getCurrentSession().getAttribute("sessionResult"); 
+//		if(sessionResult != null){
+//			BindingResult result = (BindingResult)sessionResult;
+//			model.addAttribute(result);
+//			//TODO: Do the rest (validation etc.)
+//		}else{
+//			//Don't validate
+//		}
+		
 //		CandidateValidator candidateValidator = new CandidateValidator();
 //		candidateValidator.validate(candidate, result);
+//		
+//		BindingResult sessionResult = getres
 		
-		
-//		Object sessionResult = getCurrentSession().getAttribute("candidateResult"); 
-//		if(sessionResult != null){
-////			Candidate validCandidate = getCandidateFromSession();
-////			model.addAttribute((BindingResult)sessionResult);
-////		    BindingResult errors = new BeanPropertyBindingResult(validCandidate, "validCandidate");
-////		    errors.reject("validCandidate.invalid");
-////		    model.asMap().put(BindingResult.MODEL_KEY_PREFIX + "validCandidate", sessionResult);
-//			result = (BindingResult)sessionResult;
-//		}
 		return "frontend/candidate";
 	}
  
 	@RequestMapping(value = "/candidate", method = RequestMethod.POST)
-	public String postCandidate(@Valid Candidate validCandidate,
+	public String postCandidate(Candidate validCandidate,
 			BindingResult result, Model model, @RequestParam("buttonPressed") String buttonPressed) {
+//		public String postCandidate(BindingResult result, Model model, @RequestParam("buttonPressed") String buttonPressed) {
 		//TODO:unset candidate validation flag
-
+//		Candidate sessionCandidate = getCandidateFromSession();
+//		validCandidate.setFirstName(sessionCandidate.getFirstName());
+//		validCandidate.setLastName(sessionCandidate.getLastName());
+//		validCandidate.setEmail(sessionCandidate.getEmail());
+//		validCandidate.setCity(sessionCandidate.getCity());
+//		validCandidate.setPhoneFix(sessionCandidate.getPhoneFix());
+//		validCandidate.setPhoneMobile(sessionCandidate.getPhoneMobile());
+//		validCandidate.setPlz(sessionCandidate.getPlz());
+//		validCandidate.setStreet(sessionCandidate.getStreet());
+//		validCandidate.setTitle(sessionCandidate.getTitle());
+		
 //		model.addAttribute("validCandidate", getCandidateFromSession());
 		
 //		model.addAttribute(getCandidateFromSession());
@@ -132,10 +163,14 @@ public class FrontendController {
 //			result = (BindingResult)sessionResult;
 //		}
 		
+//		CandidateValidator candidateValidator = new CandidateValidator();
+//		candidateValidator.validate(validCandidate, result);
+		
 		if (buttonPressed.equals("contactData_Forward")) {
 			if (result.hasErrors()){
 				getCurrentSession().setAttribute("candidate", fillCandidateFromSessionWithDataFrom(validCandidate));
-				getCurrentSession().setAttribute("candidateResult", result); 
+//				getCurrentSession().setAttribute("candidateResult", result); 
+				getCurrentSession().setAttribute("sessionResult", result); 
 				//TODO:set candidate validatin flag
 				
 				System.out.println("\n\n\nCandidate form has Errors\n\n\n");
@@ -161,6 +196,15 @@ public class FrontendController {
 		}
 	}
 	
+//	private BindingResult getBindingResultFromSession(){
+//		Object sessionResult = getCurrentSession().getAttribute("sessionResult"); 
+//		if(sessionResult != null){
+//			return(BindingResult)sessionResult;
+//		}else{
+//			return null;
+//		}
+//	}
+	
 	private Candidate fillCandidateFromSessionWithDataFrom(Candidate curCandidate){
 		Candidate resCandidate = getCandidateFromSession();
 		resCandidate.setFirstName(curCandidate.getFirstName());
@@ -175,7 +219,7 @@ public class FrontendController {
 		return resCandidate;
 	}
 	
-	private Skills fillSkillsWithDataFrom(Skills curSkills){
+	private Skills fillSkillsFromSessionWithDataFrom(Skills curSkills){
 		Skills resSkills = getSkillsFromSession();
 		resSkills.setCancelationPeriod(curSkills.getCancelationPeriod());
 		resSkills.setCandidate(curSkills.getCandidate());
@@ -190,6 +234,7 @@ public class FrontendController {
 		resSkills.setStartDateEducation(curSkills.getStartDateEducation());
 		resSkills.setStartDateExperience(curSkills.getStartDateExperience());
 		resSkills.setTopic(curSkills.getTopic());
+		resSkills.setHasNoExperience(curSkills.getHasNoExperience());
 		return resSkills;
 	}
 	
@@ -197,7 +242,13 @@ public class FrontendController {
 	@RequestMapping(value = "/skills", method = RequestMethod.GET)
 	public String getCandidateSkills(Model model) {
 		model.addAttribute(getSkillsFromSession());
-		System.out.println("\n\n\n\n\ngetCandidateSkills - GET\n\n\n\n\n");
+//		if(hasNoExperience == null){
+//			getCurrentSession().setAttribute("hasNoExperience", "off");
+//		}else{
+//			getCurrentSession().setAttribute("hasNoExperience", hasNoExperience);
+//		}
+//		model.addAttribute("hasNoExperience", getCurrentSession().getAttribute("hasNoExperience"));
+//		System.out.println("\n\n\n\n\ngetCandidateSkills - GET\n\n\n\n\n");
 		return "frontend/skills";
 	}
 	
@@ -218,13 +269,17 @@ public class FrontendController {
 			}else{
 				validSkills.setCandidate(getCandidateFromSession()); //this Candidate is already validated
 				//save Skills to DB and save the received Skills containing the DB ID into the HTTP Session
-				getCurrentSession().setAttribute("skills", skillsRepository.save(fillSkillsWithDataFrom(validSkills)));
+				Skills skillsWithID = skillsRepository.save(fillSkillsFromSessionWithDataFrom(validSkills));
+				//we have to copy back some values from validSkills to the object we get back from the DB, 
+				//because they are not part of the SQL Model and are therefore not delivered back.
+				skillsWithID.takeAllAttributesExceptIDFrom(validSkills);
+				getCurrentSession().setAttribute("skills", skillsWithID);
 				System.out.println("OK! Tried to save the Skills.");
 				return "redirect:/documents";
 			}
 		}else  if (buttonPressed.equals("contactSkills_Back")) {
 			//save current skills object as is. Validation will effect further processing only if "forward" was pressed.
-			getCurrentSession().setAttribute("skills", fillSkillsWithDataFrom(validSkills)); //if there is already an skills object in the session, we need it's ID
+			getCurrentSession().setAttribute("skills", fillSkillsFromSessionWithDataFrom(validSkills)); //if there is already an skills object in the session, we need it's ID
 			return "redirect:/candidate";
 		}else  if (buttonPressed.equals("contactSkills_Cancel")) {
 			return "redirect:/confirmCancellation";
@@ -238,6 +293,7 @@ public class FrontendController {
 		model.addAttribute(getCandidateFromSession());
 		model.addAttribute(getSkillsFromSession());
 		model.addAttribute("documents", getDocumentsForSessionCandidate());
+		model.addAttribute("hasNoExperience", getCurrentSession().getAttribute("hasNoExperience"));		
 		return "frontend/submitApplication";
 	}
 	
@@ -410,6 +466,26 @@ public class FrontendController {
 	public String getDocuments(Model model) {
 		List<Document> documents = getDocumentsForSessionCandidate();
 
+		Document motivationalLetter = new Document();
+		Boolean letterFound = false;
+		
+		String textAreaContent = "";
+		
+		for(Document doc: documents){
+			if(doc.getName().equals(recruiterHelper.FILE_NAME_MOTIVATIONSSCHREIBEN)){
+				motivationalLetter = doc;
+				letterFound = true;
+			}
+		}
+		
+		if(letterFound){
+			documents.remove(motivationalLetter);
+			textAreaContent = new String (motivationalLetter.getContent());
+		}
+		
+		
+		
+		model.addAttribute("textAreaContent", textAreaContent);
 		model.addAttribute("documents", documents);
 		model.addAttribute("language", getCurrentSession().getAttribute("curLanguage"));
 		System.out.println("\n\n\n\n\ngetDocuments");
@@ -432,16 +508,23 @@ public class FrontendController {
 			documentRepository.delete(Integer.parseInt(strIDs[i]));
 		}
 	}
-
+	
 	@RequestMapping(value = "/documents", method = RequestMethod.POST)
-	public String postDocumentsDelete(Model model, @RequestParam("buttonPressed") String buttonPressed, @RequestParam(value="chbDocuments", required=false) String chbDocuments) {
+	public String postDocumentsDelete(Model model, @RequestParam("buttonPressed") String buttonPressed, @RequestParam(value="chbDocuments", required=false) String chbDocuments, 
+			@RequestParam(value="textfield", required=false) String textfield) {
 
 		List<Document> documents = getDocumentsForSessionCandidate();
 		model.addAttribute("documents", documents);
 		
 		if (buttonPressed.equals("documents_Forward")) {
+			if(textfield != null && !textfield.isEmpty()){
+				Document letterOfMotivation = getLetterOfMotivationFromListIfPossibleElseCreateANewOne(documents);
+				saveLetterOfMotivationAsDocumentFileToDB(letterOfMotivation, textfield.getBytes());
+			}
 			return "redirect:/submitApplication";
 		}else  if (buttonPressed.equals("documents_Back")) {
+			Document letterOfMotivation = getLetterOfMotivationFromListIfPossibleElseCreateANewOne(documents);
+			saveLetterOfMotivationAsDocumentFileToDB(letterOfMotivation, textfield.getBytes());
 			return "redirect:/skills";
 		}else  if (buttonPressed.equals("documents_Delete")) {
 			if(chbDocuments != null){
@@ -454,11 +537,35 @@ public class FrontendController {
 			return "frontend/unexpectedAction";
 		}
 	}
+	
+	private Document getLetterOfMotivationFromListIfPossibleElseCreateANewOne(List<Document> documents){
+		Document letterOfMotivation = new Document();
+		
+		for(Document doc: documents){
+			if(doc.getName().equals(recruiterHelper.FILE_NAME_MOTIVATIONSSCHREIBEN)){
+				letterOfMotivation = doc;
+			}
+		}
+		return letterOfMotivation;
+	}
+	
+	private void saveLetterOfMotivationAsDocumentFileToDB(Document letterOfMotivation, byte[] imgDataBa){
+		letterOfMotivation.setContent(imgDataBa);
+		letterOfMotivation.setName(recruiterHelper.FILE_NAME_MOTIVATIONSSCHREIBEN);
+		letterOfMotivation.setCandidate(getCandidateFromSession());
+
+		documentRepository.save(letterOfMotivation);
+	}
 
 	@ResponseBody
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
-	public void fileUploadSubmit(@RequestParam("file") Part file) throws IOException {
+	public void fileUploadSubmit(@RequestParam("file") Part file, @RequestParam(value="textfield", required=false) String textfield) throws IOException {
 		System.out.println("\n\n\n\n\nfileUploadSubmit\n\n\n\n\n");
+		
+		//save letter of motivation first
+//		Document letterOfMotivation = getLetterOfMotivationFromListIfPossibleElseCreateANewOne(documents);
+		Document letterOfMotivation = new Document();
+		saveLetterOfMotivationAsDocumentFileToDB(letterOfMotivation, textfield.getBytes());
 
 		Document document = new Document();
 
