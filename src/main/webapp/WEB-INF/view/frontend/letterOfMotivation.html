@@ -47,12 +47,14 @@
 		  		<h3 th:text="#{letterOfMotivation}">Motivational Letter</h3>
 				 			
 				
-				<form class="form-horizontal" method="POST">
+				<form method="POST">
 			
+			<div >
+				<textarea class="form-control" name="textFieldLetterOfMotivation" th:placeholder="#{placeholderMotivation}" th:text="${textFieldLetterOfMotivation}" cols="139" rows="20"  ></textarea>
+
+			</div>
 			
-				<textarea name="textFieldLetterOfMotivation" th:text="${textFieldLetterOfMotivation}" rows="30" ></textarea>
-<!-- 				<textarea name="textFieldLetterOfMotivation" th:text="${textAreaContent}" cols="80" rows="17" ></textarea> -->
-			
+			<br/>
 			   
 					<button type="submit" name="buttonPressed" value="letterOfMotivation_Back" class="btn btn-warning btn-lg">
 						<span class="glyphicon glyphicon-chevron-left" th:text="#{back}">Submit</span>
