@@ -421,8 +421,6 @@ public class FrontendController {
 	public String postLetterOfMotivation(Model model, @RequestParam("buttonPressed") String buttonPressed, 
 			@RequestParam(value="textFieldLetterOfMotivation", required=false) String textFieldLetterOfMotivation) {
 
-		List<Document> documents = getDocumentsForSessionCandidate();
-		
 		if (buttonPressed.equals("letterOfMotivation_Forward")) {
 //			if(textFieldLetterOfMotivation != null && !textFieldLetterOfMotivation.isEmpty()){
 //				Document letterOfMotivation = getLetterOfMotivationFromListIfPossibleElseCreateANewOne(documents);

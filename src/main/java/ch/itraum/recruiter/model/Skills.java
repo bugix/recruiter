@@ -11,7 +11,7 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 
 
 @Entity
-@SuppressWarnings("serial")
+@SuppressWarnings({"serial", "deprecation"})
 public class Skills extends AbstractPersistable<Integer>{
 	
 	@OneToOne
