@@ -179,6 +179,7 @@
 				<div class="col-sm-10">	
 					<input type="checkbox" name="currentPosition" th:text="#{currentPosition}" th:field="*{currentPosition}" />
 				</div>
+					<input type="checkbox" name="hasNoExperience" th:text="#{hasNoExperience}" th:field="*{hasNoExperience}" />
 				</div>
 				
 				
@@ -201,11 +202,11 @@
 				</div>
 			</form>
 			<hr/>
-				<form  method="GET">
-					<input th:if="${hasNoExperience=='on'}" type="checkbox" checked="checked" onchange="this.form.submit()" name="hasNoExperience" th:text="#{hasNoExperience}"/>
-					<input th:if="${hasNoExperience=='off'}" type="checkbox" onchange="this.form.submit()" name="hasNoExperience" th:text="#{hasNoExperience}"/>
-					<input style="visibility: hidden;" checked="checked" type="checkbox" name="toggleCheckbox" text=""/>
-				</form>
+<!-- 				<form  method="GET"> -->
+<!-- 					<input th:if="${hasNoExperience=='on'}" type="checkbox" checked="checked" onchange="this.form.submit()" name="hasNoExperience" th:text="#{hasNoExperience}"/> -->
+<!-- 					<input th:if="${hasNoExperience=='off'}" type="checkbox" onchange="this.form.submit()" name="hasNoExperience" th:text="#{hasNoExperience}"/> -->
+<!-- 					<input style="visibility: hidden;" checked="checked" type="checkbox" name="toggleCheckbox" text=""/> -->
+<!-- 				</form> -->
 		
 		<p th:text="#{footerText}">Die mit einem markierten Felder Lorem ipsum dolor sit sadipscing elitr,
 			sed diam nonumy.</p>

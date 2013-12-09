@@ -308,6 +308,21 @@ public class Skills extends AbstractPersistable<Integer>{
 		this.hasNoExperience = hasNoExperience;
 	}
 	
-		
+	public void takeAllAttributesExceptIDFrom(Skills templateSkill){
+		this.setCancelationPeriod(templateSkill.getCancelationPeriod());
+		this.setCandidate(templateSkill.getCandidate());
+		this.setCurrentPosition(templateSkill.getCurrentPosition());
+		this.setDegree(templateSkill.getDegree());
+		this.setEndDateEducation(templateSkill.getEndDateEducation());
+		this.setEndDateExperience(templateSkill.getEndDateExperience());
+		this.setInstitution(templateSkill.getInstitution());
+		this.setJobField(templateSkill.getJobField());
+		this.setPosition(templateSkill.getPosition());
+		this.setProspectiveEnd(templateSkill.getProspectiveEnd());
+		this.setStartDateEducation(templateSkill.getStartDateEducation());
+		this.setStartDateExperience(templateSkill.getStartDateExperience());
+		this.setTopic(templateSkill.getTopic());
+		this.setHasNoExperience(templateSkill.getHasNoExperience());
+	}
 	
 }

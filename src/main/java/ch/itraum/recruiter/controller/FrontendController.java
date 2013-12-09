@@ -213,7 +213,7 @@ public class FrontendController {
 		return resCandidate;
 	}
 	
-	private Skills fillSkillsWithDataFrom(Skills curSkills){
+	private Skills fillSkillsFromSessionWithDataFrom(Skills curSkills){
 		Skills resSkills = getSkillsFromSession();
 		resSkills.setCancelationPeriod(curSkills.getCancelationPeriod());
 		resSkills.setCandidate(curSkills.getCandidate());
@@ -228,20 +228,21 @@ public class FrontendController {
 		resSkills.setStartDateEducation(curSkills.getStartDateEducation());
 		resSkills.setStartDateExperience(curSkills.getStartDateExperience());
 		resSkills.setTopic(curSkills.getTopic());
+		resSkills.setHasNoExperience(curSkills.getHasNoExperience());
 		return resSkills;
 	}
 	
 	
 	@RequestMapping(value = "/skills", method = RequestMethod.GET)
-	public String getCandidateSkills(Model model, @RequestParam(value="hasNoExperience", required=false) String hasNoExperience, @RequestParam(value="toggleCheckbox", required=false) String toggleCheckbox) {
+	public String getCandidateSkills(Model model) {
 		model.addAttribute(getSkillsFromSession());
-		if(hasNoExperience == null){
-			getCurrentSession().setAttribute("hasNoExperience", "off");
-		}else{
-			getCurrentSession().setAttribute("hasNoExperience", hasNoExperience);
-		}
-		model.addAttribute("hasNoExperience", getCurrentSession().getAttribute("hasNoExperience"));
-		System.out.println("\n\n\n\n\ngetCandidateSkills - GET\n\n\n\n\n");
+//		if(hasNoExperience == null){
+//			getCurrentSession().setAttribute("hasNoExperience", "off");
+//		}else{
+//			getCurrentSession().setAttribute("hasNoExperience", hasNoExperience);
+//		}
+//		model.addAttribute("hasNoExperience", getCurrentSession().getAttribute("hasNoExperience"));
+//		System.out.println("\n\n\n\n\ngetCandidateSkills - GET\n\n\n\n\n");
 		return "frontend/skills";
 	}
 	
@@ -262,13 +263,17 @@ public class FrontendController {
 			}else{
 				validSkills.setCandidate(getCandidateFromSession()); //this Candidate is already validated
 				//save Skills to DB and save the received Skills containing the DB ID into the HTTP Session
-				getCurrentSession().setAttribute("skills", skillsRepository.save(fillSkillsWithDataFrom(validSkills)));
+				Skills skillsWithID = skillsRepository.save(fillSkillsFromSessionWithDataFrom(validSkills));
+				//we have to copy back some values from validSkills to the object we get back from the DB, 
+				//because they are not part of the SQL Model and are therefore not delivered back.
+				skillsWithID.takeAllAttributesExceptIDFrom(validSkills);
+				getCurrentSession().setAttribute("skills", skillsWithID);
 				System.out.println("OK! Tried to save the Skills.");
 				return "redirect:/documents";
 			}
 		}else  if (buttonPressed.equals("contactSkills_Back")) {
 			//save current skills object as is. Validation will effect further processing only if "forward" was pressed.
-			getCurrentSession().setAttribute("skills", fillSkillsWithDataFrom(validSkills)); //if there is already an skills object in the session, we need it's ID
+			getCurrentSession().setAttribute("skills", fillSkillsFromSessionWithDataFrom(validSkills)); //if there is already an skills object in the session, we need it's ID
 			return "redirect:/candidate";
 		}else  if (buttonPressed.equals("contactSkills_Cancel")) {
 			return "redirect:/confirmCancellation";

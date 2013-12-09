@@ -68,13 +68,13 @@
 					<label th:text="${skills.prospectiveEnd}==true?#{prospectiveEnd}:#{empty}"></label><br/>			
 <br/>				
 			<h3 th:text="#{experience}">Submit Application</h3>	
-					<label th:if="${hasNoExperience=='on'}" th:text="#{noExperience}"></label><br/>			
-					<label th:if="${hasNoExperience=='off'}" th:text="#{position} + ': ' + ${skills.position}"></label><br/>			
-					<label th:if="${hasNoExperience=='off'}" th:text="#{jobField} + ': ' + ${skills.jobField}"></label><br/>			
-					<label th:if="${hasNoExperience=='off'}" th:text="#{cancelationPeriod} + ': ' + ${skills.cancelationPeriod}"></label><br/>			
-					<label th:if="${hasNoExperience=='off'}" th:text="#{startDateExperience} + ': ' + ${#dates.monthName(skills.startDateExperience)} + '  ' + ${#dates.year(skills.startDateExperience)}"></label><br/>			
-					<label th:if="${hasNoExperience=='off'}" th:text="#{endDateExperience} + ': '+ ${#dates.monthName(skills.endDateExperience)} + '  '+ ${#dates.year(skills.endDateExperience)}"></label><br/>			
-					<label th:if="${hasNoExperience=='off'}" th:text="${skills.currentPosition}==true?#{currentPosition}:#{empty}"></label><br/>			
+					<label th:if="${skills.hasNoExperience}" th:text="#{noExperience}"></label><br/>			
+					<label th:if="${skills.hasNoExperience==false}" th:text="#{position} + ': ' + ${skills.position}"></label><br/>			
+					<label th:if="${skills.hasNoExperience==false}" th:text="#{jobField} + ': ' + ${skills.jobField}"></label><br/>			
+					<label th:if="${skills.hasNoExperience==false}" th:text="#{cancelationPeriod} + ': ' + ${skills.cancelationPeriod}"></label><br/>			
+					<label th:if="${skills.hasNoExperience==false}" th:text="#{startDateExperience} + ': ' + ${#dates.monthName(skills.startDateExperience)} + '  ' + ${#dates.year(skills.startDateExperience)}"></label><br/>			
+					<label th:if="${skills.hasNoExperience==false}" th:text="#{endDateExperience} + ': '+ ${#dates.monthName(skills.endDateExperience)} + '  '+ ${#dates.year(skills.endDateExperience)}"></label><br/>			
+					<label th:if="${skills.hasNoExperience==false}" th:text="${skills.currentPosition}==true?#{currentPosition}:#{empty}"></label><br/>			
 			</div>
 <br/>			
 			<h3 th:text="#{documentUpload}">Submit Application</h3>	
