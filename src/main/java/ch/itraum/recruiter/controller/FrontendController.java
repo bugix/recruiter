@@ -134,7 +134,7 @@ public class FrontendController {
 	}
  
 	@RequestMapping(value = "/candidate", method = RequestMethod.POST)
-	public String postCandidate(Candidate validCandidate,
+	public String postCandidate(@Valid Candidate validCandidate,
 			BindingResult result, Model model, @RequestParam("buttonPressed") String buttonPressed) {
 //		public String postCandidate(BindingResult result, Model model, @RequestParam("buttonPressed") String buttonPressed) {
 		//TODO:unset candidate validation flag
