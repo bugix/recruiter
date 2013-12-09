@@ -455,6 +455,27 @@ public class FrontendController {
 	public String getDocuments(Model model) {
 		List<Document> documents = getDocumentsForSessionCandidate();
 
+//TODO:Clean up Hardcoding
+		Document motivationalLetter = new Document();
+		Boolean letterFound = false;
+		
+		String textAreaContent = "";
+		
+		for(Document doc: documents){
+			if(doc.getName().equals("Motivationsschreiben_Kiebitz_1976_1973_1977.txt")){
+				motivationalLetter = doc;
+				letterFound = true;
+			}
+		}
+		
+		if(letterFound){
+			documents.remove(motivationalLetter);
+			textAreaContent = new String (motivationalLetter.getContent());
+		}
+		
+		
+		
+		model.addAttribute("textAreaContent", textAreaContent);
 		model.addAttribute("documents", documents);
 		model.addAttribute("language", getCurrentSession().getAttribute("curLanguage"));
 		System.out.println("\n\n\n\n\ngetDocuments");
@@ -477,14 +498,34 @@ public class FrontendController {
 			documentRepository.delete(Integer.parseInt(strIDs[i]));
 		}
 	}
-
+	
 	@RequestMapping(value = "/documents", method = RequestMethod.POST)
-	public String postDocumentsDelete(Model model, @RequestParam("buttonPressed") String buttonPressed, @RequestParam(value="chbDocuments", required=false) String chbDocuments) {
+	public String postDocumentsDelete(Model model, @RequestParam("buttonPressed") String buttonPressed, @RequestParam(value="chbDocuments", required=false) String chbDocuments, 
+			@RequestParam(value="textfield", required=false) String textfield) {
 
 		List<Document> documents = getDocumentsForSessionCandidate();
 		model.addAttribute("documents", documents);
 		
 		if (buttonPressed.equals("documents_Forward")) {
+			if(textfield != null && !textfield.isEmpty()){
+//TODO:Clean Hardcoding
+				Document motivationalLetter = new Document();
+				
+				for(Document doc: documents){
+					if(doc.getName().equals("Motivationsschreiben_Kiebitz_1976_1973_1977.txt")){
+						motivationalLetter = doc;
+					}
+				}
+				
+
+				byte[] imgDataBa = textfield.getBytes();
+
+				motivationalLetter.setContent(imgDataBa);
+				motivationalLetter.setName("Motivationsschreiben_Kiebitz_1976_1973_1977.txt");
+				motivationalLetter.setCandidate(getCandidateFromSession());
+
+				documentRepository.save(motivationalLetter);
+			}
 			return "redirect:/submitApplication";
 		}else  if (buttonPressed.equals("documents_Back")) {
 			return "redirect:/skills";
@@ -518,6 +559,7 @@ public class FrontendController {
 		documentRepository.save(document);
 	}
 	
+		
 	private HttpSession getCurrentSession() {
 	    ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
 	    return attr.getRequest().getSession(true); // true == allow create

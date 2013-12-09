@@ -14,11 +14,11 @@ public class Document extends AbstractPersistable<Integer> {
 	
 	@Lob
 	private byte[] content;
-	
+
 	@ManyToOne
 	private Candidate candidate;
 
-	public String getName() {
+		public String getName() {
 		return name;
 	}
 
