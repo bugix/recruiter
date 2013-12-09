@@ -342,7 +342,7 @@ public class FrontendController {
 		Document motivationalLetter = new Document();
 		Boolean letterFound = false;
 		
-		String textAreaContent = "";
+//		String textAreaContent = "";
 		
 		for(Document doc: documents){
 			if(doc.getName().equals(recruiterHelper.FILE_NAME_MOTIVATIONSSCHREIBEN)){
@@ -352,9 +352,9 @@ public class FrontendController {
 		}
 		if(letterFound){
 			documents.remove(motivationalLetter);
-			textAreaContent = new String (motivationalLetter.getContent());
+//			textAreaContent = new String (motivationalLetter.getContent());
 		}
-		model.addAttribute("textAreaContent", textAreaContent);
+//		model.addAttribute("textAreaContent", textAreaContent);
 		model.addAttribute("documents", documents);
 		model.addAttribute("language", getCurrentSession().getAttribute("curLanguage"));
 		return "frontend/documents";
@@ -373,21 +373,22 @@ public class FrontendController {
 	}
 	
 	@RequestMapping(value = "/documents", method = RequestMethod.POST)
-	public String postDocumentsDelete(Model model, @RequestParam("buttonPressed") String buttonPressed, @RequestParam(value="chbDocuments", required=false) String chbDocuments, 
-			@RequestParam(value="textfield", required=false) String textfield) {
+	public String postDocumentsDelete(Model model, @RequestParam("buttonPressed") String buttonPressed, @RequestParam(value="chbDocuments", 
+			required=false) String chbDocuments) {
 
 		List<Document> documents = getDocumentsForSessionCandidate();
 		model.addAttribute("documents", documents);
 		
 		if (buttonPressed.equals("documents_Forward")) {
-			if(textfield != null && !textfield.isEmpty()){
-				Document letterOfMotivation = getLetterOfMotivationFromListIfPossibleElseCreateANewOne(documents);
-				saveLetterOfMotivationAsDocumentFileToDB(letterOfMotivation, textfield.getBytes());
-			}
-			return "redirect:/submitApplication";
+//			if(textfield != null && !textfield.isEmpty()){
+//				Document letterOfMotivation = getLetterOfMotivationFromListIfPossibleElseCreateANewOne(documents);
+//				saveLetterOfMotivationAsDocumentFileToDB(letterOfMotivation, textfield.getBytes());
+//			}
+			return "redirect:/letterOfMotivation";
+//			return "redirect:/submitApplication";
 		}else  if (buttonPressed.equals("documents_Back")) {
-			Document letterOfMotivation = getLetterOfMotivationFromListIfPossibleElseCreateANewOne(documents);
-			saveLetterOfMotivationAsDocumentFileToDB(letterOfMotivation, textfield.getBytes());
+//			Document letterOfMotivation = getLetterOfMotivationFromListIfPossibleElseCreateANewOne(documents);
+//			saveLetterOfMotivationAsDocumentFileToDB(letterOfMotivation, textfield.getBytes());
 			return "redirect:/skills";
 		}else  if (buttonPressed.equals("documents_Delete")) {
 			if(chbDocuments != null){
@@ -398,6 +399,65 @@ public class FrontendController {
 			return "redirect:/confirmCancellation";
 		}else {
 			return "frontend/unexpectedAction";
+		}
+	}
+	
+	@RequestMapping(value = "/letterOfMotivation", method = RequestMethod.GET)
+	public String getLetterOfMotivation(Model model) {
+		List<Document> documents = getDocumentsForSessionCandidate();
+
+		String textAreaContent = "";
+		
+		for(Document doc: documents){
+			if(doc.getName().equals(recruiterHelper.FILE_NAME_MOTIVATIONSSCHREIBEN)){
+				textAreaContent = new String(doc.getContent());
+			}
+		}
+		model.addAttribute("textFieldLetterOfMotivation", textAreaContent);
+		return "frontend/documents";
+	}
+
+	@RequestMapping(value = "/letterOfMotivation", method = RequestMethod.POST)
+	public String postLetterOfMotivation(Model model, @RequestParam("buttonPressed") String buttonPressed, 
+			@RequestParam(value="textFieldLetterOfMotivation", required=false) String textFieldLetterOfMotivation) {
+
+		List<Document> documents = getDocumentsForSessionCandidate();
+		
+		if (buttonPressed.equals("letterOfMotivation_Forward")) {
+//			if(textFieldLetterOfMotivation != null && !textFieldLetterOfMotivation.isEmpty()){
+//				Document letterOfMotivation = getLetterOfMotivationFromListIfPossibleElseCreateANewOne(documents);
+//				saveLetterOfMotivationAsDocumentFileToDB(letterOfMotivation, textFieldLetterOfMotivation.getBytes());
+//			}
+			manageDBStuff4LetterOfMotivation(textFieldLetterOfMotivation);
+			return "redirect:/submitApplication";
+		}else  if (buttonPressed.equals("letterOfMotivation_Back")) {
+//			Document letterOfMotivation = getLetterOfMotivationFromListIfPossibleElseCreateANewOne(documents);
+//			saveLetterOfMotivationAsDocumentFileToDB(letterOfMotivation, textFieldLetterOfMotivation.getBytes());
+			manageDBStuff4LetterOfMotivation(textFieldLetterOfMotivation);
+			return "redirect:/documents";
+		}else  if (buttonPressed.equals("letterOfMotivation_Cancel")) {
+			return "redirect:/confirmCancellation";
+		}else {
+			return "frontend/unexpectedAction";
+		}
+	}
+	
+	private void manageDBStuff4LetterOfMotivation(String letterOfMotivationText){
+		List<Document> documents = getDocumentsForSessionCandidate();
+		Document letterOfMotivation = getLetterOfMotivationFromListIfPossibleElseCreateANewOne(documents);
+		if(letterOfMotivation.getContent().length == 0){//if there is no letter in the DB yet
+			if(letterOfMotivationText.isEmpty()){
+				//Do nothing
+			}else{
+				saveLetterOfMotivationAsDocumentFileToDB(letterOfMotivation, letterOfMotivationText.getBytes());
+			}
+		}else{//if there is already a letter in the DB
+			if(letterOfMotivationText.isEmpty()){
+				//delete letter from DB
+				documentRepository.delete(letterOfMotivation.getId());
+			}else{
+				saveLetterOfMotivationAsDocumentFileToDB(letterOfMotivation, letterOfMotivationText.getBytes());				
+			}
 		}
 	}
 	
