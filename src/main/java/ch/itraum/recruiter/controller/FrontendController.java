@@ -119,7 +119,9 @@ public class FrontendController {
 		//TODO:unset candidate validation flag
 
 //		model.addAttribute("validCandidate", getCandidateFromSession());
-		model.addAttribute(getCandidateFromSession());
+		
+//		model.addAttribute(getCandidateFromSession());
+		
 //		Object sessionResult = getCurrentSession().getAttribute("candidateResult"); 
 //		if(sessionResult != null){
 ////			model.asMap().put(sessionResult.)
@@ -135,8 +137,11 @@ public class FrontendController {
 				getCurrentSession().setAttribute("candidate", fillCandidateFromSessionWithDataFrom(validCandidate));
 				getCurrentSession().setAttribute("candidateResult", result); 
 				//TODO:set candidate validatin flag
-				return "redirect:/candidate";
-//				return "frontend/candidate";
+				
+				System.out.println("\n\n\nCandidate form has Errors\n\n\n");
+				
+//				return "redirect:/candidate";
+				return "frontend/candidate";
 			}else{
 				//Candidate needs to be saved anyway before skills and documents can be saved. 
 				//So here is where this happens.
@@ -202,7 +207,7 @@ public class FrontendController {
 			BindingResult result, Model model, @RequestParam("buttonPressed") String buttonPressed) {
 
 //		getCurrentSession().getAttribute(localeResolver.LOCALE_SESSION_ATTRIBUTE_NAME);
-		model.addAttribute(getSkillsFromSession());
+//		model.addAttribute(getSkillsFromSession());
 		System.out.println("\n\n\n\n\ngetCandidateSkills - POST\n\n\n\n\n");
 		
 		if (buttonPressed.equals("contactSkills_Forward")) {

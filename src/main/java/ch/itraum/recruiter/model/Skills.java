@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 
@@ -17,6 +18,7 @@ public class Skills extends AbstractPersistable<Integer>{
 	private Candidate candidate;
 	
 //	Group Education
+	@NotEmpty
 	private String institution;
 	
 	private String topic;
