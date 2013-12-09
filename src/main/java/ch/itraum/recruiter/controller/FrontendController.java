@@ -461,7 +461,6 @@ public class FrontendController {
 	public String getDocuments(Model model) {
 		List<Document> documents = getDocumentsForSessionCandidate();
 
-//TODO:Clean up Hardcoding
 		Document motivationalLetter = new Document();
 		Boolean letterFound = false;
 		
@@ -514,26 +513,13 @@ public class FrontendController {
 		
 		if (buttonPressed.equals("documents_Forward")) {
 			if(textfield != null && !textfield.isEmpty()){
-//TODO:Clean Hardcoding
-				Document motivationalLetter = new Document();
-				
-				for(Document doc: documents){
-					if(doc.getName().equals(recruiterHelper.FILE_NAME_MOTIVATIONSSCHREIBEN)){
-						motivationalLetter = doc;
-					}
-				}
-				
-
-				byte[] imgDataBa = textfield.getBytes();
-
-				motivationalLetter.setContent(imgDataBa);
-				motivationalLetter.setName(recruiterHelper.FILE_NAME_MOTIVATIONSSCHREIBEN);
-				motivationalLetter.setCandidate(getCandidateFromSession());
-
-				documentRepository.save(motivationalLetter);
+				Document letterOfMotivation = getLetterOfMotivationFromListIfPossibleElseCreateANewOne(documents);
+				saveLetterOfMotivationAsDocumentFileToDB(letterOfMotivation, textfield.getBytes());
 			}
 			return "redirect:/submitApplication";
 		}else  if (buttonPressed.equals("documents_Back")) {
+			Document letterOfMotivation = getLetterOfMotivationFromListIfPossibleElseCreateANewOne(documents);
+			saveLetterOfMotivationAsDocumentFileToDB(letterOfMotivation, textfield.getBytes());
 			return "redirect:/skills";
 		}else  if (buttonPressed.equals("documents_Delete")) {
 			if(chbDocuments != null){
@@ -546,11 +532,35 @@ public class FrontendController {
 			return "frontend/unexpectedAction";
 		}
 	}
+	
+	private Document getLetterOfMotivationFromListIfPossibleElseCreateANewOne(List<Document> documents){
+		Document letterOfMotivation = new Document();
+		
+		for(Document doc: documents){
+			if(doc.getName().equals(recruiterHelper.FILE_NAME_MOTIVATIONSSCHREIBEN)){
+				letterOfMotivation = doc;
+			}
+		}
+		return letterOfMotivation;
+	}
+	
+	private void saveLetterOfMotivationAsDocumentFileToDB(Document letterOfMotivation, byte[] imgDataBa){
+		letterOfMotivation.setContent(imgDataBa);
+		letterOfMotivation.setName(recruiterHelper.FILE_NAME_MOTIVATIONSSCHREIBEN);
+		letterOfMotivation.setCandidate(getCandidateFromSession());
+
+		documentRepository.save(letterOfMotivation);
+	}
 
 	@ResponseBody
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
-	public void fileUploadSubmit(@RequestParam("file") Part file) throws IOException {
+	public void fileUploadSubmit(@RequestParam("file") Part file, @RequestParam(value="textfield", required=false) String textfield) throws IOException {
 		System.out.println("\n\n\n\n\nfileUploadSubmit\n\n\n\n\n");
+		
+		//save letter of motivation first
+//		Document letterOfMotivation = getLetterOfMotivationFromListIfPossibleElseCreateANewOne(documents);
+		Document letterOfMotivation = new Document();
+		saveLetterOfMotivationAsDocumentFileToDB(letterOfMotivation, textfield.getBytes());
 
 		Document document = new Document();
 
