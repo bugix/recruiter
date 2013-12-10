@@ -20,9 +20,11 @@ public class Skills extends AbstractPersistable<Integer>{
 //	Group Education
 	@NotEmpty
 	private String institution;
-	
+
+	@NotEmpty
 	private String topic;
-	
+
+	@NotEmpty	
 	private String degree;
 	
 	@Transient

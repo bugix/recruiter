@@ -1,11 +1,16 @@
 package ch.itraum.recruiter.model;
 
 import javax.persistence.Entity;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
-import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.data.jpa.domain.AbstractPersistable;
+
 //import javax.validation.constraints.Digits;
 import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.data.jpa.domain.AbstractPersistable;
 
 @Entity
 @SuppressWarnings("serial")
@@ -19,17 +24,20 @@ public class Candidate extends AbstractPersistable<Integer> {
 	@NotEmpty
 	private String lastName;
 	
-//	@NotEmpty
+	@NotEmpty
 	private String street;
 	
-//	@NotEmpty
+//	@Min(value=100)
+	@NotNull
+//	@Digits(integer=14, fraction=0)
 	private Integer plz;
 	
-//	@NotEmpty
+	@NotEmpty
 	private String city;
 	
 //	@Digits(integer=14, fraction=0)
-//	@NotEmpty
+	@NotEmpty
+	@Pattern(regexp="[+]?[\\d\\s]+", message="{invalid.phonenumber}")
 	private String phoneFix;
 	
 //	@Digits(integer=14, fraction=0)
