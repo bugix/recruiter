@@ -46,7 +46,7 @@ public class ApplicationConfig {
 		LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
 
 		Map<String, String> jpaPropertyMap = new HashMap<String, String>();
-		jpaPropertyMap.put("hibernate.hbm2ddl.auto", "create");
+		jpaPropertyMap.put("hibernate.hbm2ddl.auto", "update");
 		jpaPropertyMap.put("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
 
 		factory.setJpaPropertyMap(jpaPropertyMap);
