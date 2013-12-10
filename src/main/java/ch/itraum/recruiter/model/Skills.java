@@ -40,8 +40,6 @@ public class Skills extends AbstractPersistable<Integer>{
 	
 	@Transient
 	private String endDateEducationYear;
-
-	
 	
 	private Date endDateEducation = new Date();
 	
@@ -61,7 +59,6 @@ public class Skills extends AbstractPersistable<Integer>{
 	@Transient
 	private String startDateExperienceYear;
 	
-		
 	private Date startDateExperience = new Date();
 	
 	@Transient
@@ -70,15 +67,12 @@ public class Skills extends AbstractPersistable<Integer>{
 	@Transient
 	private String endDateExperienceYear;
 	
-	
 	private Date endDateExperience = new Date();
-	
 	
 	private Boolean currentPosition;
 
 	@Transient
 	private Boolean hasNoExperience;
-
 	
 	
 	public Candidate getCandidate() {
@@ -312,6 +306,11 @@ public class Skills extends AbstractPersistable<Integer>{
 		this.hasNoExperience = hasNoExperience;
 	}
 	
+	//This is used for preparing "Skills" to be written to DB.
+	//Except the DB ID all attributes of "this" will be overwritten
+	//with the attributes of the parameter "templateSkill"
+	//Because the DB ID will not change, the method can be used
+	//to prepare an update to the existing "Skills" in the DB.
 	public void takeAllAttributesExceptIDFrom(Skills templateSkill){
 		this.setCancelationPeriod(templateSkill.getCancelationPeriod());
 		this.setCandidate(templateSkill.getCandidate());

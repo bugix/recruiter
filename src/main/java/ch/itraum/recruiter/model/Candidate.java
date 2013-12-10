@@ -1,11 +1,8 @@
 package ch.itraum.recruiter.model;
 
 import javax.persistence.Entity;
-import javax.validation.constraints.Digits;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-
 
 //import javax.validation.constraints.Digits;
 import org.hibernate.validator.constraints.Email;
@@ -27,20 +24,15 @@ public class Candidate extends AbstractPersistable<Integer> {
 	@NotEmpty
 	private String street;
 	
-//	@Min(value=100)
 	@NotNull
-//	@Digits(integer=14, fraction=0)
 	private Integer plz;
 	
 	@NotEmpty
 	private String city;
 	
-//	@Digits(integer=14, fraction=0)
-	@NotEmpty
 	@Pattern(regexp="[+]?[\\d\\s]+", message="{invalid.phonenumber}")
 	private String phoneFix;
 	
-//	@Digits(integer=14, fraction=0)
 	private String phoneMobile;
 		
 	@Email
