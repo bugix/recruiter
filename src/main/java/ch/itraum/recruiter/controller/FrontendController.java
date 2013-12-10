@@ -356,7 +356,8 @@ public class FrontendController {
 		}
 //		model.addAttribute("textAreaContent", textAreaContent);
 		model.addAttribute("documents", documents);
-		model.addAttribute("language", getCurrentSession().getAttribute("curLanguage"));
+//		model.addAttribute("language", getCurrentSession().getAttribute("curLanguage"));
+		model.addAttribute("language", getCurrentOrDefaultLanguageFromSession());
 		return "frontend/documents";
 	}
 
