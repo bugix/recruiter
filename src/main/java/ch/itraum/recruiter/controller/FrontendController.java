@@ -200,8 +200,15 @@ public class FrontendController {
 	public String getSubmitApplication(Model model) {
 		model.addAttribute(getCandidateFromSession());
 		model.addAttribute(getSkillsFromSession());
-		model.addAttribute("documents", getDocumentsForSessionCandidate());
-//		model.addAttribute("hasNoExperience", getCurrentSession().getAttribute("hasNoExperience"));		
+		List<Document> documents = getDocumentsForSessionCandidate();
+		for(Document doc: documents){
+			if(doc.getName().equals(recruiterHelper.FILE_NAME_MOTIVATIONSSCHREIBEN)){
+				doc.setName("translateMotivationsschreiben");
+			}
+		}
+		
+		model.addAttribute("documents", documents);
+//		model.addAttribute("documents", getDocumentsForSessionCandidate());
 		return "frontend/submitApplication";
 	}
 	

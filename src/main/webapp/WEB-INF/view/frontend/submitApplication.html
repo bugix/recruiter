@@ -57,32 +57,35 @@
 					<label th:text="#{phoneFix} + ': ' + ${candidate.phoneFix}"></label><br/>
 					<label th:text="#{phoneMobile} + ': ' + ${candidate.phoneMobile}"></label><br/>
 			</div>
-<br/>
+			
 			<h3 th:text="#{education}">Submit Application</h3>
 
 			<div id="skills" th:object="${skills}">
-					<label th:text="#{institution} + ': ' + ${skills.institution}"></label><br/>			
-					<label th:text="#{topic} + ': ' + ${skills.topic}"></label><br/>			
-					<label th:text="#{degree} + ': ' + ${skills.degree}"></label><br/>			
-					<label th:text="#{startDateEducation} + ': ' + ${#dates.monthName(skills.startDateEducation)}+'  '+ ${#dates.year(skills.startDateEducation)}"></label><br/>			
-					<label th:text="#{endDateEducation} + ': ' + ${#dates.monthName(skills.endDateEducation)} +'  ' + ${#dates.year(skills.endDateEducation)}"></label><br/>			
-					<label th:text="${skills.prospectiveEnd}==true?#{prospectiveEnd}:#{empty}"></label><br/>			
-<br/>				
-			<h3 th:text="#{experience}">Submit Application</h3>	
-					<div th:if="${skills.hasNoExperience}">
-						<label th:text="#{noExperience}"></label><br/>
-					</div>			
-			<div th:if="${skills.hasNoExperience==false}">
+				<label th:text="#{institution} + ': ' + ${skills.institution}"></label><br/>			
+				<label th:text="#{topic} + ': ' + ${skills.topic}"></label><br/>			
+				<label th:text="#{degree} + ': ' + ${skills.degree}"></label><br/>			
+				<label th:text="#{startDateEducation} + ': ' + ${#dates.monthName(skills.startDateEducation)}+'  '+ ${#dates.year(skills.startDateEducation)}"></label><br/>			
+				<label th:text="#{endDateEducation} + ': ' + ${#dates.monthName(skills.endDateEducation)} +'  ' + ${#dates.year(skills.endDateEducation)}"></label><br/>	
+				<div th:if="${skills.prospectiveEnd}">
+					<label th:text="#{prospectiveEnd}"></label><br/>			
+				</div>
+			</div>
+			
+			<div id="experience" th:object="${skills}">
+				<h3 th:text="#{experience}">Submit Application</h3>	
+				<div th:if="${skills.hasNoExperience}">
+					<label th:text="#{noExperience}"></label><br/>
+				</div>			
+				<div th:if="${skills.hasNoExperience==false}">
 					<label th:text="#{position} + ': ' + ${skills.position}"></label><br/>			
 					<label th:text="#{jobField} + ': ' + ${skills.jobField}"></label><br/>			
 					<label th:text="#{cancelationPeriod} + ': ' + ${skills.cancelationPeriod}"></label><br/>			
 					<label th:text="#{startDateExperience} + ': ' + ${#dates.monthName(skills.startDateExperience)} + '  ' + ${#dates.year(skills.startDateExperience)}"></label><br/>			
 					<label th:text="#{endDateExperience} + ': '+ ${#dates.monthName(skills.endDateExperience)} + '  '+ ${#dates.year(skills.endDateExperience)}"></label><br/>			
 					<label th:text="${skills.currentPosition}==true?#{currentPosition}:#{empty}"></label><br/>			
+				</div>
 			</div>
-			</div>
-
-<br/>			
+		
 			<h3 th:text="#{documentUpload}">Submit Application</h3>	
 			
 			<div id="documents" th:object="${documents}">
@@ -91,7 +94,7 @@
 			        <th th:text="#{uploadedFiles}">Alternativ Text</th>
 			      </tr>
 			      <tr th:each="doc : ${documents}">
-			        <td th:text="${doc.name}">Alternativ Text</td>
+			        <td th:text="${doc.name}=='translateMotivationsschreiben'?#{translateMotivationsschreiben}+'_'+${candidate.lastName}+'_'+${candidate.firstName}:${doc.name}">Alternativ Text</td>
 			      </tr>
 			    </table>
 			</div>
