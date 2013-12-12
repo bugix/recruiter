@@ -88,7 +88,7 @@
 							<option th:each="month : ${monthList}" th:value="${month.key}" th:text="#{${month.value}}">Januar</option>
 					</select>
 					<select th:field="*{startDateEducationYear}">
-							<option th:each="year : ${yearList}" th:value="${year.key}" th:text="${year.value}">1970</option>
+							<option th:each="year : ${yearListStart}" th:value="${year.key}" th:text="${year.value}">1970</option>
 					</select>					
 				<p class="help-block" th:if="${#fields.hasErrors('startDateEducationMonth')}"	th:each="err : ${#fields.errors('startDateEducationMonth')}" th:text="${err}">Error</p>
 				</div>
@@ -101,7 +101,7 @@
 							<option th:each="month : ${monthList}" th:value="${month.key}" th:text="#{${month.value}}">Januar</option>
 					</select>
 					<select th:field="*{endDateEducationYear}">
-							<option th:each="year : ${yearList}" th:value="${year.key}" th:text="${year.value}">1970</option>
+							<option th:each="year : ${yearListEnd}" th:value="${year.key}" th:text="${year.value}">1970</option>
 					</select>
 				<p class="help-block" th:if="${#fields.hasErrors('endDateEducationMonth')}"	th:each="err : ${#fields.errors('endDateEducationMonth')}" th:text="${err}">Error</p>
 				</div>
@@ -164,7 +164,7 @@
 							<option th:each="month : ${monthList}" th:value="${month.key}" th:text="#{${month.value}}">Januar</option>
 					</select>
 					<select th:field="*{startDateExperienceYear}">
-							<option th:each="year : ${yearList}" th:value="${year.key}" th:text="${year.value}">1970</option>
+							<option th:each="year : ${yearListStart}" th:value="${year.key}" th:text="${year.value}">1970</option>
 					</select>
 				<p class="help-block" th:if="${#fields.hasErrors('startDateExperienceMonth')}"	th:each="err : ${#fields.errors('startDateExperienceMonth')}" th:text="${err}">Error</p>
 				</div>
@@ -177,7 +177,7 @@
 							<option th:each="month : ${monthList}" th:value="${month.key}" th:text="#{${month.value}}">Januar</option>
 					</select>
 					<select th:field="*{endDateExperienceYear}">
-							<option th:each="year : ${yearList}" th:value="${year.key}" th:text="${year.value}">1970</option>
+							<option th:each="year : ${yearListEnd}" th:value="${year.key}" th:text="${year.value}">1970</option>
 					</select>
 				<p class="help-block" th:if="${#fields.hasErrors('endDateExperienceMonth')}"	th:each="err : ${#fields.errors('endDateExperienceMonth')}" th:text="${err}">Error</p>
 				</div>

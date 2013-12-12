@@ -2,11 +2,13 @@ package ch.itraum.recruiter.controller;
 
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import javax.print.attribute.standard.DateTimeAtCompleted;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
@@ -54,17 +56,38 @@ public class FrontendController {
 
 	//generates a "List" of years for use in dropdown lists
 	//Took "Map" instead of "List" to avoid a huge parameter line in the browser
-	@ModelAttribute(value = "yearList")
-	public Map<String, String> getYearList() {
+//	@ModelAttribute(value = "yearList")
+	private Map<String, String> getYearList(int maxYear) {
 		
 		Map<String, String> yearList = new LinkedHashMap<String, String>();
 		
-		for (int i = 1970; i < 2024; i++)
+		for (int i = 1970; i <= maxYear; i++)
 		{
 			yearList.put("" + i, "" + i);
 		}
 
 		return yearList;
+	}
+
+	//generates a "List" of years for use in dropdown lists
+	//Took "Map" instead of "List" to avoid a huge parameter line in the browser
+	@ModelAttribute(value = "yearListStart")
+	public Map<String, String> getYearListStart() {
+		
+		return getYearList(getCurrentYear());
+	}
+
+	//generates a "List" of years for use in dropdown lists
+	//Took "Map" instead of "List" to avoid a huge parameter line in the browser
+	@ModelAttribute(value = "yearListEnd")
+	public Map<String, String> getYearListEnd() {
+		
+		return getYearList(getCurrentYear() + 8);
+	}
+	
+	private int getCurrentYear(){
+		//new Date() allocates a Date object and initializes it so that it represents the time at which it was allocated
+		return ((new Date()).getYear() + 1900);
 	}
 
 	//generates a "List" of months for use in dropdown lists
