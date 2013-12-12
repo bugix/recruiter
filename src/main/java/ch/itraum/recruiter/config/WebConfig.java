@@ -42,9 +42,6 @@ public class WebConfig extends WebMvcConfigurationSupport {
 	public SpringTemplateEngine templateEngine() {
 		SpringTemplateEngine springTemplateEngine = new SpringTemplateEngine();
 		springTemplateEngine.setTemplateResolver(templateResolver());
-		StandardMessageResolver stdMessageResolver = new StandardMessageResolver();
-		springTemplateEngine.setMessageResolver(stdMessageResolver);
-//		springTemplateEngine.setMessageSource(messageSource());
 		return springTemplateEngine;
 	}
 
@@ -89,8 +86,8 @@ public class WebConfig extends WebMvcConfigurationSupport {
 	public MessageSource messageSource() {
 		ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
 		messageSource.setBasenames("classpath:translations/frontend");
-		//messageSource.setUseCodeAsDefaultMessage(true);
-		messageSource.setDefaultEncoding("UTF-8");
+		messageSource.setUseCodeAsDefaultMessage(true);
+		//messageSource.setDefaultEncoding("UTF-8");
 
 		return messageSource;
 	}
