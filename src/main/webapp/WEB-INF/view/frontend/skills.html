@@ -60,7 +60,7 @@
 					
 									
 				<div th:class="${#fields.hasErrors('topic')} ? 'form-group has-error' : 'form-group'">
-					<label for="topic" class="col-sm-2 control-label"><span th:text="#{topic}">Topic</span></label>
+					<label for="topic" class="col-sm-2 control-label"><span class="star">*</span><span th:text="#{topic}">Topic</span></label>
 					<div class="col-sm-10">
 					<input type="text" class="form-control" id="topic" th:placeholder="#{topic}" th:field="*{topic}" />
 					<p class="help-block" th:if="${#fields.hasErrors('topic')}" th:each="err : ${#fields.errors('topic')}" th:text="${err}">Error</p>
@@ -211,11 +211,6 @@
 				</div>
 			</form>
 			<hr/>
-<!-- 				<form  method="GET"> -->
-<!-- 					<input th:if="${hasNoExperience=='on'}" type="checkbox" checked="checked" onchange="this.form.submit()" name="hasNoExperience" th:text="#{hasNoExperience}"/> -->
-<!-- 					<input th:if="${hasNoExperience=='off'}" type="checkbox" onchange="this.form.submit()" name="hasNoExperience" th:text="#{hasNoExperience}"/> -->
-<!-- 					<input style="visibility: hidden;" checked="checked" type="checkbox" name="toggleCheckbox" text=""/> -->
-<!-- 				</form> -->
 		
 		<p>
 			<span th:text="#{footerTextOne}">Die mit einem </span><span class="star">*</span>	
