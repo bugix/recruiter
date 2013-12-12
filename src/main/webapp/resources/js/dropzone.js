@@ -419,7 +419,6 @@ require.register("dropzone/lib/dropzone.js", function(exports, require, module){
         dropzone.on("dragEnter", function() { });
     */
 
-
     Dropzone.prototype.events = ["drop", "dragstart", "dragend", "dragenter", "dragover", "dragleave", "selectedfiles", "addedfile", "removedfile", "thumbnail", "error", "errormultiple", "processing", "processingmultiple", "uploadprogress", "totaluploadprogress", "sending", "sendingmultiple", "success", "successmultiple", "canceled", "canceledmultiple", "complete", "completemultiple", "reset", "maxfilesexceeded"];
 
     Dropzone.prototype.defaultOptions = {
