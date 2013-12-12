@@ -12,6 +12,8 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,10 +33,12 @@ import ch.itraum.recruiter.model.Skills;
 import ch.itraum.recruiter.repository.CandidateRepository;
 import ch.itraum.recruiter.repository.DocumentRepository;
 import ch.itraum.recruiter.repository.SkillsRepository;
-import ch.itraum.recruiter.tools.recruiterHelper;
+import ch.itraum.recruiter.tools.RecruiterHelper;
 
 @Controller
 public class FrontendController {
+	
+	Logger logger = LoggerFactory.getLogger(FrontendController.class);
 
 	@Autowired
 	private CandidateRepository candidateRepository;
@@ -91,8 +95,8 @@ public class FrontendController {
 	{
 		Map<String, String> languageMap = new LinkedHashMap<String, String>();
 		
-		languageMap.put(recruiterHelper.LANGUAGE_GERMAN, "Deutsch");
-		languageMap.put(recruiterHelper.LANGUAGE_ENGLISH, "English");
+		languageMap.put(RecruiterHelper.LANGUAGE_GERMAN, "Deutsch");
+		languageMap.put(RecruiterHelper.LANGUAGE_ENGLISH, "English");
 	
 		return languageMap;
 	}
@@ -115,7 +119,7 @@ public class FrontendController {
 			return "redirect:/candidate";
 		}else  if (buttonPressed.equals("agreement_Decline")) {
 			return "redirect:/confirmCancellation";
-		}else  if (buttonPressed.equals(recruiterHelper.LANGUAGE_GERMAN)||buttonPressed.equals(recruiterHelper.LANGUAGE_ENGLISH)) {
+		}else  if (buttonPressed.equals(RecruiterHelper.LANGUAGE_GERMAN)||buttonPressed.equals(RecruiterHelper.LANGUAGE_ENGLISH)) {
 			request.setAttribute("lang", buttonPressed);
 			return "redirect:/";
 		}else {
@@ -200,7 +204,7 @@ public class FrontendController {
 		Document motivationalLetter = new Document();
 		Boolean letterFound = false;
 		for(Document doc: documents){
-			if(doc.getName().equals(recruiterHelper.FILE_NAME_MOTIVATIONSSCHREIBEN)){
+			if(doc.getName().equals(RecruiterHelper.FILE_NAME_MOTIVATIONSSCHREIBEN)){
 				motivationalLetter = doc;
 				letterFound = true;
 			}
@@ -246,7 +250,7 @@ public class FrontendController {
 		//Go through the list of files. If the file is the letter of motivation (saved earlier) 
 		//then make a string out of its content and "send it to the text area".
 		for(Document doc: documents){
-			if(doc.getName().equals(recruiterHelper.FILE_NAME_MOTIVATIONSSCHREIBEN)){
+			if(doc.getName().equals(RecruiterHelper.FILE_NAME_MOTIVATIONSSCHREIBEN)){
 				textAreaContent = new String(doc.getContent());
 			}
 		}
@@ -283,7 +287,7 @@ public class FrontendController {
 			//Because we don't want to confuse the user to much, we change the
 			//filename here to a different one, that will be translated on the page
 			//using thymeleaf and property files.
-			if(doc.getName().equals(recruiterHelper.FILE_NAME_MOTIVATIONSSCHREIBEN)){
+			if(doc.getName().equals(RecruiterHelper.FILE_NAME_MOTIVATIONSSCHREIBEN)){
 				doc.setName("translateMotivationsschreiben");
 			}
 		}
@@ -297,11 +301,11 @@ public class FrontendController {
 
 		if (buttonPressed.equals("submitApplication_Submit")) {
 			return "redirect:/thankYou";
-		}else  if (buttonPressed.equals("submitApplication_Back")) {
+		} else if (buttonPressed.equals("submitApplication_Back")) {
 			return "redirect:/letterOfMotivation";
-		}else  if (buttonPressed.equals("submitApplication_Cancel")) {
+		} else if (buttonPressed.equals("submitApplication_Cancel")) {
 			return "redirect:/confirmCancellation";
-		}else {
+		} else {
 			return "frontend/unexpectedAction";
 		}
 	}
@@ -389,7 +393,7 @@ public class FrontendController {
 		if(tryLang != null){
 			lang = ((Locale)tryLang).toString();
 		}else{
-			lang = recruiterHelper.LANGUAGE_DEFAULT;
+			lang = RecruiterHelper.LANGUAGE_DEFAULT;
 		}
 		return lang;
 	}
@@ -430,7 +434,7 @@ public class FrontendController {
 		Document letterOfMotivation = new Document();
 		
 		for(Document doc: documents){
-			if(doc.getName().equals(recruiterHelper.FILE_NAME_MOTIVATIONSSCHREIBEN)){
+			if(doc.getName().equals(RecruiterHelper.FILE_NAME_MOTIVATIONSSCHREIBEN)){
 				letterOfMotivation = doc;
 			}
 		}
@@ -440,7 +444,7 @@ public class FrontendController {
 	//Writes the given byte array to the given document into the DB
 	private void saveLetterOfMotivationAsDocumentFileToDB(Document letterOfMotivation, byte[] imgDataBa){
 		letterOfMotivation.setContent(imgDataBa);
-		letterOfMotivation.setName(recruiterHelper.FILE_NAME_MOTIVATIONSSCHREIBEN);
+		letterOfMotivation.setName(RecruiterHelper.FILE_NAME_MOTIVATIONSSCHREIBEN);
 		letterOfMotivation.setCandidate(getCandidateFromSession());
 
 		documentRepository.save(letterOfMotivation);
@@ -500,7 +504,7 @@ public class FrontendController {
 	//As soon as a skills object was saved to the DB we want changes to have effect to this particular DB entry.
 	//So we cultivate the skills object containing the DB ID in the HTTP Session and use it to prepare updates.
 	//This method helps changing the complete set of attributes except the DB ID.
-	private Skills fillSkillsFromSessionWithDataFrom(Skills curSkills){
+	private Skills fillSkillsFromSessionWithDataFrom(Skills curSkills){	
 		Skills resSkills = getSkillsFromSession();
 		resSkills.setCancelationPeriod(curSkills.getCancelationPeriod());
 		resSkills.setCandidate(curSkills.getCandidate());

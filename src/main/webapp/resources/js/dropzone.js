@@ -438,7 +438,7 @@ require.register("dropzone/lib/dropzone.js", function(exports, require, module){
       params: {},
       clickable: true,
       ignoreHiddenFiles: true,
-      acceptedFiles: null,
+      acceptedFiles: "application/pdf",
       acceptedMimeTypes: null,
       autoProcessQueue: true,
       addRemoveLinks: false,

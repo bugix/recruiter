@@ -43,14 +43,14 @@
 <div id="wrap">
 		<div class="container">
 
-			<h3 th:text="#{education}">Ausbildung</h3>
+			<h3 th:text="#{education}">Education</h3>
 			
 			<p th:utext="#{educationInstructions}"></p>
 
 			<form class="form-horizontal" id="skillsForm" role="form" action="" method="POST" th:object="${skills}">
 
 				<div th:class="${#fields.hasErrors('institution')} ? 'form-group has-error' : 'form-group'">
-					<label for="institution" th:text="#{institution}" class="col-sm-2 control-label">Last Name</label>
+					<label for="institution" class="col-sm-2 control-label"><span class="star">*</span><span th:text="#{institution}">Institution</span></label>
 					<div class="col-sm-10">
 					<input type="text" class="form-control" id="institution" th:placeholder="#{institution}" th:field="*{institution}" />
 					<p class="help-block" th:if="${#fields.hasErrors('institution')}" th:each="err : ${#fields.errors('institution')}" th:text="${err}">Error</p>
@@ -60,7 +60,7 @@
 					
 									
 				<div th:class="${#fields.hasErrors('topic')} ? 'form-group has-error' : 'form-group'">
-					<label for="topic" th:text="#{topic}" class="col-sm-2 control-label">Topic</label>
+					<label for="topic" class="col-sm-2 control-label"><span th:text="#{topic}">Topic</span></label>
 					<div class="col-sm-10">
 					<input type="text" class="form-control" id="topic" th:placeholder="#{topic}" th:field="*{topic}" />
 					<p class="help-block" th:if="${#fields.hasErrors('topic')}" th:each="err : ${#fields.errors('topic')}" th:text="${err}">Error</p>
@@ -71,7 +71,7 @@
 				
 				
 				<div th:class="${#fields.hasErrors('degree')} ? 'form-group has-error' : 'form-group'">
-					<label for="degree" th:text="#{degree}" class="col-sm-2 control-label">Degree</label>
+					<label for="degree" class="col-sm-2 control-label"><span class="star">*</span><span th:text="#{degree}">Degree</span></label>
 					<div class="col-sm-10">
 					<input type="text" class="form-control" id="degree" th:placeholder="#{degree}" th:field="*{degree}" />
 					<p class="help-block" th:if="${#fields.hasErrors('degree')}" th:each="err : ${#fields.errors('degree')}" th:text="${err}">Error</p>
@@ -82,7 +82,7 @@
 
 
 				<div th:class="${#fields.hasErrors('startDateEducationMonth')} ? 'form-group has-error' : 'form-group'">
-					<label for="startDateEducationMonth" th:text="#{startDateEducation}" class="col-sm-2 control-label">startDateEducationMonth</label>
+					<label for="startDateEducationMonth" class="col-sm-2 control-label"><span class="star">*</span><span th:text="#{startDateEducation}">startDateEducation</span></label>
 					<div class="col-sm-10">
 					<select th:field="*{startDateEducationMonth}">
 							<option th:each="month : ${monthList}" th:value="${month.key}" th:text="#{${month.value}}">Januar</option>
@@ -95,7 +95,7 @@
 				</div>
 				
 				<div th:class="${#fields.hasErrors('endDateEducationMonth')} ? 'form-group has-error' : 'form-group'">
-					<label for="endDateEducationMonth" th:text="#{endDateEducation}" class="col-sm-2 control-label">endDateEducationMonth</label>
+					<label for="endDateEducationMonth" class="col-sm-2 control-label"><span class="star">*</span><span th:text="#{endDateEducation}">endDateEducation</span></label>
 					<div class="col-sm-10">
 					<select th:field="*{endDateEducationMonth}">
 							<option th:each="month : ${monthList}" th:value="${month.key}" th:text="#{${month.value}}">Januar</option>
@@ -212,8 +212,11 @@
 			</form>
 			<hr/>
 		
-		<p th:text="#{footerText}">Die mit einem markierten Felder Lorem ipsum dolor sit sadipscing elitr,
-			sed diam nonumy.</p>
+		<p>
+			<span th:text="#{footerTextOne}">Die mit einem </span><span class="star">*</span>	
+			<span th:text="#{footerTextTwo}"> markierten Felder müssen ausgefüllt werden</span>
+		</p>
+		
 		
 		<footer>
 		<p>&copy; Kiebitz 2013</p>
