@@ -152,7 +152,7 @@ public class FrontendController {
 			//Save current candidate object to session as is. Validation will effect further processing only if "forward" was pressed.
 			getCurrentSession().setAttribute("candidate", fillCandidateFromSessionWithDataFrom(validCandidate)); //if there is already a skills object in the session, we need its ID
 			return "redirect:/";
-		}else  if (buttonPressed.equals("contactData_Cancel")) {
+		}else  if (buttonPressed.equals("contactData_Cancel")) {//
 			return "redirect:/confirmCancellation";
 		}else {
 			return "frontend/unexpectedAction";
