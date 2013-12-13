@@ -20,6 +20,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -36,11 +39,17 @@ import ch.itraum.recruiter.repository.CandidateRepository;
 import ch.itraum.recruiter.repository.DocumentRepository;
 import ch.itraum.recruiter.repository.SkillsRepository;
 import ch.itraum.recruiter.tools.RecruiterHelper;
+import ch.itraum.recruiter.validation.SkillsDateValidator;
 
 @Controller
 public class FrontendController {
 	
 	Logger logger = LoggerFactory.getLogger(FrontendController.class);
+	
+//    @InitBinder
+//    protected void initBinder(WebDataBinder binder) {
+//        binder.setValidator(new SkillsDateValidator());
+//    }
 
 	@Autowired
 	private CandidateRepository candidateRepository;
@@ -56,7 +65,6 @@ public class FrontendController {
 
 	//generates a "List" of years for use in dropdown lists
 	//Took "Map" instead of "List" to avoid a huge parameter line in the browser
-//	@ModelAttribute(value = "yearList")
 	private Map<String, String> getYearList(int maxYear) {
 		
 		Map<String, String> yearList = new LinkedHashMap<String, String>();
@@ -191,6 +199,9 @@ public class FrontendController {
 	@RequestMapping(value = "/skills", method = RequestMethod.POST)
 	public String postSkills(@Valid Skills validSkills,
 			BindingResult result, Model model, @RequestParam("buttonPressed") String buttonPressed) {
+		
+		SkillsDateValidator skillDateValidator = new SkillsDateValidator();
+//		skillDateValidator.v
 		
 		if (buttonPressed.equals("contactSkills_Forward")) {
 			if (result.hasErrors()){//If the Form contains invalid data
