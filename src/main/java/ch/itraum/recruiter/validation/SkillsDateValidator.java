@@ -22,10 +22,10 @@ public class SkillsDateValidator implements Validator {
 	public void validate(Object target, Errors errors) {
 		Skills skills = (Skills)target;
 		if(skills.getStartDateEducation().compareTo(skills.getEndDateEducation()) >= 0){
-			errors.reject("educationEndsBeforeStart", "Education: End lies before Start");
+			errors.reject("educationEndsBeforeStart", "End must be later than Start");
 		}
 		if(!skills.getHasNoExperience() && skills.getStartDateExperience().compareTo(skills.getEndDateExperience()) >= 0){
-			errors.reject("experienceEndsBeforeStart", "Experience: End lies before Start");
+			errors.reject("experienceEndsBeforeStart", "End must be later than Start");
 		}
 	}
 

@@ -21,6 +21,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -200,11 +201,27 @@ public class FrontendController {
 	public String postSkills(@Valid Skills validSkills,
 			BindingResult result, Model model, @RequestParam("buttonPressed") String buttonPressed) {
 		
-		SkillsDateValidator skillDateValidator = new SkillsDateValidator();
+//		SkillsDateValidator skillDateValidator = new SkillsDateValidator();
+//		skillDateValidator.validate(validSkills, result);
 //		skillDateValidator.v
+		
+		//Additional Validation
+		if(validSkills.getStartDateEducation().compareTo(validSkills.getEndDateEducation()) >= 0){
+			result.addError(new FieldError("skills", "endDateEducation", "endsBeforeStart"));
+//			result.addError(new FieldError("skills", "endDateEducation", "End must be later than Start"));
+//			result.addError(new FieldError("skills", "endDateEducation", validSkills.getEndDateEducation(), false, new String[]{"educationEndsBeforeStart"}, null, "End after Start"));
+		}
+		if(!validSkills.getHasNoExperience() && validSkills.getStartDateExperience().compareTo(validSkills.getEndDateExperience()) >= 0){
+			result.addError(new FieldError("skills", "endDateExperience", "endsBeforeStart"));
+		}
+		//Either Position must be filled out or "No Experience" check box must be checked
+		if(!validSkills.getHasNoExperience() && (validSkills.getPosition() == null || validSkills.getPosition().isEmpty())){
+			result.addError(new FieldError("skills", "hasNoExperience", "eitherCheckBoxOrPositionField"));
+		}
 		
 		if (buttonPressed.equals("contactSkills_Forward")) {
 			if (result.hasErrors()){//If the Form contains invalid data
+				logger.error("\n\n\nDate Error: " + result.toString());
 				return "frontend/skills";
 			}else{
 				validSkills.setCandidate(getCandidateFromSession()); //This Candidate is already validated.

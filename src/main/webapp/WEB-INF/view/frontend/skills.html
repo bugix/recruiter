@@ -13,8 +13,48 @@
 
 <title th:text="#{skills}">Skills</title>
 
+
+<script>
+function grayOut_WorkExperience(checkBox_hasNoExperience) {
+    if ( checkBox_hasNoExperience.checked ) {
+        document.getElementById('position').value = "";
+        document.getElementById('position').setAttribute("disabled","disabled");
+        document.getElementById('jobField').value = "";
+        document.getElementById('jobField').setAttribute("disabled","disabled");
+        document.getElementById('cancelationPeriod').value = "";
+        document.getElementById('cancelationPeriod').setAttribute("disabled","disabled");
+        document.getElementById('startDateExperienceMonth').value = (new Date()).getMonth();
+        document.getElementById('startDateExperienceMonth').setAttribute("disabled","disabled");
+        document.getElementById('startDateExperienceYear').value = (new Date()).getYear() + 1900;
+        document.getElementById('startDateExperienceYear').setAttribute("disabled","disabled");
+        document.getElementById('endDateExperienceMonth').value = (new Date()).getMonth();
+        document.getElementById('endDateExperienceMonth').setAttribute("disabled","disabled");
+        document.getElementById('endDateExperienceYear').value = (new Date()).getYear() + 1900;
+        document.getElementById('endDateExperienceYear').setAttribute("disabled","disabled");
+        document.getElementById('currentPosition').checked="";
+        document.getElementById('currentPosition').setAttribute("disabled","disabled");
+     } else {
+         document.getElementById('position').removeAttribute("disabled");
+         document.getElementById('jobField').removeAttribute("disabled");
+         document.getElementById('cancelationPeriod').removeAttribute("disabled");
+         document.getElementById('startDateExperienceMonth').removeAttribute("disabled");
+         document.getElementById('startDateExperienceYear').removeAttribute("disabled");
+         document.getElementById('endDateExperienceMonth').removeAttribute("disabled");
+         document.getElementById('endDateExperienceYear').removeAttribute("disabled");
+         document.getElementById('currentPosition').removeAttribute("disabled");
+     }    
+}
+function initiallyCheckWorkExperienceBox(){
+	grayOut_WorkExperience(document.getElementById('hasNoExperience'));
+}
+</script>
+
+
+
+
+
 </head>
-<body>
+<body onload="initiallyCheckWorkExperienceBox()">
 
 <div class="logo-header">		
 	<div class="container">
@@ -81,7 +121,7 @@
 
 
 
-				<div th:class="${#fields.hasErrors('startDateEducationMonth')} ? 'form-group has-error' : 'form-group'">
+				<div th:class="${#fields.hasErrors('endDateEducation')} ? 'form-group has-error' : 'form-group'">
 					<label for="startDateEducationMonth" class="col-sm-2 control-label"><span class="star">*</span><span th:text="#{startDateEducation}">startDateEducation</span></label>
 					<div class="col-sm-10">
 					<select th:field="*{startDateEducationMonth}">
@@ -90,11 +130,11 @@
 					<select th:field="*{startDateEducationYear}">
 							<option th:each="year : ${yearListStart}" th:value="${year.key}" th:text="${year.value}">1970</option>
 					</select>					
-				<p class="help-block" th:if="${#fields.hasErrors('startDateEducationMonth')}"	th:each="err : ${#fields.errors('startDateEducationMonth')}" th:text="${err}">Error</p>
+<!-- 				<p class="help-block" th:if="${#fields.hasErrors('*')}"	th:each="err : ${#fields.errors('*')}" th:text="${err}">Error</p> -->
 				</div>
 				</div>
 				
-				<div th:class="${#fields.hasErrors('endDateEducationMonth')} ? 'form-group has-error' : 'form-group'">
+				<div th:class="${#fields.hasErrors('endDateEducation')} ? 'form-group has-error' : 'form-group'">
 					<label for="endDateEducationMonth" class="col-sm-2 control-label"><span class="star">*</span><span th:text="#{endDateEducation}">endDateEducation</span></label>
 					<div class="col-sm-10">
 					<select th:field="*{endDateEducationMonth}">
@@ -103,7 +143,7 @@
 					<select th:field="*{endDateEducationYear}">
 							<option th:each="year : ${yearListEnd}" th:value="${year.key}" th:text="${year.value}">1970</option>
 					</select>
-				<p class="help-block" th:if="${#fields.hasErrors('endDateEducationMonth')}"	th:each="err : ${#fields.errors('endDateEducationMonth')}" th:text="${err}">Error</p>
+				<p class="help-block" th:if="${#fields.hasErrors('endDateEducation')}"	th:each="err : ${#fields.errors('endDateEducation')}" th:text="#{${err}}">Error</p>
 				</div>
 				</div>
 
@@ -122,11 +162,13 @@
 				<h3 th:text="#{experience}">Berufserfahrung</h3>
 				
 			<p th:utext="#{skillsInstructions}"></p>
+
 				
-				<div th:class="${#fields.hasErrors('endDateEducationMonth')} ? 'form-group has-error' : 'form-group'" >
+				<div th:class="${#fields.hasErrors('hasNoExperience')} ? 'form-group has-error' : 'form-group'" >
 					<label for="endDateEducationMonth" th:text="#{prospectiveEndLabel}" class="col-sm-2 control-label">endDateEducationMonth</label>
 				<div class="col-sm-10">	
-					<input type="checkbox" name="hasNoExperience" th:text="#{hasNoExperience}" th:field="*{hasNoExperience}" />
+					<input type="checkbox" name="hasNoExperience" id="hasNoExperience" th:text="#{hasNoExperience}" th:field="*{hasNoExperience}" onchange="grayOut_WorkExperience(this)" onload="grayOut_WorkExperience(this)" />
+					<p class="help-block" th:if="${#fields.hasErrors('hasNoExperience')}"	th:each="err : ${#fields.errors('hasNoExperience')}" th:text="#{${err}(#{hasNoExperience})}">Error</p>
 				</div>
 				</div>
 				
@@ -157,29 +199,29 @@
 				</div>
 				</div>
 
-				<div th:class="${#fields.hasErrors('startDateExperienceMonth')} ? 'form-group has-error' : 'form-group'">
+				<div th:class="${#fields.hasErrors('endDateExperience')} ? 'form-group has-error' : 'form-group'">
 					<label for="startDateExperienceMonth" th:text="#{startDateExperience}" class="col-sm-2 control-label">startDateExperienceMonth</label>
 					<div class="col-sm-10">
-					<select th:field="*{startDateExperienceMonth}">
+					<select th:field="*{startDateExperienceMonth}" id="startDateExperienceMonth">
 							<option th:each="month : ${monthList}" th:value="${month.key}" th:text="#{${month.value}}">Januar</option>
 					</select>
-					<select th:field="*{startDateExperienceYear}">
+					<select th:field="*{startDateExperienceYear}" id="startDateExperienceYear">
 							<option th:each="year : ${yearListStart}" th:value="${year.key}" th:text="${year.value}">1970</option>
 					</select>
-				<p class="help-block" th:if="${#fields.hasErrors('startDateExperienceMonth')}"	th:each="err : ${#fields.errors('startDateExperienceMonth')}" th:text="${err}">Error</p>
+<!-- 				<p class="help-block" th:if="${#fields.hasErrors('startDateExperienceMonth')}"	th:each="err : ${#fields.errors('startDateExperienceMonth')}" th:text="${err}">Error</p> -->
 				</div>
 				</div>
 
-				<div th:class="${#fields.hasErrors('endDateExperienceMonth')} ? 'form-group has-error' : 'form-group'">
+				<div th:class="${#fields.hasErrors('endDateExperience')} ? 'form-group has-error' : 'form-group'">
 					<label for="endDateExperienceMonth" th:text="#{endDateExperience}" class="col-sm-2 control-label">endDateExperienceMonth</label>
 					<div class="col-sm-10">
-					<select th:field="*{endDateExperienceMonth}">
+					<select th:field="*{endDateExperienceMonth}" id="endDateExperienceMonth">
 							<option th:each="month : ${monthList}" th:value="${month.key}" th:text="#{${month.value}}">Januar</option>
 					</select>
-					<select th:field="*{endDateExperienceYear}">
+					<select th:field="*{endDateExperienceYear}" id="endDateExperienceYear">
 							<option th:each="year : ${yearListEnd}" th:value="${year.key}" th:text="${year.value}">1970</option>
 					</select>
-				<p class="help-block" th:if="${#fields.hasErrors('endDateExperienceMonth')}"	th:each="err : ${#fields.errors('endDateExperienceMonth')}" th:text="${err}">Error</p>
+				<p class="help-block" th:if="${#fields.hasErrors('endDateExperience')}"	th:each="err : ${#fields.errors('endDateExperience')}" th:text="#{${err}}">Error</p>
 				</div>
 				</div>
 				
@@ -187,7 +229,7 @@
 				<div th:class="${#fields.hasErrors('endDateEducationMonth')} ? 'form-group has-error' : 'form-group'" >
 					<label for="endDateEducationMonth" th:text="#{prospectiveEndLabel}" class="col-sm-2 control-label">endDateEducationMonth</label>
 				<div class="col-sm-10">	
-					<input type="checkbox" name="currentPosition" th:text="#{currentPosition}" th:field="*{currentPosition}" />
+					<input type="checkbox" name="currentPosition" th:text="#{currentPosition}" th:field="*{currentPosition}" id="currentPosition"/>
 				</div>
 				</div>
 				
