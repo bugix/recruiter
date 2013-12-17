@@ -1,13 +1,27 @@
 ;(function(){
 
-/**
- * Require the given path.
- *
- * @param {String} path
- * @return {Object} exports
- * @api public
- */
 
+//function translate(language, message){
+//	switch(language){
+//	case "en":
+//		return message;
+//		break;
+//	case "de":
+//		alert('translate.Sprache: ' + language);
+//		switch(message){
+////		alert('vor case this.options.dictInvalidFileType: ' + this.options.dictInvalidFileType);
+//		case this.options.dictInvalidFileType:
+//			return "Sie können Dateien von diesem Typ nicht hochladen";
+//			break;
+//		default:
+//			return "Message not found";	
+//		}
+//		break;
+//	default:
+//		return message;
+//	}
+//}	
+	
 function getBrowserLanguage(){
 	  var l_lang;
 	  if (navigator.userLanguage) // Explorer
@@ -20,6 +34,13 @@ function getBrowserLanguage(){
 	  return l_lang;
 }	
 	
+/**
+ * Require the given path.
+ *
+ * @param {String} path
+ * @return {Object} exports
+ * @api public
+ */
 function require(path, parent, orig) {
   var resolved = require.resolve(path);
 
@@ -622,6 +643,219 @@ require.register("dropzone/lib/dropzone.js", function(exports, require, module){
       previewTemplate: "<div class=\"dz-preview dz-file-preview\">\n  <div class=\"dz-details\">\n    <div class=\"dz-filename\"><span data-dz-name></span></div>\n    <div class=\"dz-size\" data-dz-size></div>\n    <img data-dz-thumbnail />\n  </div>\n  <div class=\"dz-progress\"><span class=\"dz-upload\" data-dz-uploadprogress></span></div>\n  <div class=\"dz-success-mark\"><span>✔</span></div>\n  <div class=\"dz-error-mark\"><span>✘</span></div>\n  <div class=\"dz-error-message\"><span data-dz-errormessage></span></div>\n</div>"
     };
 
+    
+//My multi language solution in its full beauty
+    Dropzone.prototype.defaultOptions_de = {
+    	      url: null,
+    	      method: "post",
+    	      withCredentials: false,
+    	      parallelUploads: 2,
+    	      uploadMultiple: false,
+    	      maxFilesize: 256,
+    	      paramName: "file",
+    	      createImageThumbnails: true,
+    	      maxThumbnailFilesize: 10,
+    	      thumbnailWidth: 100,
+    	      thumbnailHeight: 100,
+    	      maxFiles: null,
+    	      params: {},
+    	      clickable: true,
+    	      ignoreHiddenFiles: true,
+    	      acceptedFiles: "application/pdf",
+    	      acceptedMimeTypes: null,
+    	      autoProcessQueue: true,
+    	      addRemoveLinks: false,
+    	      previewsContainer: null,
+    	      dictDefaultMessage: "Dateien hier her ziehen zum Hochladen.",
+    	      dictFallbackMessage: "Ihr Browser unterstützt keine Drag'n'Drop Datei Uploads.",
+    	      dictFallbackText: "Bitte benutzen Sie das Alternativformular unten, um Ihre Dateien hochzuladen wie in alten Tagen.",
+    	      dictFileTooBig: "Datei ist zu gross ({{filesize}}MB). Max Dateigrösse: {{maxFilesize}}MB.",
+    	      dictInvalidFileType: "Sie können keine Dateien von diesem Typ hochladen.",
+    	      dictResponseError: "Der Server antwortete mit dem Code: {{statusCode}}.",
+    	      dictCancelUpload: "Hochladen abbrechen",
+    	      dictCancelUploadConfirmation: "Sind Sie sicheer, dass Sie den Upload abbrechen wollen?",
+    	      dictRemoveFile: "Datei entfernen",
+    	      dictRemoveFileConfirmation: null,
+    	      dictMaxFilesExceeded: "Sie können maximal {{maxFiles}} Dateien hochladen.",
+    	      accept: function(file, done) {
+    	        return done();
+    	      },
+    	      init: function() {
+    	        return noop;
+    	      },
+    	      forceFallback: false,
+    	      fallback: function() {
+    	        var child, messageElement, span, _i, _len, _ref;
+    	        this.element.className = "" + this.element.className + " dz-browser-not-supported";
+    	        _ref = this.element.getElementsByTagName("div");
+    	        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+    	          child = _ref[_i];
+    	          if (/(^| )dz-message($| )/.test(child.className)) {
+    	            messageElement = child;
+    	            child.className = "dz-message";
+    	            continue;
+    	          }
+    	        }
+    	        if (!messageElement) {
+    	          messageElement = Dropzone.createElement("<div class=\"dz-message\"><span></span></div>");
+    	          this.element.appendChild(messageElement);
+    	        }
+    	        span = messageElement.getElementsByTagName("span")[0];
+    	        if (span) {
+    	          span.textContent = this.options.dictFallbackMessage;
+    	        }
+    	        return this.element.appendChild(this.getFallbackForm());
+    	      },
+    	      resize: function(file) {
+    	        var info, srcRatio, trgRatio;
+    	        info = {
+    	          srcX: 0,
+    	          srcY: 0,
+    	          srcWidth: file.width,
+    	          srcHeight: file.height
+    	        };
+    	        srcRatio = file.width / file.height;
+    	        trgRatio = this.options.thumbnailWidth / this.options.thumbnailHeight;
+    	        if (file.height < this.options.thumbnailHeight || file.width < this.options.thumbnailWidth) {
+    	          info.trgHeight = info.srcHeight;
+    	          info.trgWidth = info.srcWidth;
+    	        } else {
+    	          if (srcRatio > trgRatio) {
+    	            info.srcHeight = file.height;
+    	            info.srcWidth = info.srcHeight * trgRatio;
+    	          } else {
+    	            info.srcWidth = file.width;
+    	            info.srcHeight = info.srcWidth / trgRatio;
+    	          }
+    	        }
+    	        info.srcX = (file.width - info.srcWidth) / 2;
+    	        info.srcY = (file.height - info.srcHeight) / 2;
+    	        return info;
+    	      },
+    	      /*
+    	      Those functions register themselves to the events on init and handle all
+    	      the user interface specific stuff. Overwriting them won't break the upload
+    	      but can break the way it's displayed.
+    	      You can overwrite them if you don't like the default behavior. If you just
+    	      want to add an additional event handler, register it on the dropzone object
+    	      and don't overwrite those options.
+    	      */
+
+    	      drop: function(e) {
+    	        return this.element.classList.remove("dz-drag-hover");
+    	      },
+    	      dragstart: noop,
+    	      dragend: function(e) {
+    	        return this.element.classList.remove("dz-drag-hover");
+    	      },
+    	      dragenter: function(e) {
+    	        return this.element.classList.add("dz-drag-hover");
+    	      },
+    	      dragover: function(e) {
+    	        return this.element.classList.add("dz-drag-hover");
+    	      },
+    	      dragleave: function(e) {
+    	        return this.element.classList.remove("dz-drag-hover");
+    	      },
+    	      selectedfiles: function(files) {
+    	        if (this.element === this.previewsContainer) {
+    	          return this.element.classList.add("dz-started");
+    	        }
+    	      },
+    	      reset: function() {
+    	        return this.element.classList.remove("dz-started");
+    	      },
+    	      addedfile: function(file) {
+    	        var _this = this;
+    	        file.previewElement = Dropzone.createElement(this.options.previewTemplate);
+    	        file.previewTemplate = file.previewElement;
+    	        this.previewsContainer.appendChild(file.previewElement);
+    	        file.previewElement.querySelector("[data-dz-name]").textContent = file.name;
+    	        file.previewElement.querySelector("[data-dz-size]").innerHTML = this.filesize(file.size);
+    	        if (this.options.addRemoveLinks) {
+    	          file._removeLink = Dropzone.createElement("<a class=\"dz-remove\" href=\"javascript:undefined;\">" + this.options.dictRemoveFile + "</a>");
+    	          file._removeLink.addEventListener("click", function(e) {
+    	            e.preventDefault();
+    	            e.stopPropagation();
+    	            if (file.status === Dropzone.UPLOADING) {
+    	              return Dropzone.confirm(_this.options.dictCancelUploadConfirmation, function() {
+    	                return _this.removeFile(file);
+    	              });
+    	            } else {
+    	              if (_this.options.dictRemoveFileConfirmation) {
+    	                return Dropzone.confirm(_this.options.dictRemoveFileConfirmation, function() {
+    	                  return _this.removeFile(file);
+    	                });
+    	              } else {
+    	                return _this.removeFile(file);
+    	              }
+    	            }
+    	          });
+    	          file.previewElement.appendChild(file._removeLink);
+    	        }
+    	        return this._updateMaxFilesReachedClass();
+    	      },
+    	      removedfile: function(file) {
+    	        var _ref;
+    	        if ((_ref = file.previewElement) != null) {
+    	          _ref.parentNode.removeChild(file.previewElement);
+    	        }
+    	        return this._updateMaxFilesReachedClass();
+    	      },
+    	      thumbnail: function(file, dataUrl) {
+    	        var thumbnailElement;
+    	        file.previewElement.classList.remove("dz-file-preview");
+    	        file.previewElement.classList.add("dz-image-preview");
+    	        thumbnailElement = file.previewElement.querySelector("[data-dz-thumbnail]");
+    	        thumbnailElement.alt = file.name;
+    	        return thumbnailElement.src = dataUrl;
+    	      },
+    	      error: function(file, message) {
+    	        file.previewElement.classList.add("dz-error");
+    	        return file.previewElement.querySelector("[data-dz-errormessage]").textContent = message;
+    	      },
+    	      errormultiple: noop,
+    	      processing: function(file) {
+    	        file.previewElement.classList.add("dz-processing");
+    	        if (file._removeLink) {
+    	          return file._removeLink.textContent = this.options.dictCancelUpload;
+    	        }
+    	      },
+    	      processingmultiple: noop,
+    	      uploadprogress: function(file, progress, bytesSent) {
+    	        return file.previewElement.querySelector("[data-dz-uploadprogress]").style.width = "" + progress + "%";
+    	      },
+    	      totaluploadprogress: noop,
+    	      sending: noop,
+    	      sendingmultiple: noop,
+    	      success: function(file) {
+    	        return file.previewElement.classList.add("dz-success");
+    	      },
+    	      successmultiple: noop,
+    	      canceled: function(file) {
+    	        return this.emit("error", file, "Upload canceled.");
+    	      },
+    	      canceledmultiple: noop,
+    	      complete: function(file) {
+    	        if (file._removeLink) {
+    	          return file._removeLink.textContent = this.options.dictRemoveFile;
+    	        }
+    	      },
+    	      completemultiple: noop,
+    	      maxfilesexceeded: noop,
+    	      previewTemplate: "<div class=\"dz-preview dz-file-preview\">\n  <div class=\"dz-details\">\n    <div class=\"dz-filename\"><span data-dz-name></span></div>\n    <div class=\"dz-size\" data-dz-size></div>\n    <img data-dz-thumbnail />\n  </div>\n  <div class=\"dz-progress\"><span class=\"dz-upload\" data-dz-uploadprogress></span></div>\n  <div class=\"dz-success-mark\"><span>✔</span></div>\n  <div class=\"dz-error-mark\"><span>✘</span></div>\n  <div class=\"dz-error-message\"><span data-dz-errormessage></span></div>\n</div>"
+    	    };    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     extend = function() {
       var key, object, objects, target, val, _i, _len;
       target = arguments[0], objects = 2 <= arguments.length ? __slice.call(arguments, 1) : [];
@@ -655,7 +889,14 @@ require.register("dropzone/lib/dropzone.js", function(exports, require, module){
       Dropzone.instances.push(this);
       element.dropzone = this;
       elementOptions = (_ref = Dropzone.optionsForElement(this.element)) != null ? _ref : {};
-      this.options = extend({}, this.defaultOptions, elementOptions, options != null ? options : {});
+      
+      switch(document.getElementById('languageInput').value){
+      case "de":
+    	  this.options = extend({}, this.defaultOptions_de, elementOptions, options != null ? options : {});
+    	  break;
+      default:
+    	  this.options = extend({}, this.defaultOptions, elementOptions, options != null ? options : {});	  
+      }
       if (this.options.forceFallback || !Dropzone.isBrowserSupported()) {
         return this.options.fallback.call(this);
       }
@@ -750,7 +991,7 @@ require.register("dropzone/lib/dropzone.js", function(exports, require, module){
         this.element.setAttribute("enctype", "multipart/form-data");
       }
       if (this.element.classList.contains("dropzone") && !this.element.querySelector(".dz-message")) {
-    	  alert('Huhuuu!')
+//    	  alert('Huhuuu!' + document.getElementById('languageInput').value);
         this.element.appendChild(Dropzone.createElement("<div class=\"dz-default dz-message\"><span>" + this.options.dictDefaultMessage + "</span></div>"));
       }
       if (this.clickableElements.length) {
@@ -1061,7 +1302,10 @@ require.register("dropzone/lib/dropzone.js", function(exports, require, module){
       if (file.size > this.options.maxFilesize * 1024 * 1024) {
         return done(this.options.dictFileTooBig.replace("{{filesize}}", Math.round(file.size / 1024 / 10.24) / 100).replace("{{maxFilesize}}", this.options.maxFilesize));
       } else if (!Dropzone.isValidFile(file, this.options.acceptedFiles)) {
-        return done(this.options.dictInvalidFileType);
+//    	  alert('Sprache: ' + document.getElementById('languageInput').value);
+//    	  alert('translate(this.options.dictInvalidFileType): ' + translate(document.getElementById('languageInput').value, this.options.dictInvalidFileType));
+          return done(this.options.dictInvalidFileType);
+//          return done(translate(this.options.dictInvalidFileType));
       } else if (this.options.maxFiles && this.getAcceptedFiles().length >= this.options.maxFiles) {
         done(this.options.dictMaxFilesExceeded.replace("{{maxFiles}}", this.options.maxFiles));
         return this.emit("maxfilesexceeded", file);
