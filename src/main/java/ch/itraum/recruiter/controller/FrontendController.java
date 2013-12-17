@@ -229,7 +229,7 @@ public class FrontendController {
 				Skills skillsWithID = skillsRepository.save(fillSkillsFromSessionWithDataFrom(validSkills));
 				//We have to copy back some values from validSkills to the object we get back from the DB, 
 				//because they are not part of the SQL Model and are therefore not delivered back.
-				skillsWithID.takeAllAttributesExceptIDFrom(validSkills);
+				skillsWithID.copyAllAttributesExceptIDFrom(validSkills);
 				getCurrentSession().setAttribute("skills", skillsWithID);
 				return "redirect:/documents";
 			}
@@ -540,15 +540,7 @@ public class FrontendController {
 	//This method helps changing the complete set of attributes except the DB ID.
 	private Candidate fillCandidateFromSessionWithDataFrom(Candidate curCandidate){
 		Candidate resCandidate = getCandidateFromSession();
-		resCandidate.setFirstName(curCandidate.getFirstName());
-		resCandidate.setLastName(curCandidate.getLastName());
-		resCandidate.setEmail(curCandidate.getEmail());
-		resCandidate.setCity(curCandidate.getCity());
-		resCandidate.setPhoneFix(curCandidate.getPhoneFix());
-		resCandidate.setPhoneMobile(curCandidate.getPhoneMobile());
-		resCandidate.setPlz(curCandidate.getPlz());
-		resCandidate.setStreet(curCandidate.getStreet());
-		resCandidate.setTitle(curCandidate.getTitle());
+		resCandidate.copyAllAttributesExceptIDFrom(curCandidate);
 		return resCandidate;
 	}
 	
@@ -557,20 +549,7 @@ public class FrontendController {
 	//This method helps changing the complete set of attributes except the DB ID.
 	private Skills fillSkillsFromSessionWithDataFrom(Skills curSkills){	
 		Skills resSkills = getSkillsFromSession();
-		resSkills.setCancelationPeriod(curSkills.getCancelationPeriod());
-		resSkills.setCandidate(curSkills.getCandidate());
-		resSkills.setCurrentPosition(curSkills.getCurrentPosition());
-		resSkills.setDegree(curSkills.getDegree());
-		resSkills.setEndDateEducation(curSkills.getEndDateEducation());
-		resSkills.setEndDateExperience(curSkills.getEndDateExperience());
-		resSkills.setInstitution(curSkills.getInstitution());
-		resSkills.setJobField(curSkills.getJobField());
-		resSkills.setPosition(curSkills.getPosition());
-		resSkills.setProspectiveEnd(curSkills.getProspectiveEnd());
-		resSkills.setStartDateEducation(curSkills.getStartDateEducation());
-		resSkills.setStartDateExperience(curSkills.getStartDateExperience());
-		resSkills.setTopic(curSkills.getTopic());
-		resSkills.setHasNoExperience(curSkills.getHasNoExperience());
+		resSkills.copyAllAttributesExceptIDFrom(curSkills);
 		return resSkills;
 	}
 }

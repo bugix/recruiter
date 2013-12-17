@@ -167,7 +167,7 @@ function initiallyCheckWorkExperienceBox(){
 				<div th:class="${#fields.hasErrors('hasNoExperience')} ? 'form-group has-error' : 'form-group'" >
 					<label for="endDateEducationMonth" th:text="#{prospectiveEndLabel}" class="col-sm-2 control-label">endDateEducationMonth</label>
 				<div class="col-sm-10">	
-					<input type="checkbox" name="hasNoExperience" id="hasNoExperience" th:text="#{hasNoExperience}" th:field="*{hasNoExperience}" onchange="grayOut_WorkExperience(this)" onload="grayOut_WorkExperience(this)" />
+					<input type="checkbox" name="hasNoExperience" id="hasNoExperience" th:text="#{hasNoExperience}" th:field="*{hasNoExperience}" onchange="grayOut_WorkExperience(this)"  />
 					<p class="help-block" th:if="${#fields.hasErrors('hasNoExperience')}"	th:each="err : ${#fields.errors('hasNoExperience')}" th:text="#{${err}(#{hasNoExperience})}">Error</p>
 				</div>
 				</div>

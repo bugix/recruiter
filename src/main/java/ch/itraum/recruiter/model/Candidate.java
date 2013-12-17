@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
+
 //import javax.validation.constraints.Digits;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -128,4 +129,24 @@ public class Candidate extends AbstractPersistable<Integer> {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	
+	//This is used for preparing "Candidate" to be written to DB.
+	//Except the DB ID all attributes of "this" will be overwritten
+	//with the attributes of the parameter "templateCandidate"
+	//Because the DB ID will not change, the method can be used
+	//to prepare an UPDATE to the existing "Skills" in the DB.
+	public void copyAllAttributesExceptIDFrom(Candidate templateCandidate){
+
+		this.setFirstName(templateCandidate.getFirstName());
+		this.setLastName(templateCandidate.getLastName());
+		this.setEmail(templateCandidate.getEmail());
+		this.setCity(templateCandidate.getCity());
+		this.setPhoneFix(templateCandidate.getPhoneFix());
+		this.setPhoneMobile(templateCandidate.getPhoneMobile());
+		this.setPlz(templateCandidate.getPlz());
+		this.setStreet(templateCandidate.getStreet());
+		this.setTitle(templateCandidate.getTitle());
+	}
+	
+	
 }

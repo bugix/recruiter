@@ -310,8 +310,8 @@ public class Skills extends AbstractPersistable<Integer>{
 	//Except the DB ID all attributes of "this" will be overwritten
 	//with the attributes of the parameter "templateSkill"
 	//Because the DB ID will not change, the method can be used
-	//to prepare an update to the existing "Skills" in the DB.
-	public void takeAllAttributesExceptIDFrom(Skills templateSkill){
+	//to prepare an UPDATE to the existing "Skills" in the DB.
+	public void copyAllAttributesExceptIDFrom(Skills templateSkill){
 		this.setCancelationPeriod(templateSkill.getCancelationPeriod());
 		this.setCandidate(templateSkill.getCandidate());
 		this.setCurrentPosition(templateSkill.getCurrentPosition());
