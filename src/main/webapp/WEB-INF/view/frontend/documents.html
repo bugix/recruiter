@@ -60,11 +60,10 @@
 			</form>
 			
 			<form method="POST" th:object="${documents}">
-				
 			    <table>
 			      <tr>
-			        <th></th>
-			        <th th:text="#{uploadedFiles}">Alternativ Text</th>
+			        <th colspan="2" th:if="${not #lists.isEmpty(documents)}" th:text="#{uploadedFiles}">Alternativ Text</th>
+			        <th colspan="2" th:if="${#lists.isEmpty(documents)}" th:text="#{noFilesUploaded}">noFilesUploaded</th>
 			      </tr>
 			      <tr th:each="doc : ${documents}">
 			        <td>
@@ -100,5 +99,6 @@
 		</div>
 	
 	</div>
+	<label hidden="hidden" th:text="${selectedLanguage}"></label>	
 </body>
 </html>

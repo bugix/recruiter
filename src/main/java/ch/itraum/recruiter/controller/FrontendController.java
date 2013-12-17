@@ -2,11 +2,13 @@ package ch.itraum.recruiter.controller;
 
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import javax.print.attribute.standard.DateTimeAtCompleted;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
@@ -18,6 +20,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -34,11 +40,17 @@ import ch.itraum.recruiter.repository.CandidateRepository;
 import ch.itraum.recruiter.repository.DocumentRepository;
 import ch.itraum.recruiter.repository.SkillsRepository;
 import ch.itraum.recruiter.tools.RecruiterHelper;
+import ch.itraum.recruiter.validation.SkillsDateValidator;
 
 @Controller
 public class FrontendController {
 	
 	Logger logger = LoggerFactory.getLogger(FrontendController.class);
+	
+//    @InitBinder
+//    protected void initBinder(WebDataBinder binder) {
+//        binder.setValidator(new SkillsDateValidator());
+//    }
 
 	@Autowired
 	private CandidateRepository candidateRepository;
@@ -54,17 +66,37 @@ public class FrontendController {
 
 	//generates a "List" of years for use in dropdown lists
 	//Took "Map" instead of "List" to avoid a huge parameter line in the browser
-	@ModelAttribute(value = "yearList")
-	public Map<String, String> getYearList() {
+	private Map<String, String> getYearList(int maxYear) {
 		
 		Map<String, String> yearList = new LinkedHashMap<String, String>();
 		
-		for (int i = 1970; i < 2024; i++)
+		for (int i = 1970; i <= maxYear; i++)
 		{
 			yearList.put("" + i, "" + i);
 		}
 
 		return yearList;
+	}
+
+	//generates a "List" of years for use in dropdown lists
+	//Took "Map" instead of "List" to avoid a huge parameter line in the browser
+	@ModelAttribute(value = "yearListStart")
+	public Map<String, String> getYearListStart() {
+		
+		return getYearList(getCurrentYear());
+	}
+
+	//generates a "List" of years for use in dropdown lists
+	//Took "Map" instead of "List" to avoid a huge parameter line in the browser
+	@ModelAttribute(value = "yearListEnd")
+	public Map<String, String> getYearListEnd() {
+		
+		return getYearList(getCurrentYear() + 8);
+	}
+	
+	private int getCurrentYear(){
+		//new Date() allocates a Date object and initializes it so that it represents the time at which it was allocated
+		return ((new Date()).getYear() + 1900);
 	}
 
 	//generates a "List" of months for use in dropdown lists
@@ -104,8 +136,8 @@ public class FrontendController {
 	//First Page
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String getAgreement(Model model) {
-		String language = getCurrentOrDefaultLanguageFromSession();
-		model.addAttribute("selectedLanguage", language);
+
+		addCurrentLanguageToModel(model);
 		return "frontend/agreement";
 	}
 	
@@ -169,8 +201,35 @@ public class FrontendController {
 	public String postSkills(@Valid Skills validSkills,
 			BindingResult result, Model model, @RequestParam("buttonPressed") String buttonPressed) {
 		
+//		SkillsDateValidator skillDateValidator = new SkillsDateValidator();
+//		skillDateValidator.validate(validSkills, result);
+//		skillDateValidator.v
+		
+		//Additional Validation
+		if(validSkills.getStartDateEducation().compareTo(validSkills.getEndDateEducation()) > 0){
+			result.addError(new FieldError("skills", "endDateEducation", "endsBeforeStart"));
+//			result.addError(new FieldError("skills", "endDateEducation", "End must be later than Start"));
+//			result.addError(new FieldError("skills", "endDateEducation", validSkills.getEndDateEducation(), false, new String[]{"educationEndsBeforeStart"}, null, "End after Start"));
+		}
+		if(!validSkills.getHasNoExperience() && validSkills.getStartDateExperience().compareTo(validSkills.getEndDateExperience()) > 0){
+			result.addError(new FieldError("skills", "endDateExperience", "endsBeforeStart"));
+		}
+		//Either Position must be filled out or "No Experience" check box must be checked
+		if(!validSkills.getHasNoExperience() && (validSkills.getPosition() == null || validSkills.getPosition().isEmpty())){
+			result.addError(new FieldError("skills", "hasNoExperience", "eitherCheckBoxOrPositionField"));
+		}
+		//Prospective End only makes sense if the end date is in the future
+		if(validSkills.getProspectiveEnd() && validSkills.getEndDateEducation().compareTo(new Date()) < 0){
+			result.addError(new FieldError("skills", "prospectiveEnd", "prospectiveMeansFuture"));
+		}
+		//Current Position only makes sense if the end date is in the future
+		if(!validSkills.getHasNoExperience() && validSkills.getCurrentPosition() && validSkills.getEndDateExperience().compareTo(new Date()) < 0){
+			result.addError(new FieldError("skills", "currentPosition", "currentHasNotEndedYet"));
+		}
+		
 		if (buttonPressed.equals("contactSkills_Forward")) {
 			if (result.hasErrors()){//If the Form contains invalid data
+				logger.error("\n\n\nDate Error: " + result.toString());
 				return "frontend/skills";
 			}else{
 				validSkills.setCandidate(getCandidateFromSession()); //This Candidate is already validated.
@@ -178,7 +237,7 @@ public class FrontendController {
 				Skills skillsWithID = skillsRepository.save(fillSkillsFromSessionWithDataFrom(validSkills));
 				//We have to copy back some values from validSkills to the object we get back from the DB, 
 				//because they are not part of the SQL Model and are therefore not delivered back.
-				skillsWithID.takeAllAttributesExceptIDFrom(validSkills);
+				skillsWithID.copyAllAttributesExceptIDFrom(validSkills);
 				getCurrentSession().setAttribute("skills", skillsWithID);
 				return "redirect:/documents";
 			}
@@ -196,6 +255,8 @@ public class FrontendController {
 	@RequestMapping(value = "/documents", method = RequestMethod.GET)
 	public String getDocuments(Model model) {
 
+		addCurrentLanguageToModel(model);
+		
 		//Prepare a list of documents so that they can be delivered to the model.
 		//But we filter out one special document, which should not be passed.
 		//It's the letter of motivation, which can be entered as text at a different
@@ -277,6 +338,7 @@ public class FrontendController {
 	
 	@RequestMapping(value = "/submitApplication", method = RequestMethod.GET)
 	public String getSubmitApplication(Model model) {
+		
 		model.addAttribute(getCandidateFromSession());
 		model.addAttribute(getSkillsFromSession());
 		List<Document> documents = getDocumentsForSessionCandidate();
@@ -489,15 +551,7 @@ public class FrontendController {
 	//This method helps changing the complete set of attributes except the DB ID.
 	private Candidate fillCandidateFromSessionWithDataFrom(Candidate curCandidate){
 		Candidate resCandidate = getCandidateFromSession();
-		resCandidate.setFirstName(curCandidate.getFirstName());
-		resCandidate.setLastName(curCandidate.getLastName());
-		resCandidate.setEmail(curCandidate.getEmail());
-		resCandidate.setCity(curCandidate.getCity());
-		resCandidate.setPhoneFix(curCandidate.getPhoneFix());
-		resCandidate.setPhoneMobile(curCandidate.getPhoneMobile());
-		resCandidate.setPlz(curCandidate.getPlz());
-		resCandidate.setStreet(curCandidate.getStreet());
-		resCandidate.setTitle(curCandidate.getTitle());
+		resCandidate.copyAllAttributesExceptIDFrom(curCandidate);
 		return resCandidate;
 	}
 	
@@ -506,20 +560,13 @@ public class FrontendController {
 	//This method helps changing the complete set of attributes except the DB ID.
 	private Skills fillSkillsFromSessionWithDataFrom(Skills curSkills){	
 		Skills resSkills = getSkillsFromSession();
-		resSkills.setCancelationPeriod(curSkills.getCancelationPeriod());
-		resSkills.setCandidate(curSkills.getCandidate());
-		resSkills.setCurrentPosition(curSkills.getCurrentPosition());
-		resSkills.setDegree(curSkills.getDegree());
-		resSkills.setEndDateEducation(curSkills.getEndDateEducation());
-		resSkills.setEndDateExperience(curSkills.getEndDateExperience());
-		resSkills.setInstitution(curSkills.getInstitution());
-		resSkills.setJobField(curSkills.getJobField());
-		resSkills.setPosition(curSkills.getPosition());
-		resSkills.setProspectiveEnd(curSkills.getProspectiveEnd());
-		resSkills.setStartDateEducation(curSkills.getStartDateEducation());
-		resSkills.setStartDateExperience(curSkills.getStartDateExperience());
-		resSkills.setTopic(curSkills.getTopic());
-		resSkills.setHasNoExperience(curSkills.getHasNoExperience());
+		resSkills.copyAllAttributesExceptIDFrom(curSkills);
 		return resSkills;
+	}
+	
+	private void addCurrentLanguageToModel(Model model){
+		
+		String language = getCurrentOrDefaultLanguageFromSession();
+		model.addAttribute("selectedLanguage", language);
 	}
 }
