@@ -159,7 +159,8 @@ function initiallyCheckWorkExperienceBox(){
 					<label th:text="'skills.prospectiveEnd:' + ${skills.prospectiveEnd}"></label><br/>
 					<label th:text="'prospectiveEnd ($):' + ${prospectiveEnd}"></label><br/>
 					<label th:text="'prospectiveEnd (*):' + *{prospectiveEnd}"></label><br/>
-					<input type="checkbox" th:text="#{prospectiveEnd}"  th:field="*{prospectiveEnd}"  id="prospectiveEndID" />
+					<input name="prospectiveEnd" type="checkbox" th:text="#{prospectiveEnd}"  th:checked="*{prospectiveEnd}"  id="prospectiveEndID" />
+					<input name="_prospectiveEnd" type="hidden" value="on" />
 					<p class="help-block" th:if="${#fields.hasErrors('prospectiveEnd')}"	th:each="err : ${#fields.errors('prospectiveEnd')}" th:text="#{${err}(#{prospectiveEnd}, ${#dates.monthName(skills.endDateEducation)}, '' + ${#dates.year(skills.endDateEducation)})}">Error</p>
 				</div>
 				</div>
