@@ -136,8 +136,8 @@ public class FrontendController {
 	//First Page
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String getAgreement(Model model) {
-		String language = getCurrentOrDefaultLanguageFromSession();
-		model.addAttribute("selectedLanguage", language);
+
+		addCurrentLanguageToModel(model);
 		return "frontend/agreement";
 	}
 	
@@ -218,6 +218,10 @@ public class FrontendController {
 		if(!validSkills.getHasNoExperience() && (validSkills.getPosition() == null || validSkills.getPosition().isEmpty())){
 			result.addError(new FieldError("skills", "hasNoExperience", "eitherCheckBoxOrPositionField"));
 		}
+		//Prospective End makes only sense if the end date is in the future
+		if(validSkills.getProspectiveEnd() && validSkills.getEndDateEducation().compareTo(new Date()) < 0){
+			result.addError(new FieldError("skills", "prospectiveEnd", "prospectiveMeansFuture"));
+		}
 		
 		if (buttonPressed.equals("contactSkills_Forward")) {
 			if (result.hasErrors()){//If the Form contains invalid data
@@ -247,6 +251,8 @@ public class FrontendController {
 	@RequestMapping(value = "/documents", method = RequestMethod.GET)
 	public String getDocuments(Model model) {
 
+		addCurrentLanguageToModel(model);
+		
 		//Prepare a list of documents so that they can be delivered to the model.
 		//But we filter out one special document, which should not be passed.
 		//It's the letter of motivation, which can be entered as text at a different
@@ -328,6 +334,7 @@ public class FrontendController {
 	
 	@RequestMapping(value = "/submitApplication", method = RequestMethod.GET)
 	public String getSubmitApplication(Model model) {
+		
 		model.addAttribute(getCandidateFromSession());
 		model.addAttribute(getSkillsFromSession());
 		List<Document> documents = getDocumentsForSessionCandidate();
@@ -551,5 +558,11 @@ public class FrontendController {
 		Skills resSkills = getSkillsFromSession();
 		resSkills.copyAllAttributesExceptIDFrom(curSkills);
 		return resSkills;
+	}
+	
+	private void addCurrentLanguageToModel(Model model){
+		
+		String language = getCurrentOrDefaultLanguageFromSession();
+		model.addAttribute("selectedLanguage", language);
 	}
 }

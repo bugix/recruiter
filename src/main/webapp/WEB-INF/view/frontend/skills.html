@@ -149,10 +149,11 @@ function initiallyCheckWorkExperienceBox(){
 
 				
 				
-				<div th:class="${#fields.hasErrors('endDateEducationMonth')} ? 'form-group has-error' : 'form-group'" >
+				<div th:class="${#fields.hasErrors('prospectiveEnd')} ? 'form-group has-error' : 'form-group'" >
 				<label for="endDateEducationMonth" th:text="#{prospectiveEndLabel}" class="col-sm-2 control-label">endDateEducationMonth</label>
-				<div class="col-sm-10">	
-					<input type="checkbox" name="prospectiveEnd" th:text="#{prospectiveEnd}" th:field="*{prospectiveEnd}" />
+				<div class="col-sm-10">
+					<input type="checkbox" name="prospectiveEnd"  th:text="#{prospectiveEnd}"  th:field="*{prospectiveEnd}"  id="prospectiveEnd" />
+					<p class="help-block" th:if="${#fields.hasErrors('prospectiveEnd')}"	th:each="err : ${#fields.errors('prospectiveEnd')}" th:text="#{${err}(#{prospectiveEnd}, ${#dates.monthName(skills.endDateEducation)}, '' + ${#dates.year(skills.endDateEducation)})}">Error</p>
 				</div>
 				</div>
 		
@@ -226,7 +227,7 @@ function initiallyCheckWorkExperienceBox(){
 				</div>
 				
 				
-				<div th:class="${#fields.hasErrors('endDateEducationMonth')} ? 'form-group has-error' : 'form-group'" >
+				<div th:class="${#fields.hasErrors('currentPosition')} ? 'form-group has-error' : 'form-group'" >
 					<label for="endDateEducationMonth" th:text="#{prospectiveEndLabel}" class="col-sm-2 control-label">endDateEducationMonth</label>
 				<div class="col-sm-10">	
 					<input type="checkbox" name="currentPosition" th:text="#{currentPosition}" th:field="*{currentPosition}" id="currentPosition"/>
