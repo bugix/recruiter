@@ -206,21 +206,25 @@ public class FrontendController {
 //		skillDateValidator.v
 		
 		//Additional Validation
-		if(validSkills.getStartDateEducation().compareTo(validSkills.getEndDateEducation()) >= 0){
+		if(validSkills.getStartDateEducation().compareTo(validSkills.getEndDateEducation()) > 0){
 			result.addError(new FieldError("skills", "endDateEducation", "endsBeforeStart"));
 //			result.addError(new FieldError("skills", "endDateEducation", "End must be later than Start"));
 //			result.addError(new FieldError("skills", "endDateEducation", validSkills.getEndDateEducation(), false, new String[]{"educationEndsBeforeStart"}, null, "End after Start"));
 		}
-		if(!validSkills.getHasNoExperience() && validSkills.getStartDateExperience().compareTo(validSkills.getEndDateExperience()) >= 0){
+		if(!validSkills.getHasNoExperience() && validSkills.getStartDateExperience().compareTo(validSkills.getEndDateExperience()) > 0){
 			result.addError(new FieldError("skills", "endDateExperience", "endsBeforeStart"));
 		}
 		//Either Position must be filled out or "No Experience" check box must be checked
 		if(!validSkills.getHasNoExperience() && (validSkills.getPosition() == null || validSkills.getPosition().isEmpty())){
 			result.addError(new FieldError("skills", "hasNoExperience", "eitherCheckBoxOrPositionField"));
 		}
-		//Prospective End makes only sense if the end date is in the future
+		//Prospective End only makes sense if the end date is in the future
 		if(validSkills.getProspectiveEnd() && validSkills.getEndDateEducation().compareTo(new Date()) < 0){
 			result.addError(new FieldError("skills", "prospectiveEnd", "prospectiveMeansFuture"));
+		}
+		//Current Position only makes sense if the end date is in the future
+		if(!validSkills.getHasNoExperience() && validSkills.getCurrentPosition() && validSkills.getEndDateExperience().compareTo(new Date()) < 0){
+			result.addError(new FieldError("skills", "currentPosition", "currentHasNotEndedYet"));
 		}
 		
 		if (buttonPressed.equals("contactSkills_Forward")) {

@@ -150,9 +150,16 @@ function initiallyCheckWorkExperienceBox(){
 				
 				
 				<div th:class="${#fields.hasErrors('prospectiveEnd')} ? 'form-group has-error' : 'form-group'" >
-				<label for="endDateEducationMonth" th:text="#{prospectiveEndLabel}" class="col-sm-2 control-label">endDateEducationMonth</label>
+				<label for="endDateEducationMonth" th:text="#{emptyLabel}" class="col-sm-2 control-label">endDateEducationMonth</label>
 				<div class="col-sm-10">
-					<input type="checkbox" name="prospectiveEnd"  th:text="#{prospectiveEnd}"  th:field="*{prospectiveEnd}"  id="prospectiveEnd" />
+					<label th:text="'skills.hasNoExperience:' + ${skills.hasNoExperience}"></label><br/>
+					<label th:text="'hasNoExperience ($):' + ${hasNoExperience}"></label><br/>
+					<label th:text="'hasNoExperience (*):' + *{hasNoExperience}"></label><br/>
+					<hr/> 
+					<label th:text="'skills.prospectiveEnd:' + ${skills.prospectiveEnd}"></label><br/>
+					<label th:text="'prospectiveEnd ($):' + ${prospectiveEnd}"></label><br/>
+					<label th:text="'prospectiveEnd (*):' + *{prospectiveEnd}"></label><br/>
+					<input type="checkbox" th:text="#{prospectiveEnd}"  th:field="*{prospectiveEnd}"  id="prospectiveEndID" />
 					<p class="help-block" th:if="${#fields.hasErrors('prospectiveEnd')}"	th:each="err : ${#fields.errors('prospectiveEnd')}" th:text="#{${err}(#{prospectiveEnd}, ${#dates.monthName(skills.endDateEducation)}, '' + ${#dates.year(skills.endDateEducation)})}">Error</p>
 				</div>
 				</div>
@@ -166,7 +173,7 @@ function initiallyCheckWorkExperienceBox(){
 
 				
 				<div th:class="${#fields.hasErrors('hasNoExperience')} ? 'form-group has-error' : 'form-group'" >
-					<label for="endDateEducationMonth" th:text="#{prospectiveEndLabel}" class="col-sm-2 control-label">endDateEducationMonth</label>
+					<label for="endDateEducationMonth" th:text="#{emptyLabel}" class="col-sm-2 control-label">endDateEducationMonth</label>
 				<div class="col-sm-10">	
 					<input type="checkbox" name="hasNoExperience" id="hasNoExperience" th:text="#{hasNoExperience}" th:field="*{hasNoExperience}" onchange="grayOut_WorkExperience(this)"  />
 					<p class="help-block" th:if="${#fields.hasErrors('hasNoExperience')}"	th:each="err : ${#fields.errors('hasNoExperience')}" th:text="#{${err}(#{hasNoExperience})}">Error</p>
@@ -228,9 +235,10 @@ function initiallyCheckWorkExperienceBox(){
 				
 				
 				<div th:class="${#fields.hasErrors('currentPosition')} ? 'form-group has-error' : 'form-group'" >
-					<label for="endDateEducationMonth" th:text="#{prospectiveEndLabel}" class="col-sm-2 control-label">endDateEducationMonth</label>
+					<label for="endDateEducationMonth" th:text="#{emptyLabel}" class="col-sm-2 control-label">endDateEducationMonth</label>
 				<div class="col-sm-10">	
 					<input type="checkbox" name="currentPosition" th:text="#{currentPosition}" th:field="*{currentPosition}" id="currentPosition"/>
+					<p class="help-block" th:if="${#fields.hasErrors('currentPosition')}"	th:each="err : ${#fields.errors('currentPosition')}" th:text="#{${err}(#{currentPosition}, #{endDateExperience}, ${#dates.monthName(skills.endDateExperience)}, '' + ${#dates.year(skills.endDateExperience)})}">Error</p>
 				</div>
 				</div>
 				
