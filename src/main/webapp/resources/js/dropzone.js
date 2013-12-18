@@ -1,46 +1,13 @@
 ;(function(){
 
-
-//function translate(language, message){
-//	switch(language){
-//	case "en":
-//		return message;
-//		break;
-//	case "de":
-//		alert('translate.Sprache: ' + language);
-//		switch(message){
-////		alert('vor case this.options.dictInvalidFileType: ' + this.options.dictInvalidFileType);
-//		case this.options.dictInvalidFileType:
-//			return "Sie können Dateien von diesem Typ nicht hochladen";
-//			break;
-//		default:
-//			return "Message not found";	
-//		}
-//		break;
-//	default:
-//		return message;
-//	}
-//}	
-	
-function getBrowserLanguage(){
-	  var l_lang;
-	  if (navigator.userLanguage) // Explorer
-	    l_lang = navigator.userLanguage;
-	  else if (navigator.language) // FF
-	    l_lang = navigator.language;
-	  else
-	    l_lang = "de";
-//	  alert("Browser Language = " + l_lang);
-	  return l_lang;
-}	
-	
 /**
- * Require the given path.
- *
- * @param {String} path
- * @return {Object} exports
- * @api public
- */
+* Require the given path.
+*
+* @param {String} path
+* @return {Object} exports
+* @api public
+*/
+
 function require(path, parent, orig) {
   var resolved = require.resolve(path);
 
@@ -70,30 +37,30 @@ function require(path, parent, orig) {
 }
 
 /**
- * Registered modules.
- */
+* Registered modules.
+*/
 
 require.modules = {};
 
 /**
- * Registered aliases.
- */
+* Registered aliases.
+*/
 
 require.aliases = {};
 
 /**
- * Resolve `path`.
- *
- * Lookup:
- *
- *   - PATH/index.js
- *   - PATH.js
- *   - PATH
- *
- * @param {String} path
- * @return {String} path or null
- * @api private
- */
+* Resolve `path`.
+*
+* Lookup:
+*
+* - PATH/index.js
+* - PATH.js
+* - PATH
+*
+* @param {String} path
+* @return {String} path or null
+* @api private
+*/
 
 require.resolve = function(path) {
   if (path.charAt(0) === '/') path = path.slice(1);
@@ -114,13 +81,13 @@ require.resolve = function(path) {
 };
 
 /**
- * Normalize `path` relative to the current path.
- *
- * @param {String} curr
- * @param {String} path
- * @return {String}
- * @api private
- */
+* Normalize `path` relative to the current path.
+*
+* @param {String} curr
+* @param {String} path
+* @return {String}
+* @api private
+*/
 
 require.normalize = function(curr, path) {
   var segs = [];
@@ -142,24 +109,24 @@ require.normalize = function(curr, path) {
 };
 
 /**
- * Register module at `path` with callback `definition`.
- *
- * @param {String} path
- * @param {Function} definition
- * @api private
- */
+* Register module at `path` with callback `definition`.
+*
+* @param {String} path
+* @param {Function} definition
+* @api private
+*/
 
 require.register = function(path, definition) {
   require.modules[path] = definition;
 };
 
 /**
- * Alias a module definition.
- *
- * @param {String} from
- * @param {String} to
- * @api private
- */
+* Alias a module definition.
+*
+* @param {String} from
+* @param {String} to
+* @api private
+*/
 
 require.alias = function(from, to) {
   if (!require.modules.hasOwnProperty(from)) {
@@ -169,19 +136,19 @@ require.alias = function(from, to) {
 };
 
 /**
- * Return a require function relative to the `parent` path.
- *
- * @param {String} parent
- * @return {Function}
- * @api private
- */
+* Return a require function relative to the `parent` path.
+*
+* @param {String} parent
+* @return {Function}
+* @api private
+*/
 
 require.relative = function(parent) {
   var p = require.normalize(parent, '..');
 
   /**
-   * lastIndexOf helper.
-   */
+* lastIndexOf helper.
+*/
 
   function lastIndexOf(arr, obj) {
     var i = arr.length;
@@ -192,8 +159,8 @@ require.relative = function(parent) {
   }
 
   /**
-   * The relative require() itself.
-   */
+* The relative require() itself.
+*/
 
   function localRequire(path) {
     var resolved = localRequire.resolve(path);
@@ -201,8 +168,8 @@ require.relative = function(parent) {
   }
 
   /**
-   * Resolve relative to the parent.
-   */
+* Resolve relative to the parent.
+*/
 
   localRequire.resolve = function(path) {
     var c = path.charAt(0);
@@ -220,8 +187,8 @@ require.relative = function(parent) {
   };
 
   /**
-   * Check if module is defined at `path`.
-   */
+* Check if module is defined at `path`.
+*/
 
   localRequire.exists = function(path) {
     return require.modules.hasOwnProperty(localRequire.resolve(path));
@@ -232,28 +199,28 @@ require.relative = function(parent) {
 require.register("component-emitter/index.js", function(exports, require, module){
 
 /**
- * Expose `Emitter`.
- */
+* Expose `Emitter`.
+*/
 
 module.exports = Emitter;
 
 /**
- * Initialize a new `Emitter`.
- *
- * @api public
- */
+* Initialize a new `Emitter`.
+*
+* @api public
+*/
 
 function Emitter(obj) {
   if (obj) return mixin(obj);
 };
 
 /**
- * Mixin the emitter properties.
- *
- * @param {Object} obj
- * @return {Object}
- * @api private
- */
+* Mixin the emitter properties.
+*
+* @param {Object} obj
+* @return {Object}
+* @api private
+*/
 
 function mixin(obj) {
   for (var key in Emitter.prototype) {
@@ -263,13 +230,13 @@ function mixin(obj) {
 }
 
 /**
- * Listen on the given `event` with `fn`.
- *
- * @param {String} event
- * @param {Function} fn
- * @return {Emitter}
- * @api public
- */
+* Listen on the given `event` with `fn`.
+*
+* @param {String} event
+* @param {Function} fn
+* @return {Emitter}
+* @api public
+*/
 
 Emitter.prototype.on = function(event, fn){
   this._callbacks = this._callbacks || {};
@@ -279,14 +246,14 @@ Emitter.prototype.on = function(event, fn){
 };
 
 /**
- * Adds an `event` listener that will be invoked a single
- * time then automatically removed.
- *
- * @param {String} event
- * @param {Function} fn
- * @return {Emitter}
- * @api public
- */
+* Adds an `event` listener that will be invoked a single
+* time then automatically removed.
+*
+* @param {String} event
+* @param {Function} fn
+* @return {Emitter}
+* @api public
+*/
 
 Emitter.prototype.once = function(event, fn){
   var self = this;
@@ -303,14 +270,14 @@ Emitter.prototype.once = function(event, fn){
 };
 
 /**
- * Remove the given callback for `event` or all
- * registered callbacks.
- *
- * @param {String} event
- * @param {Function} fn
- * @return {Emitter}
- * @api public
- */
+* Remove the given callback for `event` or all
+* registered callbacks.
+*
+* @param {String} event
+* @param {Function} fn
+* @return {Emitter}
+* @api public
+*/
 
 Emitter.prototype.off =
 Emitter.prototype.removeListener =
@@ -332,12 +299,12 @@ Emitter.prototype.removeAllListeners = function(event, fn){
 };
 
 /**
- * Emit `event` with the given args.
- *
- * @param {String} event
- * @param {Mixed} ...
- * @return {Emitter}
- */
+* Emit `event` with the given args.
+*
+* @param {String} event
+* @param {Mixed} ...
+* @return {Emitter}
+*/
 
 Emitter.prototype.emit = function(event){
   this._callbacks = this._callbacks || {};
@@ -355,12 +322,12 @@ Emitter.prototype.emit = function(event){
 };
 
 /**
- * Return array of callbacks for `event`.
- *
- * @param {String} event
- * @return {Array}
- * @api public
- */
+* Return array of callbacks for `event`.
+*
+* @param {String} event
+* @return {Array}
+* @api public
+*/
 
 Emitter.prototype.listeners = function(event){
   this._callbacks = this._callbacks || {};
@@ -368,12 +335,12 @@ Emitter.prototype.listeners = function(event){
 };
 
 /**
- * Check if this emitter has `event` handlers.
- *
- * @param {String} event
- * @return {Boolean}
- * @api public
- */
+* Check if this emitter has `event` handlers.
+*
+* @param {String} event
+* @return {Boolean}
+* @api public
+*/
 
 Emitter.prototype.hasListeners = function(event){
   return !! this.listeners(event).length;
@@ -384,8 +351,8 @@ require.register("dropzone/index.js", function(exports, require, module){
 
 
 /**
- * Exposing dropzone
- */
+* Exposing dropzone
+*/
 module.exports = require("./lib/dropzone.js");
 
 });
@@ -393,19 +360,19 @@ require.register("dropzone/lib/dropzone.js", function(exports, require, module){
 /*
 #
 # More info at [www.dropzonejs.com](http://www.dropzonejs.com)
-# 
-# Copyright (c) 2012, Matias Meno  
-# 
+#
+# Copyright (c) 2012, Matias Meno
+#
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
 # in the Software without restriction, including without limitation the rights
 # to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 # copies of the Software, and to permit persons to whom the Software is
 # furnished to do so, subject to the following conditions:
-# 
+#
 # The above copyright notice and this permission notice shall be included in
 # all copies or substantial portions of the Software.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 # IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 # FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -433,13 +400,12 @@ require.register("dropzone/lib/dropzone.js", function(exports, require, module){
     __extends(Dropzone, _super);
 
     /*
-    This is a list of all available events you can register on a dropzone object.
-    
-    You can register an event handler like this:
-    
-        dropzone.on("dragEnter", function() { });
-    */
- 
+This is a list of all available events you can register on a dropzone object.
+You can register an event handler like this:
+dropzone.on("dragEnter", function() { });
+*/
+
+
     Dropzone.prototype.events = ["drop", "dragstart", "dragend", "dragenter", "dragover", "dragleave", "selectedfiles", "addedfile", "removedfile", "thumbnail", "error", "errormultiple", "processing", "processingmultiple", "uploadprogress", "totaluploadprogress", "sending", "sendingmultiple", "success", "successmultiple", "canceled", "canceledmultiple", "complete", "completemultiple", "reset", "maxfilesexceeded"];
 
     Dropzone.prototype.defaultOptions = {
@@ -458,7 +424,7 @@ require.register("dropzone/lib/dropzone.js", function(exports, require, module){
       params: {},
       clickable: true,
       ignoreHiddenFiles: true,
-      acceptedFiles: "application/pdf",
+      acceptedFiles: null,
       acceptedMimeTypes: null,
       autoProcessQueue: true,
       addRemoveLinks: false,
@@ -530,13 +496,13 @@ require.register("dropzone/lib/dropzone.js", function(exports, require, module){
         return info;
       },
       /*
-      Those functions register themselves to the events on init and handle all
-      the user interface specific stuff. Overwriting them won't break the upload
-      but can break the way it's displayed.
-      You can overwrite them if you don't like the default behavior. If you just
-      want to add an additional event handler, register it on the dropzone object
-      and don't overwrite those options.
-      */
+Those functions register themselves to the events on init and handle all
+the user interface specific stuff. Overwriting them won't break the upload
+but can break the way it's displayed.
+You can overwrite them if you don't like the default behavior. If you just
+want to add an additional event handler, register it on the dropzone object
+and don't overwrite those options.
+*/
 
       drop: function(e) {
         return this.element.classList.remove("dz-drag-hover");
@@ -640,222 +606,9 @@ require.register("dropzone/lib/dropzone.js", function(exports, require, module){
       },
       completemultiple: noop,
       maxfilesexceeded: noop,
-      previewTemplate: "<div class=\"dz-preview dz-file-preview\">\n  <div class=\"dz-details\">\n    <div class=\"dz-filename\"><span data-dz-name></span></div>\n    <div class=\"dz-size\" data-dz-size></div>\n    <img data-dz-thumbnail />\n  </div>\n  <div class=\"dz-progress\"><span class=\"dz-upload\" data-dz-uploadprogress></span></div>\n  <div class=\"dz-success-mark\"><span>✔</span></div>\n  <div class=\"dz-error-mark\"><span>✘</span></div>\n  <div class=\"dz-error-message\"><span data-dz-errormessage></span></div>\n</div>"
+      previewTemplate: "<div class=\"dz-preview dz-file-preview\">\n <div class=\"dz-details\">\n <div class=\"dz-filename\"><span data-dz-name></span></div>\n <div class=\"dz-size\" data-dz-size></div>\n <img data-dz-thumbnail />\n </div>\n <div class=\"dz-progress\"><span class=\"dz-upload\" data-dz-uploadprogress></span></div>\n <div class=\"dz-success-mark\"><span>✔</span></div>\n <div class=\"dz-error-mark\"><span>✘</span></div>\n <div class=\"dz-error-message\"><span data-dz-errormessage></span></div>\n</div>"
     };
 
-    
-//My multi language solution in its full beauty
-    Dropzone.prototype.defaultOptions_de = {
-    	      url: null,
-    	      method: "post",
-    	      withCredentials: false,
-    	      parallelUploads: 2,
-    	      uploadMultiple: false,
-    	      maxFilesize: 256,
-    	      paramName: "file",
-    	      createImageThumbnails: true,
-    	      maxThumbnailFilesize: 10,
-    	      thumbnailWidth: 100,
-    	      thumbnailHeight: 100,
-    	      maxFiles: null,
-    	      params: {},
-    	      clickable: true,
-    	      ignoreHiddenFiles: true,
-    	      acceptedFiles: "application/pdf",
-    	      acceptedMimeTypes: null,
-    	      autoProcessQueue: true,
-    	      addRemoveLinks: false,
-    	      previewsContainer: null,
-    	      dictDefaultMessage: "Dateien hier her ziehen zum Hochladen.",
-    	      dictFallbackMessage: "Ihr Browser unterstützt keine Drag'n'Drop Datei Uploads.",
-    	      dictFallbackText: "Bitte benutzen Sie das Alternativformular unten, um Ihre Dateien hochzuladen wie in alten Tagen.",
-    	      dictFileTooBig: "Datei ist zu gross ({{filesize}}MB). Max Dateigrösse: {{maxFilesize}}MB.",
-    	      dictInvalidFileType: "Sie können keine Dateien von diesem Typ hochladen.",
-    	      dictResponseError: "Der Server antwortete mit dem Code: {{statusCode}}.",
-    	      dictCancelUpload: "Hochladen abbrechen",
-    	      dictCancelUploadConfirmation: "Sind Sie sicheer, dass Sie den Upload abbrechen wollen?",
-    	      dictRemoveFile: "Datei entfernen",
-    	      dictRemoveFileConfirmation: null,
-    	      dictMaxFilesExceeded: "Sie können maximal {{maxFiles}} Dateien hochladen.",
-    	      accept: function(file, done) {
-    	        return done();
-    	      },
-    	      init: function() {
-    	        return noop;
-    	      },
-    	      forceFallback: false,
-    	      fallback: function() {
-    	        var child, messageElement, span, _i, _len, _ref;
-    	        this.element.className = "" + this.element.className + " dz-browser-not-supported";
-    	        _ref = this.element.getElementsByTagName("div");
-    	        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-    	          child = _ref[_i];
-    	          if (/(^| )dz-message($| )/.test(child.className)) {
-    	            messageElement = child;
-    	            child.className = "dz-message";
-    	            continue;
-    	          }
-    	        }
-    	        if (!messageElement) {
-    	          messageElement = Dropzone.createElement("<div class=\"dz-message\"><span></span></div>");
-    	          this.element.appendChild(messageElement);
-    	        }
-    	        span = messageElement.getElementsByTagName("span")[0];
-    	        if (span) {
-    	          span.textContent = this.options.dictFallbackMessage;
-    	        }
-    	        return this.element.appendChild(this.getFallbackForm());
-    	      },
-    	      resize: function(file) {
-    	        var info, srcRatio, trgRatio;
-    	        info = {
-    	          srcX: 0,
-    	          srcY: 0,
-    	          srcWidth: file.width,
-    	          srcHeight: file.height
-    	        };
-    	        srcRatio = file.width / file.height;
-    	        trgRatio = this.options.thumbnailWidth / this.options.thumbnailHeight;
-    	        if (file.height < this.options.thumbnailHeight || file.width < this.options.thumbnailWidth) {
-    	          info.trgHeight = info.srcHeight;
-    	          info.trgWidth = info.srcWidth;
-    	        } else {
-    	          if (srcRatio > trgRatio) {
-    	            info.srcHeight = file.height;
-    	            info.srcWidth = info.srcHeight * trgRatio;
-    	          } else {
-    	            info.srcWidth = file.width;
-    	            info.srcHeight = info.srcWidth / trgRatio;
-    	          }
-    	        }
-    	        info.srcX = (file.width - info.srcWidth) / 2;
-    	        info.srcY = (file.height - info.srcHeight) / 2;
-    	        return info;
-    	      },
-    	      /*
-    	      Those functions register themselves to the events on init and handle all
-    	      the user interface specific stuff. Overwriting them won't break the upload
-    	      but can break the way it's displayed.
-    	      You can overwrite them if you don't like the default behavior. If you just
-    	      want to add an additional event handler, register it on the dropzone object
-    	      and don't overwrite those options.
-    	      */
-
-    	      drop: function(e) {
-    	        return this.element.classList.remove("dz-drag-hover");
-    	      },
-    	      dragstart: noop,
-    	      dragend: function(e) {
-    	        return this.element.classList.remove("dz-drag-hover");
-    	      },
-    	      dragenter: function(e) {
-    	        return this.element.classList.add("dz-drag-hover");
-    	      },
-    	      dragover: function(e) {
-    	        return this.element.classList.add("dz-drag-hover");
-    	      },
-    	      dragleave: function(e) {
-    	        return this.element.classList.remove("dz-drag-hover");
-    	      },
-    	      selectedfiles: function(files) {
-    	        if (this.element === this.previewsContainer) {
-    	          return this.element.classList.add("dz-started");
-    	        }
-    	      },
-    	      reset: function() {
-    	        return this.element.classList.remove("dz-started");
-    	      },
-    	      addedfile: function(file) {
-    	        var _this = this;
-    	        file.previewElement = Dropzone.createElement(this.options.previewTemplate);
-    	        file.previewTemplate = file.previewElement;
-    	        this.previewsContainer.appendChild(file.previewElement);
-    	        file.previewElement.querySelector("[data-dz-name]").textContent = file.name;
-    	        file.previewElement.querySelector("[data-dz-size]").innerHTML = this.filesize(file.size);
-    	        if (this.options.addRemoveLinks) {
-    	          file._removeLink = Dropzone.createElement("<a class=\"dz-remove\" href=\"javascript:undefined;\">" + this.options.dictRemoveFile + "</a>");
-    	          file._removeLink.addEventListener("click", function(e) {
-    	            e.preventDefault();
-    	            e.stopPropagation();
-    	            if (file.status === Dropzone.UPLOADING) {
-    	              return Dropzone.confirm(_this.options.dictCancelUploadConfirmation, function() {
-    	                return _this.removeFile(file);
-    	              });
-    	            } else {
-    	              if (_this.options.dictRemoveFileConfirmation) {
-    	                return Dropzone.confirm(_this.options.dictRemoveFileConfirmation, function() {
-    	                  return _this.removeFile(file);
-    	                });
-    	              } else {
-    	                return _this.removeFile(file);
-    	              }
-    	            }
-    	          });
-    	          file.previewElement.appendChild(file._removeLink);
-    	        }
-    	        return this._updateMaxFilesReachedClass();
-    	      },
-    	      removedfile: function(file) {
-    	        var _ref;
-    	        if ((_ref = file.previewElement) != null) {
-    	          _ref.parentNode.removeChild(file.previewElement);
-    	        }
-    	        return this._updateMaxFilesReachedClass();
-    	      },
-    	      thumbnail: function(file, dataUrl) {
-    	        var thumbnailElement;
-    	        file.previewElement.classList.remove("dz-file-preview");
-    	        file.previewElement.classList.add("dz-image-preview");
-    	        thumbnailElement = file.previewElement.querySelector("[data-dz-thumbnail]");
-    	        thumbnailElement.alt = file.name;
-    	        return thumbnailElement.src = dataUrl;
-    	      },
-    	      error: function(file, message) {
-    	        file.previewElement.classList.add("dz-error");
-    	        return file.previewElement.querySelector("[data-dz-errormessage]").textContent = message;
-    	      },
-    	      errormultiple: noop,
-    	      processing: function(file) {
-    	        file.previewElement.classList.add("dz-processing");
-    	        if (file._removeLink) {
-    	          return file._removeLink.textContent = this.options.dictCancelUpload;
-    	        }
-    	      },
-    	      processingmultiple: noop,
-    	      uploadprogress: function(file, progress, bytesSent) {
-    	        return file.previewElement.querySelector("[data-dz-uploadprogress]").style.width = "" + progress + "%";
-    	      },
-    	      totaluploadprogress: noop,
-    	      sending: noop,
-    	      sendingmultiple: noop,
-    	      success: function(file) {
-    	        return file.previewElement.classList.add("dz-success");
-    	      },
-    	      successmultiple: noop,
-    	      canceled: function(file) {
-    	        return this.emit("error", file, "Upload canceled.");
-    	      },
-    	      canceledmultiple: noop,
-    	      complete: function(file) {
-    	        if (file._removeLink) {
-    	          return file._removeLink.textContent = this.options.dictRemoveFile;
-    	        }
-    	      },
-    	      completemultiple: noop,
-    	      maxfilesexceeded: noop,
-    	      previewTemplate: "<div class=\"dz-preview dz-file-preview\">\n  <div class=\"dz-details\">\n    <div class=\"dz-filename\"><span data-dz-name></span></div>\n    <div class=\"dz-size\" data-dz-size></div>\n    <img data-dz-thumbnail />\n  </div>\n  <div class=\"dz-progress\"><span class=\"dz-upload\" data-dz-uploadprogress></span></div>\n  <div class=\"dz-success-mark\"><span>✔</span></div>\n  <div class=\"dz-error-mark\"><span>✘</span></div>\n  <div class=\"dz-error-message\"><span data-dz-errormessage></span></div>\n</div>"
-    	    };    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     extend = function() {
       var key, object, objects, target, val, _i, _len;
       target = arguments[0], objects = 2 <= arguments.length ? __slice.call(arguments, 1) : [];
@@ -889,14 +642,7 @@ require.register("dropzone/lib/dropzone.js", function(exports, require, module){
       Dropzone.instances.push(this);
       element.dropzone = this;
       elementOptions = (_ref = Dropzone.optionsForElement(this.element)) != null ? _ref : {};
-      
-      switch(document.getElementById('languageInput').value){
-      case "de":
-    	  this.options = extend({}, this.defaultOptions_de, elementOptions, options != null ? options : {});
-    	  break;
-      default:
-    	  this.options = extend({}, this.defaultOptions, elementOptions, options != null ? options : {});	  
-      }
+      this.options = extend({}, this.defaultOptions, elementOptions, options != null ? options : {});
       if (this.options.forceFallback || !Dropzone.isBrowserSupported()) {
         return this.options.fallback.call(this);
       }
@@ -991,7 +737,6 @@ require.register("dropzone/lib/dropzone.js", function(exports, require, module){
         this.element.setAttribute("enctype", "multipart/form-data");
       }
       if (this.element.classList.contains("dropzone") && !this.element.querySelector(".dz-message")) {
-//    	  alert('Huhuuu!' + document.getElementById('languageInput').value);
         this.element.appendChild(Dropzone.createElement("<div class=\"dz-default dz-message\"><span>" + this.options.dictDefaultMessage + "</span></div>"));
       }
       if (this.clickableElements.length) {
@@ -1302,10 +1047,7 @@ require.register("dropzone/lib/dropzone.js", function(exports, require, module){
       if (file.size > this.options.maxFilesize * 1024 * 1024) {
         return done(this.options.dictFileTooBig.replace("{{filesize}}", Math.round(file.size / 1024 / 10.24) / 100).replace("{{maxFilesize}}", this.options.maxFilesize));
       } else if (!Dropzone.isValidFile(file, this.options.acceptedFiles)) {
-//    	  alert('Sprache: ' + document.getElementById('languageInput').value);
-//    	  alert('translate(this.options.dictInvalidFileType): ' + translate(document.getElementById('languageInput').value, this.options.dictInvalidFileType));
-          return done(this.options.dictInvalidFileType);
-//          return done(translate(this.options.dictInvalidFileType));
+        return done(this.options.dictInvalidFileType);
       } else if (this.options.maxFiles && this.getAcceptedFiles().length >= this.options.maxFiles) {
         done(this.options.dictMaxFilesExceeded.replace("{{maxFiles}}", this.options.maxFiles));
         return this.emit("maxfilesexceeded", file);
@@ -1663,11 +1405,7 @@ require.register("dropzone/lib/dropzone.js", function(exports, require, module){
         file = files[_l];
         formData.append("" + this.options.paramName + (this.options.uploadMultiple ? "[]" : ""), file, file.name);
       }
-      //Here the HTTP Transfer of the file should be finished. To give the DB some time for storing the file
-      //wait for one second before reloading the page. (Reloading is needed for refreshing the information 
-      //about the uploaded files.
-      setTimeout(function(){document.location.reload(true);}, 1000);
-     return xhr.send(formData);
+      return xhr.send(formData);
     };
 
     Dropzone.prototype._finished = function(files, responseText, e) {
@@ -1685,7 +1423,7 @@ require.register("dropzone/lib/dropzone.js", function(exports, require, module){
       if (this.options.autoProcessQueue) {
         return this.processQueue();
       }
-  };
+    };
 
     Dropzone.prototype._errorProcessing = function(files, message, xhr) {
       var file, _i, _len;
@@ -1938,18 +1676,18 @@ require.register("dropzone/lib/dropzone.js", function(exports, require, module){
   Dropzone.SUCCESS = "success";
 
   /*
-  # contentloaded.js
-  #
-  # Author: Diego Perini (diego.perini at gmail.com)
-  # Summary: cross-browser wrapper for DOMContentLoaded
-  # Updated: 20101020
-  # License: MIT
-  # Version: 1.2
-  #
-  # URL:
-  # http://javascript.nwbox.com/ContentLoaded/
-  # http://javascript.nwbox.com/ContentLoaded/MIT-LICENSE
-  */
+# contentloaded.js
+#
+# Author: Diego Perini (diego.perini at gmail.com)
+# Summary: cross-browser wrapper for DOMContentLoaded
+# Updated: 20101020
+# License: MIT
+# Version: 1.2
+#
+# URL:
+# http://javascript.nwbox.com/ContentLoaded/
+# http://javascript.nwbox.com/ContentLoaded/MIT-LICENSE
+*/
 
 
   contentLoaded = function(win, fn) {
