@@ -17,7 +17,8 @@
 <link th:if="${language=='en'}" href="resources/css/dropzone_en.css" rel="stylesheet" media="screen" />
 
 <script src="resources/js/dropzone.js"></script>
-<script src="resources/js/dropzone_reload_page_after_upload.js"></script>
+<script th:if="${language=='en'}" src="resources/js/dropzone_options_language_en.js"></script>
+<script th:if="${language=='de'}" src="resources/js/dropzone_options_language_de.js"></script>
 
 
 <title th:text="#{documentUpload}">Document Upload</title>
