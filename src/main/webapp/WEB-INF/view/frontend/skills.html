@@ -92,7 +92,6 @@
 					<select th:field="*{startDateEducationYear}">
 							<option th:each="year : ${yearListStart}" th:value="${year.key}" th:text="${year.value}">1970</option>
 					</select>					
-<!-- 				<p class="help-block" th:if="${#fields.hasErrors('*')}"	th:each="err : ${#fields.errors('*')}" th:text="${err}">Error</p> -->
 				</div>
 				</div>
 				
@@ -173,7 +172,6 @@
 					<select th:field="*{startDateExperienceYear}" id="startDateExperienceYear">
 							<option th:each="year : ${yearListStart}" th:value="${year.key}" th:text="${year.value}">1970</option>
 					</select>
-<!-- 				<p class="help-block" th:if="${#fields.hasErrors('startDateExperienceMonth')}"	th:each="err : ${#fields.errors('startDateExperienceMonth')}" th:text="${err}">Error</p> -->
 				</div>
 				</div>
 
