@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import javax.print.attribute.standard.DateTimeAtCompleted;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
@@ -20,10 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -40,18 +36,13 @@ import ch.itraum.recruiter.repository.CandidateRepository;
 import ch.itraum.recruiter.repository.DocumentRepository;
 import ch.itraum.recruiter.repository.SkillsRepository;
 import ch.itraum.recruiter.tools.RecruiterHelper;
-import ch.itraum.recruiter.validation.SkillsDateValidator;
 
+@SuppressWarnings({"deprecation"})
 @Controller
 public class FrontendController {
 	
 	Logger logger = LoggerFactory.getLogger(FrontendController.class);
 	
-//    @InitBinder
-//    protected void initBinder(WebDataBinder binder) {
-//        binder.setValidator(new SkillsDateValidator());
-//    }
-
 	@Autowired
 	private CandidateRepository candidateRepository;
 
@@ -201,15 +192,9 @@ public class FrontendController {
 	public String postSkills(@Valid Skills validSkills,
 			BindingResult result, Model model, @RequestParam("buttonPressed") String buttonPressed) {
 		
-//		SkillsDateValidator skillDateValidator = new SkillsDateValidator();
-//		skillDateValidator.validate(validSkills, result);
-//		skillDateValidator.v
-		
 		//Additional Validation
 		if(validSkills.getStartDateEducation().compareTo(validSkills.getEndDateEducation()) > 0){
 			result.addError(new FieldError("skills", "endDateEducation", "endsBeforeStart"));
-//			result.addError(new FieldError("skills", "endDateEducation", "End must be later than Start"));
-//			result.addError(new FieldError("skills", "endDateEducation", validSkills.getEndDateEducation(), false, new String[]{"educationEndsBeforeStart"}, null, "End after Start"));
 		}
 		if(!validSkills.getHasNoExperience() && validSkills.getStartDateExperience().compareTo(validSkills.getEndDateExperience()) > 0){
 			result.addError(new FieldError("skills", "endDateExperience", "endsBeforeStart"));
